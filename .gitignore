@@ -1,0 +1,18 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+.private/
+.wallet/
+wallet-state/
+private-state/
+*.seed
+*.mnemonic
+*.key
+*.log
+!docs/evidence/*.log
+.tools/
+.cache/
+# managed/ circuits and proving/verification artifacts MUST be committed.
