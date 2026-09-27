@@ -40,5 +40,7 @@ export async function prepareFunds(client: Awaited<ReturnType<typeof buildWallet
     console.log(`Preprod dust registration submitted: ${txId}`);
   }
   console.log('Waiting for usable test-network dust.');
-  await firstValueFrom(wallet.state().pipe(filter(s => s.dust.balance(new Date()) > 0n), timeout(600_000)));
+  await firstValueFrom(wallet.state().pipe(filter(s =>
+    s.shielded.state.progress.isStrictlyComplete() && s.unshielded.progress.isStrictlyComplete()
+      && s.dust.state.progress.isStrictlyComplete() && s.dust.balance(new Date()) > 0n), timeout(600_000)));
 }

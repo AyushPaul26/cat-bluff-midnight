@@ -1,0 +1,15 @@
+{
+  "data": {
+    "transactions": [
+      {
+        "hash": "34270465c1600032ab18a309f228a9ed1787be35e2f53d6249047f1fede9f69d",
+        "identifiers": [
+          "00130024b0fde3b3b8089c3c05f01dd6ab68bd970cbdbbf09458fc5545c21efd36"
+        ],
+        "transactionResult": {
+          "status": "SUCCESS"
+        }
+      }
+    ]
+  }
+}

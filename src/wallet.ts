@@ -2,7 +2,7 @@
 // Copyright (C) Midnight Foundation. SPDX-License-Identifier: Apache-2.0.
 // Cat Bluff adaptation: dedicated saved seed; no seed/witness logging; Preprod only.
 import { randomBytes } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { HDWallet, Roles, createKeystore, PublicKey, ShieldedWallet, UnshieldedWallet, DustWallet,
   WalletFacade, InMemoryTransactionHistoryStorage, WalletEntrySchema, mergeWalletEntries } from '@midnight-ntwrk/wallet-sdk';
@@ -10,7 +10,7 @@ import { DustSecretKey, ZswapSecretKeys, LedgerParameters } from '@midnight-ntwr
 import type { MidnightProvider, WalletProvider } from '@midnight-ntwrk/midnight-js-types';
 import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import { UnshieldedAddress } from '@midnight-ntwrk/wallet-sdk-address-format';
-import { firstValueFrom, timeout } from 'rxjs';
+import { firstValueFrom, from, timeout } from 'rxjs';
 import { configuration } from './config.ts';
 import { validatePassword } from '@midnight-ntwrk/midnight-js-utils';
 import WebSocket from 'ws';
@@ -78,7 +78,7 @@ export async function buildWallet(saved: LocalSecrets) {
     txHistoryStorage: new InMemoryTransactionHistoryStorage(WalletEntrySchema, mergeWalletEntries),
     costParameters: { ledgerParams: LedgerParameters.initialParameters(), additionalFeeOverhead: 1000n, feeBlocksMargin: 5 },
     // Supported SDK batching changes throughput only: every event is applied.
-    batchUpdates: { size: 1000, timeout: 10, spacing: 0 },
+    batchUpdates: { size: 1000, timeout: 1000, spacing: 0 },
   };
   const Shielded = ShieldedWallet(config), Unshielded = UnshieldedWallet(config), Dust = DustWallet(config);
   const wallet = await WalletFacade.init({
@@ -94,11 +94,25 @@ export async function buildWallet(saved: LocalSecrets) {
     getCoinPublicKey: () => shieldedSecretKeys.coinPublicKey,
     getEncryptionPublicKey: () => shieldedSecretKeys.encryptionPublicKey,
     balanceTx: async (tx, ttl = new Date(Date.now() + 3_600_000)) => {
+      // Registration can publish a dust coin before every queued ledger event
+      // has been applied. Balance only after the SDK confirms synchronization.
+      await firstValueFrom(from(wallet.waitForSyncedState()).pipe(timeout(180_000)));
+      await saveState();
+      await copyFile(checkpointFile, resolve('.private/wallet-before-balance.json'));
       const recipe = await wallet.balanceUnboundTransaction(tx, { shieldedSecretKeys, dustSecretKey }, { ttl });
       const signed = await wallet.signRecipe(recipe, payload => keystore.signData(payload));
       return wallet.finalizeRecipe(signed);
     },
-    submitTx: tx => wallet.submitTransaction(tx),
+    submitTx: async tx => {
+      // Public identifiers allow checking an interrupted submission without
+      // logging or persisting any transaction/witness object.
+      const identifiers = tx.identifiers();
+      await writeFile(resolve('.private/last-submission.json'), JSON.stringify({
+        network: 'preprod', identifiers, attemptedAt: new Date().toISOString(),
+      }), { mode: 0o600 });
+      console.log(`Submitting Preprod transaction: ${identifiers.join(', ')}`);
+      return wallet.submitTransaction(tx);
+    },
   };
   const initial = await firstValueFrom(wallet.unshielded.state.pipe(timeout(30_000)));
   const address = UnshieldedAddress.codec.encode('preprod', initial.address).toString();

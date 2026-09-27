@@ -1,0 +1,20 @@
+{
+  "data": {
+    "transactions": [
+      {
+        "__typename": "RegularTransaction",
+        "hash": "0a59b7e65a8a97612adb19369495cc218c1dab05f60b0b86cddd7745926336a4",
+        "identifiers": [
+          "0000ff01761ede23858bd5d4ef462873471df537296608b2f0c413f4e979939745",
+          "00b55782a370aa2562d6c4025bd61585a8167a794cc0efd32c06fbe98292b3d905"
+        ],
+        "transactionResult": {
+          "status": "SUCCESS"
+        },
+        "block": {
+          "timestamp": 1790521848000
+        }
+      }
+    ]
+  }
+}

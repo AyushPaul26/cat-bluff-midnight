@@ -2,7 +2,11 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
 
-**Status:** The custom contract compiles and all 22 tests pass. The public repository is published. Deployment integration is in progress. There is no confirmed deployment address or Rise In submission yet. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status:** The custom contract compiles, all 22 tests pass, and Cat Bluff is confirmed deployed on Midnight Preprod. Rise In submission is pending the final audit. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+
+**Confirmed contract:** [`63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16`](https://preprod.midnightexplorer.com/contracts/0x63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16)
+
+Deployment succeeded in block **2,734,912**, with transaction ID `009987c5cac7b5ebd9176f885dcf012358e1ab705d79548519cd4faff4ad8870e8`. The indexed initial state and all three verifier keys match this project's generated contract. [Transaction explorer](https://preprod.midnightexplorer.com/transactions/0x236f9df716f807191b23d4f4c8474a80f8383fcf0b00815f56de9cb73fd879ae) · [Verification metadata](docs/evidence/deployment.json).
 
 ## Contract behavior
 
@@ -62,8 +66,14 @@ Behavioral tests run the real generated contract and shared application witnesse
 - [Genuine compilation log](docs/evidence/compile.log)
 - [Genuine behavioral test log](docs/evidence/tests.log)
 - [Compilation and test screenshot](docs/evidence/compile-tests.png)
+- [Confirmed deployment log](docs/evidence/deployment.log)
+- [Indexer verification screenshot](docs/evidence/deployment.png)
+- [Explorer deployment screenshot](docs/evidence/explorer-contract.png)
+- [Linux CI record, including exact tested commit](docs/evidence/ci.json)
 
 ![Real compiler and test output](docs/evidence/compile-tests.png)
+
+![Confirmed deployment on the Preprod explorer](docs/evidence/explorer-contract.png)
 
 ## Proof server and deployment
 
@@ -89,7 +99,9 @@ powershell -File scripts/setup-windows-node.ps1
 & ./.tools/node-v22.22.0-win-x64/node.exe --experimental-strip-types src/deploy.ts
 ```
 
-Keep compilation in Ubuntu. The native wallet CLI uses the same project files, private state and pinned dependencies. The [faucet request](docs/evidence/faucet.json) succeeded for this dedicated wallet, but funding is not deployment. No confirmed contract address is available yet.
+Keep compilation in Ubuntu. The native wallet CLI uses the same project files, private state and pinned dependencies. The [faucet funding](docs/evidence/faucet-confirmation.json), [dust registration](docs/evidence/dust-registration.json), and [custom deployment](docs/evidence/deployment.json) were separately confirmed.
+
+Before fee balancing, the CLI waits for wallet synchronization and saves `.private/wallet-before-balance.json`. It records public transaction identifiers locally before submission. A failed or interrupted submission must be checked against the indexer before any retry or snapshot restoration. The first deployment attempt was rejected with node error 170; its local dust reservation was recovered using the pinned ledger API, with unchanged Merkle roots, before a fresh transaction succeeded. See [deployment notes](docs/DEPLOYMENT.md). Do not automatically restore old wallet snapshots after transactions that may have reached the chain.
 
 ## Limitations and Level 2
 
