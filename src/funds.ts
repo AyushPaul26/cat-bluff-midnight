@@ -1,16 +1,28 @@
 // Dust registration flow adapted from example-bboard; Copyright (C) Midnight
 // Foundation. SPDX-License-Identifier: Apache-2.0. See THIRD-PARTY-NOTICES.md.
-import { firstValueFrom, filter, timeout } from 'rxjs';
+import { firstValueFrom, filter, tap, timeout } from 'rxjs';
 import type { buildWallet } from './wallet.ts';
 
 export async function prepareFunds(client: Awaited<ReturnType<typeof buildWallet>>) {
   const { wallet, shieldedSecretKeys, dustSecretKey, keystore } = client;
   await wallet.start(shieldedSecretKeys, dustSecretKey);
   console.log('Synchronizing dedicated Preprod wallet.');
+  let lastProgress = 0;
   const state = await firstValueFrom(wallet.state().pipe(
+    tap(s => {
+      if (Date.now() - lastProgress < 10_000) return;
+      lastProgress = Date.now();
+      console.log(JSON.stringify({
+        shieldedIndex: s.shielded.state.progress.appliedIndex.toString(),
+        shieldedHead: s.shielded.state.progress.highestIndex.toString(),
+        dustIndex: s.dust.state.progress.appliedIndex.toString(),
+        dustHead: s.dust.state.progress.highestIndex.toString(),
+        unshieldedSynced: s.unshielded.progress.isStrictlyComplete(),
+      }));
+    }),
     filter(s => s.shielded.state.progress.isStrictlyComplete()
       && s.unshielded.progress.isStrictlyComplete() && s.dust.state.progress.isStrictlyComplete()),
-    timeout(300_000),
+    timeout(1_200_000),
   ));
   if (state.dust.balance(new Date()) > 0n) return;
   if (!state.unshielded.availableCoins.length) {

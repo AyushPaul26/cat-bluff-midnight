@@ -1,0 +1,10 @@
+{
+  "kind": "free-test-token-faucet-request",
+  "network": "preprod",
+  "address": "mn_addr_preprod10nlenp0zg0xjafvf6p0fq53f6squ234zz0feq4mnvvndr0ku4yhsutr3r5",
+  "requestedTokenAmount": "5000 tNight",
+  "transactionId": "00b55782a370aa2562d6c4025bd61585a8167a794cc0efd32c06fbe98292b3d905",
+  "faucet": "https://midnight-tmnight-preprod.nethermind.dev/",
+  "observedUiStatus": "Transaction submitted. You will shortly receive 5000 tNight in your wallet.",
+  "note": "This is faucet funding evidence, not a contract deployment."
+}

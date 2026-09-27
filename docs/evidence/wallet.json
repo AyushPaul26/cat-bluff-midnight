@@ -1,0 +1,5 @@
+{
+  "network": "preprod",
+  "unshieldedAddress": "mn_addr_preprod10nlenp0zg0xjafvf6p0fq53f6squ234zz0feq4mnvvndr0ku4yhsutr3r5",
+  "faucet": "https://midnight-tmnight-preprod.nethermind.dev/"
+}

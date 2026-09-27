@@ -14,29 +14,29 @@ The authenticated task shows **Awaiting submission**. It offers a repository sel
 
 ## Official task: requirements to pass
 
-- [ ] Toolchain installed; custom contract compiles through `compact compile`.
-- [ ] Passing test suite.
-- [ ] Generated `managed/` directory containing circuits and keys.
+- [x] Toolchain installed; custom contract compiles through `compact compile`.
+- [x] Passing test suite.
+- [x] Generated `managed/` directory containing circuits and keys.
 - [ ] Contract deployed to Preview or Preprod with a visible address.
 - [x] Initial product idea: short paragraph in README.
-- [ ] At least five meaningful commits.
+- [x] At least five meaningful commits.
 
 ## Official task: submission checklist
 
 - [ ] Public GitHub repository with README.
 - [ ] Local setup instructions.
-- [ ] Genuine screenshot of successful compilation with circuits listed.
+- [x] Genuine screenshot of successful compilation with circuits listed.
 - [ ] Genuine screenshot of deployment with address visible.
-- [ ] README explanation of public state versus private witness.
+- [x] README explanation of public state versus private witness.
 - [x] Initial product idea in README.
-- [ ] At least five meaningful commits.
+- [x] At least five meaningful commits.
 
 The learning objectives explicitly cover Node 22, Docker, a Compact compiler, proof server, public ledger state, a private witness, and deliberate `disclose()`.
 
 ## Linked guide: additional detail
 
-- [ ] Public ledger field, private witness, deliberate disclosure, and privacy comment at top of contract.
-- [ ] At least three tests covering logic, transitions, and private-input exposure.
+- [x] Public ledger field, private witness, deliberate disclosure, and privacy comment at top of contract.
+- [x] At least three tests covering logic, transitions, and private-input exposure.
 - [ ] Deploy the custom contract, not merely the tutorial hello-world.
 - [ ] README includes actual address, behavior, privacy model, tech stack, prerequisites, setup, tests, initial idea, and screenshots.
 
@@ -44,9 +44,9 @@ The guide is an AI tutorial prompt, not a requirement to use a counter as the pr
 
 ## Additional user acceptance criteria
 
-- [ ] Dedicated repository and directory; no unrelated project changes.
-- [ ] Real generated contract used in behavioral tests, including wrong openings, unauthorized actions, replay, and phase errors.
-- [ ] High-entropy salt, domain separation, context binding, independent claimed and actual ranks.
+- [x] Dedicated repository and directory; no unrelated project changes.
+- [x] Real generated contract used in behavioral tests, including wrong openings, unauthorized actions, replay, and phase errors.
+- [x] High-entropy salt, domain separation, context binding, independent claimed and actual ranks.
 - [ ] Local proof server verified; confirmed custom deployment independently checked.
 - [ ] Secrets excluded and staged content audited.
 - [ ] Final default branch and public evidence links verified.
@@ -55,4 +55,4 @@ The guide is an AI tutorial prompt, not a requirement to use a counter as the pr
 
 ## Evidence status
 
-No compile, test, or deployment evidence exists yet. Do not mark those items complete based on design documents, scripts, CI configuration, or attempted commands.
+Compilation: docs/evidence/compile.log and compile-tests.png. Tests: 17 passed, docs/evidence/tests.log. Typecheck: successful, docs/evidence/typecheck.log. Real generated artifacts: managed/cat-bluff/. Five meaningful local commits are present. Deployment, public repository, and submission remain unverified. Setup extraction and wallet runtime checks are in progress.

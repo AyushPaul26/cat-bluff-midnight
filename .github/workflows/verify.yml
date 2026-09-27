@@ -1,0 +1,25 @@
+name: Verify Cat Bluff
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned toolchain
+        run: bash scripts/bootstrap-tools.sh
+      - name: Install dependencies
+        run: bash scripts/install-dependencies.sh
+      - name: Compile, typecheck and test the real contract
+        shell: bash
+        run: |
+          source scripts/env.sh
+          npm run compile
+          npm run typecheck
+          npm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated-cat-bluff
+          path: managed/cat-bluff/

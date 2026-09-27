@@ -11,3 +11,23 @@ Ruling: tools remain in ignored .tools; no changes to global Node or unrelated p
 Ruling: official compiler 0.31.1 shell launcher does not quote dirname and fails in the user's space-containing path. Correct only that shell quote in the ignored local launcher; compiler and ZK binaries are unchanged. Record this fix in reproducible setup.
 
 Pre-flight: tests, witnesses and deployment all consume the same generated managed/cat-bluff/contract/index.js; no handwritten replacement. Deployment cannot start until real compilation and behavioral tests pass.
+
+Task 2 complete: official CLI/compiler, Node 22, Docker and proof server verified. Commit 287396b; reproducible extraction improvements are in progress.
+
+Task 3 complete: generated commitment contract and eight passing behavioral checks; commit 0ed592a.
+
+Task 4 complete: three real circuits and keys, sixteen passing behavioral checks including challenge, resolution, wrong openings and replay; commit 91ea183. Tests now use the shared application witness implementation.
+
+Task 5 in progress: pinned SDK providers, dedicated private seed storage, encrypted state provider, strict Preprod guard and confirmed-deployment/indexer verification implemented; runtime verification pending.
+
+Ruling: npm executable links fail chmod on this Windows mount. Use `npm ci --ignore-scripts` and invoke the bundled native prebuild checks explicitly through Node; preserve exact dependencies in package-lock.json.
+
+Ruling: use FluentWalletBuilder.withSeed with a cryptographically generated local seed. Avoid tutorial helpers that log wallet seeds or supply dummy CAPTCHA headers. Faucet funding uses the genuine browser UI.
+
+Task 5 update: complete provider typecheck, 17 tests and native classic-level prebuild check passed. Dedicated wallet created successfully; public address saved. Commit b47acf3 contains deployment integration. Network deployment is still pending initial wallet sync.
+
+Ruling: use project-local official Windows Node 22.22.0 for SDK operations after measuring multi-minute WSL/DrvFS imports. Both platforms use the same repository and secrets. WSL remains the compiler environment. The Windows Node archive SHA-256 matched official SHASUMS256.txt, wallet derivation matched Ubuntu, and all 17 Windows tests passed.
+
+Setup verification: extraction into ignored scratch succeeded. Node 22.22.0, npm 10.9.4, and compiler 0.31.1 execute from the fresh extracted copy. The first smoke command had a shell-expanded PATH error; sourcing env.sh in the shell corrected that verification command.
+
+GitHub repository created publicly under verified AyushPaul26 through existing Git Credential Manager authentication after the browser create button did not submit. Faucet UI successfully submitted a free 5000 tNight request. Neither event establishes contract deployment or Rise In submission.

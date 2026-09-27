@@ -9,9 +9,11 @@ node_archive="node-v${node_version}-linux-x64.tar.xz"
 curl --proto '=https' --tlsv1.2 -fsSL "https://nodejs.org/dist/v${node_version}/${node_archive}" -o ".tools/downloads/${node_archive}"
 curl --proto '=https' --tlsv1.2 -fsSL "https://nodejs.org/dist/v${node_version}/SHASUMS256.txt" -o .tools/downloads/SHASUMS256.txt
 (cd .tools/downloads && grep " ${node_archive}$" SHASUMS256.txt | sha256sum --check -)
-tar -xmJf ".tools/downloads/${node_archive}" -C .tools --no-same-owner --no-same-permissions --no-overwrite-dir \
-  "node-v${node_version}-linux-x64/bin" "node-v${node_version}-linux-x64/lib" \
-  "node-v${node_version}-linux-x64/LICENSE" "node-v${node_version}-linux-x64/README.md"
+python3 scripts/extract-tools.py node ".tools/downloads/${node_archive}"
+compiler_archive=compactc_v0.31.1_x86_64-unknown-linux-musl.zip
+curl --proto '=https' --tlsv1.2 -fsSL "https://github.com/midnightntwrk/compact/releases/download/compactc-v0.31.1/${compiler_archive}" -o ".tools/downloads/${compiler_archive}"
+python3 scripts/extract-tools.py compiler ".tools/downloads/${compiler_archive}"
+source scripts/env.sh
 .tools/bin/compact --version
-.tools/bin/compact --help
+compact compile +0.31.1 --version
 .tools/node-v22.22.0-linux-x64/bin/node --version
