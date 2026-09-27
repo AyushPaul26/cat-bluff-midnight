@@ -2,7 +2,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
 
-**Status:** The custom contract compiles, all 22 tests pass, and Cat Bluff is confirmed deployed on Midnight Preprod. Rise In submission is pending the final audit. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status:** The custom contract compiles, all 22 tests pass, and Cat Bluff is confirmed deployed on Midnight Preprod. The final audit and Linux CI passed. Rise In September Level 1 is submitted and **Pending Review**, verified after reloading. Acceptance and level unlock are not yet confirmed. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
 
 **Confirmed contract:** [`63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16`](https://preprod.midnightexplorer.com/contracts/0x63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16)
 
@@ -111,6 +111,6 @@ Level 2 will add a game interface, wallet connection, separate participant priva
 
 ## Submission and license
 
-The active Rise In period inspected on September 27, 2026 is September (Aug 31–Sep 30). The program end date is September 30; no precise cutoff timezone was shown. Submission is pending completion of every official checklist item.
+The active Rise In period inspected on September 27, 2026 is September. The public program end date is September 30; initial and fully loaded task date labels differ by one day, and no precise cutoff timezone was shown. See the verified checklist for both observed labels. All technical checklist items are verified. Submitted for September review on September 27, 2026, with the user-selected five-star rating. The reloaded page shows Pending Review, the correct repository, and Under review. A generic Awaiting submission badge remains inconsistent with the explicit review state. Acceptance/pass and level unlock have not been verified. [Submission screenshot](docs/evidence/rise-submission.png) · [Final audit](docs/FINAL-AUDIT.md).
 
 Apache-2.0. See [LICENSE](LICENSE) and [third-party notices](THIRD-PARTY-NOTICES.md).

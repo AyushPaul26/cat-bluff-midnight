@@ -19,7 +19,7 @@ Only this dedicated project repository may change. Use `codex/` for development.
 5. [x] Implement dedicated test wallet/private-state integration and deployment scripts using pinned Midnight.js, static ZK artifacts, indexer provider, local proof provider, and wallet provider. Reject unexpected network and protect state files. Add exact proof-server image to compose. Verify local proof generation. Commit deployment integration.
 6. [x] Fund only through free test faucet; deploy Cat Bluff to Preprod and wait for actual confirmation. Independently verify address/transaction through indexer. Save public metadata and real screenshots plus compiler/test logs. Commit genuine evidence.
 7. [x] Complete README setup/privacy/limitations/roadmap, LICENSE and third-party notices; run compile, typecheck, tests, artifact presence and secret checks. Commit final documentation and audit.
-8. [ ] Create public `AyushPaul26/cat-bluff-midnight` only after rechecking existence. Push final history to default branch, inspect public links and five meaningful commits. Submit via active September UI and verify exact resulting state.
+8. [x] Create public `AyushPaul26/cat-bluff-midnight` only after rechecking existence. Push final history to default branch, inspect public links and five meaningful commits. Submit via active September UI and verify exact resulting state.
 
 ## Review focus
 
