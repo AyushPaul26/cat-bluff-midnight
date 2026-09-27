@@ -1,0 +1,247 @@
+TAP version 13
+# Subtest: initial public state is Empty with no card disclosure
+ok 1 - initial public state is Empty with no card disclosure
+  ---
+  duration_ms: 74.346194
+  type: 'test'
+  ...
+# Subtest: player commits a private valid rank while publicly bluffing
+ok 2 - player commits a private valid rank while publicly bluffing
+  ---
+  duration_ms: 81.431455
+  type: 'test'
+  ...
+# Subtest: incorrect player capability rejects without changing ledger
+ok 3 - incorrect player capability rejects without changing ledger
+  ---
+  duration_ms: 51.837091
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 0
+ok 4 - rejects hidden rank 0
+  ---
+  duration_ms: 31.285131
+  type: 'test'
+  ...
+# Subtest: rejects public claim 0
+ok 5 - rejects public claim 0
+  ---
+  duration_ms: 35.408613
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 14
+ok 6 - rejects hidden rank 14
+  ---
+  duration_ms: 29.448346
+  type: 'test'
+  ...
+# Subtest: rejects public claim 14
+ok 7 - rejects public claim 14
+  ---
+  duration_ms: 50.710001
+  type: 'test'
+  ...
+# Subtest: a second commitment is rejected and cannot replace the first
+ok 8 - a second commitment is rejected and cannot replace the first
+  ---
+  duration_ms: 86.936636
+  type: 'test'
+  ...
+# Subtest: authorized challenge and resolution reveal only rank and detect a bluff
+not ok 9 - authorized challenge and resolution reveal only rank and detect a bluff
+  ---
+  duration_ms: 58.671717
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:90:1'
+  failureType: 'testCodeFailure'
+  error: 'contract.impureCircuits[name] is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    challenged (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:85:5)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:91:13)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: truthful claim resolves as truthful
+not ok 10 - truthful claim resolves as truthful
+  ---
+  duration_ms: 32.713462
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:101:1'
+  failureType: 'testCodeFailure'
+  error: 'contract.impureCircuits[name] is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    challenged (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:85:5)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:102:13)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: player cannot act as challenger
+not ok 11 - player cannot act as challenger
+  ---
+  duration_ms: 32.775835
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:107:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /challenger authorization/. Input:
+    
+    'TypeError: contract.impureCircuits[name] is not a function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'contract.impureCircuits[name] is not a function'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:110:25
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:110:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:110:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: challenger cannot resolve with its capability
+not ok 12 - challenger cannot resolve with its capability
+  ---
+  duration_ms: 32.609904
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:114:1'
+  failureType: 'testCodeFailure'
+  error: 'contract.impureCircuits[name] is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    challenged (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:85:5)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:115:13)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: wrong rank opening rejects and leaves state unchanged
+not ok 13 - wrong rank opening rejects and leaves state unchanged
+  ---
+  duration_ms: 31.745207
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:120:3'
+  failureType: 'testCodeFailure'
+  error: 'contract.impureCircuits[name] is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    challenged (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:85:5)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:121:15)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: wrong salt opening rejects and leaves state unchanged
+not ok 14 - wrong salt opening rejects and leaves state unchanged
+  ---
+  duration_ms: 33.111153
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:120:3'
+  failureType: 'testCodeFailure'
+  error: 'contract.impureCircuits[name] is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    challenged (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:85:5)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:121:15)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: rejects every out-of-phase or replayed action
+not ok 15 - rejects every out-of-phase or replayed action
+  ---
+  duration_ms: 21.457494
+  type: 'test'
+  location: '/mnt/c/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:128:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /phase/. Input:
+    
+    'TypeError: contract.impureCircuits[name] is not a function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'contract.impureCircuits[name] is not a function'
+  name: 'TypeError'
+  stack: |-
+    Object.call (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:30:60)
+    file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:130:25
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:130:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/contract.test.ts:130:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: commitments bind context, role, round, player, rank and salt
+ok 16 - commitments bind context, role, round, player, rank and salt
+  ---
+  duration_ms: 30.788392
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 9
+# fail 7
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2512.246424

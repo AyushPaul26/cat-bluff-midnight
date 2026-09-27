@@ -10,10 +10,14 @@ export type Witnesses<PS> = {
 
 export type ImpureCircuits<PS> = {
   commit(context: __compactRuntime.CircuitContext<PS>, claim_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  challenge(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
+  resolve(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type ProvableCircuits<PS> = {
   commit(context: __compactRuntime.CircuitContext<PS>, claim_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  challenge(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
+  resolve(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type PureCircuits = {
@@ -37,6 +41,8 @@ export type Circuits<PS> = {
              card_0: bigint,
              opening_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
   commit(context: __compactRuntime.CircuitContext<PS>, claim_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+  challenge(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
+  resolve(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
 
 export type Ledger = {

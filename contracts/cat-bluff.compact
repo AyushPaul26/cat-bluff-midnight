@@ -60,3 +60,21 @@ export circuit commit(claim: Uint<8>): [] {
   claimedRank = disclose(claim);
   phase = Phase.Committed;
 }
+
+export circuit challenge(): [] {
+  assert(phase == Phase.Committed, "invalid phase for challenge");
+  assert(deriveRole(gameContext, 2, secret()) == challenger, "challenger authorization failed");
+  phase = Phase.Challenged;
+}
+
+export circuit resolve(): [] {
+  assert(phase == Phase.Challenged, "invalid phase for resolve");
+  assert(deriveRole(gameContext, 1, secret()) == player, "player authorization failed");
+  const card = rank();
+  assert(card >= 1 && card <= 13, "rank out of range");
+  assert(deriveCard(gameContext, round, player, card, salt()) == commitment, "opening mismatch");
+  // The challenge permits disclosure of the verified rank, never of the salt.
+  revealedRank = disclose(card);
+  truthful = disclose(card == claimedRank);
+  phase = Phase.Resolved;
+}

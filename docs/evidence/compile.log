@@ -1,5 +1,9 @@
 
 > cat-bluff-midnight@0.1.0 compile
-> compact compile +0.31.1 contracts/cat-bluff.compact managed/cat-bluff
+> python3 scripts/compile.py
 
-Compiling 1 circuits:
+Compiling 3 circuits:
+Generated circuit: challenge (prover and verifier keys present)
+Generated circuit: commit (prover and verifier keys present)
+Generated circuit: resolve (prover and verifier keys present)
+Compact compilation and generated-artifact checks succeeded.
