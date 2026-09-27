@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: initial public state is Empty with no card disclosure
+ok 1 - initial public state is Empty with no card disclosure
+  ---
+  duration_ms: 90.103802
+  type: 'test'
+  ...
+# Subtest: player commits a private valid rank while publicly bluffing
+ok 2 - player commits a private valid rank while publicly bluffing
+  ---
+  duration_ms: 54.036682
+  type: 'test'
+  ...
+# Subtest: incorrect player capability rejects without changing ledger
+ok 3 - incorrect player capability rejects without changing ledger
+  ---
+  duration_ms: 45.987252
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 0
+ok 4 - rejects hidden rank 0
+  ---
+  duration_ms: 27.456214
+  type: 'test'
+  ...
+# Subtest: rejects public claim 0
+ok 5 - rejects public claim 0
+  ---
+  duration_ms: 29.663595
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 14
+ok 6 - rejects hidden rank 14
+  ---
+  duration_ms: 43.101332
+  type: 'test'
+  ...
+# Subtest: rejects public claim 14
+ok 7 - rejects public claim 14
+  ---
+  duration_ms: 47.446361
+  type: 'test'
+  ...
+# Subtest: a second commitment is rejected and cannot replace the first
+ok 8 - a second commitment is rejected and cannot replace the first
+  ---
+  duration_ms: 62.867311
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2300.406949

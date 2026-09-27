@@ -1,0 +1,5 @@
+
+> cat-bluff-midnight@0.1.0 compile
+> compact compile +0.31.1 contracts/cat-bluff.compact managed/cat-bluff
+
+Compiling 1 circuits:

@@ -1,0 +1,62 @@
+/*
+ * Cat Bluff privacy model:
+ * PUBLIC: context, fixed round, role commitments, phase, salted card commitment,
+ * claimed rank; after resolution only, the actual rank and truth/bluff result.
+ * PRIVATE WITNESSES: independent random 32-byte role secrets, actual rank, salt.
+ * The commitment hides rank using a fresh random salt. The claim is independent:
+ * a valid player may bluff. Capability knowledge authorizes each action.
+ * Resolution intentionally discloses rank after verifying the opening; neither
+ * salt nor role secrets are disclosed. This does not prove fair dealing, unique
+ * people, wallet identity, or liveness. One fixed round; no stakes or payouts.
+ */
+pragma language_version 0.23;
+import CompactStandardLibrary;
+
+export enum Phase { Empty, Committed, Challenged, Resolved }
+export ledger gameContext: Bytes<32>;
+export ledger round: Uint<64>;
+export ledger phase: Phase;
+export ledger player: Bytes<32>;
+export ledger challenger: Bytes<32>;
+export ledger commitment: Bytes<32>;
+export ledger claimedRank: Uint<8>;
+export ledger revealedRank: Uint<8>;
+export ledger truthful: Boolean;
+
+witness secret(): Bytes<32>;
+witness rank(): Uint<8>;
+witness salt(): Bytes<32>;
+
+export pure circuit deriveRole(context: Bytes<32>, role: Uint<8>, key: Bytes<32>): Bytes<32> {
+  return persistentCommit<Vector<3, Bytes<32>>>(
+    [pad(32, "cat-bluff:role:v1"), context, role as Bytes<32>], key);
+}
+
+export pure circuit deriveCard(context: Bytes<32>, roundId: Uint<64>, owner: Bytes<32>, card: Uint<8>, opening: Bytes<32>): Bytes<32> {
+  return persistentCommit<Vector<5, Bytes<32>>>(
+    [pad(32, "cat-bluff:card:v1"), context, roundId as Bytes<32>, owner, card as Bytes<32>], opening);
+}
+
+constructor(context: Bytes<32>, playerRole: Bytes<32>, challengerRole: Bytes<32>) {
+  assert(playerRole != challengerRole, "roles must differ");
+  gameContext = disclose(context);
+  player = disclose(playerRole);
+  challenger = disclose(challengerRole);
+  round = 1;
+  phase = Phase.Empty;
+  commitment = default<Bytes<32>>;
+  claimedRank = 0;
+  revealedRank = 0;
+  truthful = false;
+}
+
+export circuit commit(claim: Uint<8>): [] {
+  assert(phase == Phase.Empty, "invalid phase for commit");
+  assert(deriveRole(gameContext, 1, secret()) == player, "player authorization failed");
+  const card = rank();
+  assert(card >= 1 && card <= 13, "rank out of range");
+  assert(claim >= 1 && claim <= 13, "claim out of range");
+  commitment = disclose(deriveCard(gameContext, round, player, card, salt()));
+  claimedRank = disclose(claim);
+  phase = Phase.Committed;
+}
