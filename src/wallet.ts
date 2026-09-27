@@ -13,6 +13,7 @@ import { firstValueFrom, timeout } from 'rxjs';
 import { configuration } from './config.ts';
 import { validatePassword } from '@midnight-ntwrk/midnight-js-utils';
 import WebSocket from 'ws';
+import { freshCard } from './witnesses.ts';
 
 globalThis.WebSocket = WebSocket as unknown as typeof globalThis.WebSocket;
 
@@ -43,9 +44,10 @@ export async function loadSecrets(): Promise<LocalSecrets> {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
   const hex = () => randomBytes(32).toString('hex');
+  const card = freshCard();
   const saved: LocalSecrets = {
     network: 'preprod', seed: hex(), storagePassword: storagePassword(), context: hex(),
-    playerSecret: hex(), challengerSecret: hex(), salt: hex(), rank: '7',
+    playerSecret: hex(), challengerSecret: hex(), salt: Buffer.from(card.salt).toString('hex'), rank: card.rank.toString(),
   };
   await mkdir('.private', { recursive: true, mode: 0o700 });
   await writeFile(file, JSON.stringify(saved), { flag: 'wx', mode: 0o600 });

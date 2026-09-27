@@ -2,7 +2,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
 
-**Status:** The custom contract compiles and all 17 tests pass. Deployment integration is in progress. There is no confirmed deployment address or Rise In submission yet. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status:** The custom contract compiles and all 18 tests pass. Deployment integration is in progress. There is no confirmed deployment address or Rise In submission yet. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
 
 ## Contract behavior
 
@@ -19,7 +19,7 @@ The claimed rank can differ from the hidden rank. Authorization proves knowledge
 
 Public ledger fields are `gameContext`, `round`, `phase`, `player`, `challenger`, `commitment`, `claimedRank`, `revealedRank`, and `truthful`. `revealedRank` is zero until resolution; `truthful` only has meaning once resolved.
 
-Private witnesses are the acting role's `secret`, the actual `rank`, and its fresh 32-byte `salt`. The application stores these locally under ignored `.private/`. Never publish that directory. The encrypted private-state database password and dedicated test wallet seed also remain there. Anyone with access to the local secrets can act as either role; this prototype does not provide encrypted wallet recovery storage.
+Fresh local ranks use Node crypto.randomInt(1, 14), and salts use 32 cryptographically random bytes. This is local randomness, not a proof of fair dealing. Private witnesses are the acting role's `secret`, the actual `rank`, and its fresh 32-byte `salt`. The application stores these locally under ignored `.private/`. Never publish that directory. The encrypted private-state database password and dedicated test wallet seed also remain there. Anyone with access to the local secrets can act as either role; this prototype does not provide encrypted wallet recovery storage.
 
 `persistentCommit` uses domain separation (`cat-bluff:card:v1` versus `cat-bluff:role:v1`). Card commitments bind the context, round, player commitment, rank, and fresh high-entropy salt. A rank has only 13 possible values, so the unpredictable salt is essential. Role commitments bind context and role number to an independent secret. The single fixed round and terminal phase reject repeated actions.
 

@@ -55,4 +55,4 @@ The guide is an AI tutorial prompt, not a requirement to use a counter as the pr
 
 ## Evidence status
 
-Compilation: docs/evidence/compile.log and compile-tests.png. Tests: 17 passed, docs/evidence/tests.log. Typecheck: successful, docs/evidence/typecheck.log. Real generated artifacts: managed/cat-bluff/. Five meaningful local commits are present. Deployment, public repository, and submission remain unverified. Setup extraction and wallet runtime checks are in progress.
+Compilation: docs/evidence/compile.log and compile-tests.png. Tests: 18 passed, docs/evidence/tests.log. Typecheck: successful, docs/evidence/typecheck.log. Real generated artifacts: managed/cat-bluff/. Five meaningful local commits are present. Deployment, public repository, and submission remain unverified. Setup extraction and wallet runtime checks are in progress.
