@@ -2,7 +2,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
 
-**Status:** The custom contract compiles and all 18 tests pass. Deployment integration is in progress. There is no confirmed deployment address or Rise In submission yet. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status:** The custom contract compiles and all 22 tests pass. The public repository is published. Deployment integration is in progress. There is no confirmed deployment address or Rise In submission yet. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
 
 ## Contract behavior
 
@@ -78,6 +78,8 @@ npm run deploy
 The proof server is bound to localhost. Use only the official free [Preprod faucet](https://midnight-tmnight-preprod.nethermind.dev/). CAPTCHA or login must be completed by the user. Never fund this prototype with mainnet assets or purchased tokens.
 
 `wallet:address` creates or reuses one dedicated local wallet and prints only its public address. `deploy` checks proof-server health, synchronizes the wallet, registers test NIGHT for dust if necessary, submits the custom constructor, waits for confirmation, and checks the indexed ledger and all three on-chain verifier keys. Only after those checks does it write `docs/evidence/deployment.json`. A saved deployment receipt prevents accidental duplicate deployment.
+
+A fresh wallet must replay Preprod's dust history; the first synchronization can take tens of minutes. Supported SDK batching improves throughput without skipping events. A private checkpoint under `.private/` is saved on completion or handled failure and restored on the next run after checking the network and wallet address. Do not run multiple wallet commands concurrently. Checkpoints contain private wallet state and must never be published. The CLI allows up to one hour for synchronization and reports public progress counters.
 
 Windows-mounted WSL directories can make SDK imports unusually slow. The same pinned Node release can run the wallet/deployment CLI directly in PowerShell:
 

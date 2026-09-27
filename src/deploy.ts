@@ -6,6 +6,7 @@ import { ledger, pureCircuits } from '../managed/cat-bluff/contract/index.js';
 import { buildWallet, loadSecrets } from './wallet.ts';
 import { compiledContract, providersFor } from './providers.ts';
 import { prepareFunds } from './funds.ts';
+import { closeWallet } from './wallet-lifecycle.ts';
 
 // Never serialize SDK result/error objects: they can contain private inputs.
 async function main() {
@@ -66,7 +67,7 @@ async function main() {
     }
     throw error;
   } finally {
-    await Promise.race([client.wallet.stop(), new Promise(resolve => setTimeout(resolve, 15_000))]);
+    await closeWallet(client);
   }
 }
 

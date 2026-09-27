@@ -4,7 +4,8 @@
 import { randomBytes } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { FluentWalletBuilder } from '@midnight-ntwrk/testkit-js';
+import { HDWallet, Roles, createKeystore, PublicKey, ShieldedWallet, UnshieldedWallet, DustWallet,
+  WalletFacade, InMemoryTransactionHistoryStorage, WalletEntrySchema, mergeWalletEntries } from '@midnight-ntwrk/wallet-sdk';
 import { DustSecretKey, ZswapSecretKeys, LedgerParameters } from '@midnight-ntwrk/midnight-js-protocol/ledger';
 import type { MidnightProvider, WalletProvider } from '@midnight-ntwrk/midnight-js-types';
 import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
@@ -14,6 +15,7 @@ import { configuration } from './config.ts';
 import { validatePassword } from '@midnight-ntwrk/midnight-js-utils';
 import WebSocket from 'ws';
 import { freshCard } from './witnesses.ts';
+import { readCheckpoint, writeCheckpoint } from './wallet-checkpoint.ts';
 
 globalThis.WebSocket = WebSocket as unknown as typeof globalThis.WebSocket;
 
@@ -57,11 +59,35 @@ export async function loadSecrets(): Promise<LocalSecrets> {
 export async function buildWallet(saved: LocalSecrets) {
   const env = configuration(process.env.CAT_BLUFF_NETWORK ?? 'preprod');
   setNetworkId(env.networkId);
-  // Avoid withRandomSeed and MidnightWalletProvider.build: those helpers log seeds.
-  const { wallet, seeds, keystore } = await FluentWalletBuilder.forEnvironment(env)
-    .withSeed(saved.seed)
-    .withDustOptions({ ledgerParams: LedgerParameters.initialParameters(), additionalFeeOverhead: 1000n, feeBlocksMargin: 5 })
-    .buildWithoutStarting();
+  const hd = HDWallet.fromSeed(new Uint8Array(Buffer.from(saved.seed, 'hex')));
+  if (hd.type !== 'seedOk') throw new Error('Invalid wallet seed');
+  const derive = (role: typeof Roles[keyof typeof Roles]) => {
+    const result = hd.hdWallet.selectAccount(0).selectRole(role).deriveKeyAt(0);
+    if (result.type !== 'keyDerived') throw new Error('Wallet key derivation failed');
+    return result.key;
+  };
+  const seeds = { shielded: derive(Roles.Zswap), unshielded: derive(Roles.NightExternal), dust: derive(Roles.Dust) };
+  const keystore = createKeystore(seeds.unshielded, env.walletNetworkId);
+  const expectedAddress = keystore.getBech32Address().toString();
+  const checkpointFile = resolve('.private/wallet-checkpoint.json');
+  const checkpoint = await readCheckpoint(checkpointFile, expectedAddress);
+  const config = {
+    networkId: env.walletNetworkId,
+    indexerClientConnection: { indexerHttpUrl: env.indexer, indexerWsUrl: env.indexerWS },
+    provingServerUrl: new URL(env.proofServer), relayURL: new URL(env.nodeWS),
+    txHistoryStorage: new InMemoryTransactionHistoryStorage(WalletEntrySchema, mergeWalletEntries),
+    costParameters: { ledgerParams: LedgerParameters.initialParameters(), additionalFeeOverhead: 1000n, feeBlocksMargin: 5 },
+    // Supported SDK batching changes throughput only: every event is applied.
+    batchUpdates: { size: 1000, timeout: 10, spacing: 0 },
+  };
+  const Shielded = ShieldedWallet(config), Unshielded = UnshieldedWallet(config), Dust = DustWallet(config);
+  const wallet = await WalletFacade.init({
+    configuration: config,
+    shielded: () => checkpoint ? Shielded.restore(checkpoint.shielded) : Shielded.startWithSeed(seeds.shielded),
+    unshielded: () => checkpoint ? Unshielded.restore(checkpoint.unshielded) : Unshielded.startWithPublicKey(PublicKey.fromKeyStore(keystore)),
+    dust: () => checkpoint ? Dust.restore(checkpoint.dust) : Dust.startWithSeed(seeds.dust, LedgerParameters.initialParameters().dust),
+  });
+  if (checkpoint) console.log('Resuming the dedicated wallet from its local private checkpoint.');
   const shieldedSecretKeys = ZswapSecretKeys.fromSeed(seeds.shielded);
   const dustSecretKey = DustSecretKey.fromSeed(seeds.dust);
   const provider: WalletProvider & MidnightProvider = {
@@ -76,5 +102,12 @@ export async function buildWallet(saved: LocalSecrets) {
   };
   const initial = await firstValueFrom(wallet.unshielded.state.pipe(timeout(30_000)));
   const address = UnshieldedAddress.codec.encode('preprod', initial.address).toString();
-  return { wallet, provider, address, keystore, shieldedSecretKeys, dustSecretKey, env };
+  if (address !== expectedAddress) throw new Error('Derived wallet address mismatch');
+  const saveState = async () => {
+    const [shielded, dust, unshielded] = await Promise.all([
+      wallet.shielded.serializeState(), wallet.dust.serializeState(), wallet.unshielded.serializeState(),
+    ]);
+    await writeCheckpoint(checkpointFile, { network: 'preprod', address, shielded, dust, unshielded });
+  };
+  return { wallet, provider, address, keystore, shieldedSecretKeys, dustSecretKey, env, saveState };
 }

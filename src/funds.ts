@@ -14,16 +14,18 @@ export async function prepareFunds(client: Awaited<ReturnType<typeof buildWallet
       lastProgress = Date.now();
       console.log(JSON.stringify({
         shieldedIndex: s.shielded.state.progress.appliedIndex.toString(),
-        shieldedHead: s.shielded.state.progress.highestIndex.toString(),
+        shieldedHead: s.shielded.state.progress.highestRelevantWalletIndex.toString(),
         dustIndex: s.dust.state.progress.appliedIndex.toString(),
-        dustHead: s.dust.state.progress.highestIndex.toString(),
+        dustHead: s.dust.state.progress.highestRelevantWalletIndex.toString(),
         unshieldedSynced: s.unshielded.progress.isStrictlyComplete(),
       }));
     }),
     filter(s => s.shielded.state.progress.isStrictlyComplete()
       && s.unshielded.progress.isStrictlyComplete() && s.dust.state.progress.isStrictlyComplete()),
-    timeout(1_200_000),
+    // A fresh Preprod wallet replays the complete dust event history.
+    timeout(3_600_000),
   ));
+  await client.saveState();
   if (state.dust.balance(new Date()) > 0n) return;
   if (!state.unshielded.availableCoins.length) {
     throw new Error(`Free faucet funding required for ${client.address}. Complete the faucet UI before deploying.`);

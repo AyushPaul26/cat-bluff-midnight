@@ -23,8 +23,8 @@ The authenticated task shows **Awaiting submission**. It offers a repository sel
 
 ## Official task: submission checklist
 
-- [ ] Public GitHub repository with README.
-- [ ] Local setup instructions.
+- [x] Public GitHub repository with README.
+- [x] Local setup instructions.
 - [x] Genuine screenshot of successful compilation with circuits listed.
 - [ ] Genuine screenshot of deployment with address visible.
 - [x] README explanation of public state versus private witness.
@@ -55,4 +55,4 @@ The guide is an AI tutorial prompt, not a requirement to use a counter as the pr
 
 ## Evidence status
 
-Compilation: docs/evidence/compile.log and compile-tests.png. Tests: 18 passed, docs/evidence/tests.log. Typecheck: successful, docs/evidence/typecheck.log. Real generated artifacts: managed/cat-bluff/. Five meaningful local commits are present. Deployment, public repository, and submission remain unverified. Setup extraction and wallet runtime checks are in progress.
+Compilation: docs/evidence/compile.log and compile-tests.png. Tests: 22 passed, docs/evidence/tests.log. Typecheck: successful. Real generated artifacts: managed/cat-bluff/. Eight meaningful commits are published in the public repository on main. Official tool extraction, dedicated wallet derivation, proof-server health, and free faucet request were verified. An earlier revision passed Linux CI (exact SHA and run URL in docs/evidence/ci.json). Deployment and submission remain unverified while the initial wallet dust synchronization runs.

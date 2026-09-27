@@ -1,5 +1,6 @@
 import { firstValueFrom, filter, tap, timeout } from 'rxjs';
 import { buildWallet, loadSecrets } from './wallet.ts';
+import { closeWallet } from './wallet-lifecycle.ts';
 
 const client = await buildWallet(await loadSecrets());
 let exitCode = 0;
@@ -12,9 +13,9 @@ try {
       unshieldedSynced: s.unshielded.progress.isStrictlyComplete(),
       dustSynced: s.dust.state.progress.isStrictlyComplete(),
       shieldedIndex: s.shielded.state.progress.appliedIndex.toString(),
-      shieldedHead: s.shielded.state.progress.highestIndex.toString(),
+      shieldedHead: s.shielded.state.progress.highestRelevantWalletIndex.toString(),
       dustIndex: s.dust.state.progress.appliedIndex.toString(),
-      dustHead: s.dust.state.progress.highestIndex.toString(),
+      dustHead: s.dust.state.progress.highestRelevantWalletIndex.toString(),
     })); }),
     filter(s => s.shielded.state.progress.isStrictlyComplete()
       && s.unshielded.progress.isStrictlyComplete() && s.dust.state.progress.isStrictlyComplete()),
@@ -30,6 +31,6 @@ try {
     console.error(error.stack?.split('\n').slice(1).filter(line => line.trim().startsWith('at ')).join('\n'));
   }
 } finally {
-  await Promise.race([client.wallet.stop(), new Promise(resolve => setTimeout(resolve, 15_000))]);
+  if (!await closeWallet(client)) exitCode = 1;
   process.exit(exitCode);
 }
