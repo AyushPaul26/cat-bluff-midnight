@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { Contract, ledger, pureCircuits } from '../managed/cat-bluff/contract/index.js';
 import { createConstructorContext, QueryContext, sampleContractAddress, CostModel } from '@midnight-ntwrk/compact-runtime';
+import { witnesses } from '../src/witnesses.ts';
 
 const bytes = () => new Uint8Array(randomBytes(32));
 
@@ -10,11 +11,7 @@ function game(actualRank = 7n) {
   const context = bytes(), playerSecret = bytes(), challengerSecret = bytes(), salt = bytes();
   const player = pureCircuits.deriveRole(context, 1n, playerSecret);
   const challenger = pureCircuits.deriveRole(context, 2n, challengerSecret);
-  const contract = new Contract({
-    secret: ({ privateState }: any) => [privateState, privateState.secret],
-    rank: ({ privateState }: any) => [privateState, privateState.rank],
-    salt: ({ privateState }: any) => [privateState, privateState.salt],
-  });
+  const contract = new Contract(witnesses);
   const initial = contract.initialState(createConstructorContext({ secret: playerSecret, rank: actualRank, salt }, '0'.repeat(64)), context, player, challenger);
   let ctx: any = {
     currentPrivateState: initial.currentPrivateState,

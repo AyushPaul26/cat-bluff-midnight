@@ -4,3 +4,5 @@
 *.png binary
 *.prover binary
 *.verifier binary
+*.bzkir binary
+docs/evidence/*.log whitespace=-blank-at-eof,-blank-at-eol
