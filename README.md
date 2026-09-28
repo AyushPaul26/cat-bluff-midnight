@@ -1,8 +1,22 @@
 # Cat Bluff
 
-Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
+Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status:** The custom contract compiles, all 22 tests pass, and Cat Bluff is confirmed deployed on Midnight Preprod. The final audit and Linux CI passed. Rise In September Level 1 is submitted and **Pending Review**, verified after reloading. Acceptance and level unlock are not yet confirmed. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. **Real Lace connect/disconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+
+## Live Demo
+
+[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [hosted asset verification](docs/evidence/level2-hosted-assets.log). The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
+
+## Demo Video
+
+Not recorded. The [recording script](docs/LEVEL_2_SUBMISSION.md#proposed-recording-script-under-two-minutes) is preparation, not submission evidence.
+
+## Contract Address
+
+| Network | Address |
+| --- | --- |
+| Preprod | `63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16` |
 
 **Confirmed contract:** [`63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16`](https://preprod.midnightexplorer.com/contracts/0x63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16)
 
@@ -29,6 +43,141 @@ Fresh local ranks use Node crypto.randomInt(1, 14), and salts use 32 cryptograph
 
 `disclose()` is deliberate: constructor context/role commitments are public; commitment and claimed rank become public during commit; verified actual rank and truth result become public during resolution. The salt and role secrets are never disclosed. The [contract's opening comment](contracts/cat-bluff.compact) and [design](docs/DESIGN.md) document this boundary.
 
+## Privacy Claim
+
+At commitment time, an on-chain observer sees an authorized transition, a public
+claim and a randomized card commitment. The circuit constrains the hidden rank
+to 1–13 without publishing that rank, its salt or the player capability. The claim
+may differ from the hidden rank; fair dealing and card ownership are not proved.
+Resolution deliberately publishes the rank later. A prover processes private
+inputs and must be trusted. The implemented Level 2 flow requires a wallet-reported
+loopback prover, keeps witnesses in memory outside the UI, and calls only `commit`.
+Actual Lace/prover traffic and hosted-origin local-prover access remain unverified. Native
+local proving is not browser-WASM proving; the prompt book's literal browser
+requirement needs clarification. See [privacy model](docs/PRIVACY_MODEL.md).
+
+## Level 2 Private Action Demo
+
+The screen has real wallet discovery/connection/disconnection, a shielded-address
+display, encrypted player-package import, an independent public rank selector,
+and the generated Compact `commit` circuit integration. It loads live public
+ledger state and verifies all three on-chain verifier keys against served
+artifacts. A missing configuration, wrong network, unavailable wallet or failed
+public verification cannot produce a success badge.
+
+The player capability, rank and salt never enter React state, rendered content,
+URLs, artwork, sound or public pending records. The human creates the encrypted
+package from the preserved Level 1 record in an interactive terminal. Its
+passphrase is cleared from the form after use; witnesses remain only in memory
+for that wallet session. No wallet seed is included. Retain the original record
+and package for later resolution. Disconnect attempts to wipe this app's copies,
+but JavaScript cannot guarantee complete memory erasure.
+
+Only the original player capability can commit. Connecting Lace does not grant
+a game role. **This deployed contract supports one round and no reset.** Reserve
+the first real commitment for the hosted recording. Subsequent visitors can read
+the public result, but cannot replay the action.
+
+Actual SDK boundaries drive the processing stages. The finalized transaction
+identifier is saved before submission. Confirmation requires `SucceedEntirely`
+and the expected commitment, public claim and Committed phase at the indexed
+block. Unknown outcomes stay pending; recheck the same transaction before any
+retry. Web Locks serialize actions across tabs. Unsupported browsers fail closed.
+No wallet requests are approved automatically.
+
+### Run locally
+
+After installing the pinned toolchain and dependencies below, use Node 22.22.0:
+
+```bash
+npm run dev           # http://127.0.0.1:5173
+npm run test:ui       # mocked wallet/adapter UI tests
+npm run lint
+npm run build         # both typechecks + public artifact copy + Vite
+npm run preview       # http://127.0.0.1:4173
+node scripts/verify-web-assets.mjs http://127.0.0.1:4173
+```
+
+On this Windows checkout, select the project-local runtime before npm commands:
+
+```powershell
+$env:PATH = (Join-Path (Get-Location) '.tools/node-v22.22.0-win-x64') + ';' + $env:PATH
+```
+
+For initial dependency installation, use `bash scripts/install-dependencies.sh`
+inside WSL. It bootstraps npm **11.11.1** locally to avoid an observed npm 10
+optional-peer resolver failure. It does not change global npm. The lockfile
+preserves the Midnight versions; Vercel also uses the pinned npm 11 resolver.
+Run compilation in Linux/WSL. Browser build commands work on Windows too.
+
+For the human operator, after starting Docker Desktop's Linux engine:
+
+```bash
+docker compose up -d
+curl --fail http://127.0.0.1:6300/health
+npm run demo:export   # private interactive terminal; password is not echoed
+```
+
+The encrypted output is `.private/cat-bluff-demo.enc.json`; it is never uploaded
+to hosting. Configure Lace for Preprod and the loopback proof server at
+`http://127.0.0.1:6300`. Lace 2.4's default `localhost:6300` prover and its
+allowlisted Blockfrost Preprod endpoints are supported; the dApp uses Midnight's
+official public indexer. Connect Lace,
+import the package, choose a public claim, and personally review the wallet request.
+Use the verified live origin for this one-time transaction and its recording.
+Each visitor needs their own proving prerequisites; hosting supplies no prover.
+Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+### Verification
+
+- **79 Node tests passed**, including the original real generated-contract tests,
+  wallet lifecycle, encrypted-package rejection, and pending recovery tests.
+- **15 UI/hook tests passed** with mocked wallet/transaction adapters. These do
+  not establish a real Lace transaction or inspect its actual proof payloads.
+- Both TypeScript targets, ESLint and the production build passed. The browser
+  loaded real WASM, fetched Preprod state and matched its verifier keys.
+- Nine circuit artifacts and three WASM files passed served-byte/hash checks.
+- The [published frontend](https://cat-bluff-midnight.vercel.app) loaded public
+  Preprod state, and its nine circuit artifacts and three WASM files passed the
+  same [hosted checks](docs/evidence/level2-hosted-assets.log).
+- Desktop and 390-pixel mobile viewports were inspected. No mobile horizontal
+  overflow was observed. Missing-wallet controls stayed disabled.
+
+[Node tests](docs/evidence/level2-tests.log) ·
+[UI tests](docs/evidence/level2-ui-tests.log) ·
+[build/typecheck](docs/evidence/level2-build.log) ·
+[lint](docs/evidence/level2-lint.log) ·
+[asset checks](docs/evidence/level2-assets.log).
+
+The later [Lace 2.4 compatibility validation](docs/evidence/level2-lace-compatibility.log)
+adds four endpoint regression tests and records the current 79 Node / 15 mocked
+UI test totals, both typechecks, lint and build. Earlier 75-test logs remain
+historical evidence. The [local proof server health](docs/evidence/level2-proof-server.json)
+is verified; real wallet-mediated proving is still pending.
+
+A [fresh isolated Windows install/build](docs/evidence/level2-clean-build.log)
+also passed with npm 11.11.1 and `ci --include=dev --ignore-scripts`; no Compact
+installation or private file was needed in the build copy. The Vercel production
+build installed 660 packages and passed both typechecks and Vite. A subsequent
+[hosted build log](docs/evidence/level2-vercel-build.log) explicitly records
+Node **22.23.2** and npm **11.11.1**, within the configured Node 22.x range. The
+[Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497)
+also passed: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, all three circuits,
+75 Node tests, 15 mocked UI tests, types, lint and production build.
+[Local browser evidence](docs/evidence/level2-browser.json) records the real
+public read and disabled action in the absence of Lace. Hosting success does
+not establish a real Lace proof or transaction.
+
+![Actual local production preview; no wallet transaction performed](docs/evidence/level2-desktop.png)
+
+![Published Cat Bluff with public Preprod state; no wallet transaction performed](docs/evidence/level2-hosted.png)
+
+The bundle includes large Midnight WASM files and an approximately 830 KB
+application JS chunk; production compression/caching matter. Build warnings
+about that chunk and an upstream PURE comment remain visible in the log.
+Lace approval, proof generation, actual private traffic inspection, hosted-origin
+local-network access, video and submission are still pending.
+
 ## Toolchain and setup
 
 Use Linux x86-64 or Ubuntu on WSL2, Python 3, curl, and Docker with a running Linux engine. On Windows, complete Ubuntu's first-launch username/password prompt yourself. Run project commands from this repository root inside Ubuntu. Windows' system `compact.exe` is unrelated to Midnight.
@@ -43,6 +192,10 @@ Use Linux x86-64 or Ubuntu on WSL2, Python 3, curl, and Docker with a running Li
 | Proof server | 8.1.0 |
 | Wallet SDK umbrella | 1.2.0 |
 | TypeScript | 5.9.3 |
+| DApp Connector API | 4.0.1 |
+| React / React DOM | 19.2.4 |
+| Vite / React plugin | 7.3.1 / 5.1.4 |
+| Project-local npm resolver | 11.11.1 |
 
 Versions were selected from the official [support matrix](https://docs.midnight.network/relnotes/support-matrix) for Preprod. The CLI version is different from the compiler version. Exact transitive JavaScript versions are captured in `package-lock.json`.
 
@@ -107,10 +260,23 @@ Before fee balancing, the CLI waits for wallet synchronization and saves `.priva
 
 This prototype does not prove fair dealing, card uniqueness, unique players, wallet ownership, shuffle randomness, or honesty of the trusted setup. A player can withhold resolution. There are no timeouts, scoring, stakes, payouts, multiple simultaneous rounds, or multiplayer networking.
 
-Level 2 will add a game interface, wallet connection, separate participant private stores, secure role provisioning, transaction progress, challenge/reveal views, and a documented timeout protocol before extending to a full game.
+Level 2 implements a focused private-action interface, Lace connector support,
+scoped in-memory private state, encrypted operator provisioning and transaction
+progress. Real Lace execution and a confirmed frontend commitment remain to be
+verified. The current address has one fixed
+round and no reset; general visitors will inspect its public result. Multiplayer
+hands, challenge/reveal gameplay, further rounds and timeouts remain later work.
 
 ## Submission and license
 
-The active Rise In period inspected on September 27, 2026 is September. The public program end date is September 30; initial and fully loaded task date labels differ by one day, and no precise cutoff timezone was shown. See the verified checklist for both observed labels. All technical checklist items are verified. Submitted for September review on September 27, 2026, with the user-selected five-star rating. The reloaded page shows Pending Review, the correct repository, and Under review. A generic Awaiting submission badge remains inconsistent with the explicit review state. Acceptance/pass and level unlock have not been verified. [Submission screenshot](docs/evidence/rise-submission.png) · [Final audit](docs/FINAL-AUDIT.md).
+Level 1 was submitted for September review on September 27, 2026, with the
+user-selected five-star rating. The September 28 browser audit now shows Approved,
+Completed and the correct repository. The older [submission screenshot](docs/evidence/rise-submission.png)
+and [final Level 1 audit](docs/FINAL-AUDIT.md) preserve the original pending-review
+state. Level 2 remains unsubmitted. September is active through September 30;
+the page does not state an exact cutoff time or timezone. The user authorized
+commits, push, frontend publication and submission once verified; wallet setup,
+passwords and wallet approvals remain personal actions. The frontend is live,
+but real-wallet evidence and recording are still required before submission.
 
 Apache-2.0. See [LICENSE](LICENSE) and [third-party notices](THIRD-PARTY-NOTICES.md).

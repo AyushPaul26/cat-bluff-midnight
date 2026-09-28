@@ -1,0 +1,115 @@
+TAP version 13
+# Subtest: tests\\checkpoint.test.ts
+not ok 1 - tests\\checkpoint.test.ts
+  ---
+  duration_ms: 7.8284
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\checkpoint.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+# Subtest: tests\\config.test.ts
+not ok 2 - tests\\config.test.ts
+  ---
+  duration_ms: 5.7304
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\config.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+# Subtest: tests\\contract.test.ts
+not ok 3 - tests\\contract.test.ts
+  ---
+  duration_ms: 4.1356
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\contract.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+# Subtest: tests\\lifecycle.test.ts
+not ok 4 - tests\\lifecycle.test.ts
+  ---
+  duration_ms: 3.2602
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\lifecycle.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+# Subtest: tests\\private-card.test.ts
+not ok 5 - tests\\private-card.test.ts
+  ---
+  duration_ms: 2.0599
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\private-card.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 0
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18.9777

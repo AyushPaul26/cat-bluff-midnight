@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-09-28T13:22:36.555Z",
+  "network": "preprod",
+  "contractAddress": "63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16",
+  "indexer": "https://indexer.preprod.midnight.network/api/v4/graphql",
+  "phase": "Empty",
+  "round": "1",
+  "claimedRank": "0",
+  "revealedRank": "0",
+  "truthful": false,
+  "allVerifierKeysMatch": true,
+  "verifierSha256": {
+    "commit": "a4a058bad78ce4bef4566ed7a9a9ab85232bb47922bb7dadd567c0ea41f68156",
+    "challenge": "60f3076fc27f77893d478b9ebd4cd6cd8d1c4b6d0fe150979efddf7d8d170413",
+    "resolve": "bd2bd60fc3c253deea3bf6bff5110fe5f16b0c8183c321bfa35f93c5c4c24a21"
+  }
+}

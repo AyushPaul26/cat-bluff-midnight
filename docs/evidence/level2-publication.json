@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-09-28T14:33:00Z",
+  "site": "https://cat-bluff-midnight.vercel.app",
+  "deployment": "https://cat-bluff-midnight-gs6lcguc1-ayush-pauls-projects-bd0a7c11.vercel.app",
+  "provider": "Vercel",
+  "plan": "hobby",
+  "build": "passed",
+  "buildNode": "22.23.2",
+  "buildNpm": "11.11.1",
+  "cli": "50.13.2",
+  "sourceHeadAtUpload": "b07fef0919e358f1012e28815c57715d382e6436",
+  "uncommittedBuildChangeAtUpload": "vercel.json adds Node/npm version reporting; frontend implementation unchanged",
+  "ci": {
+    "url": "https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497",
+    "head": "b07fef0919e358f1012e28815c57715d382e6436",
+    "testedMergeRef": "912d2a7d0cc3e4f2ea53c9f5dc7110b071504d85",
+    "conclusion": "success",
+    "nodeTests": 75,
+    "mockedUiTests": 15,
+    "compactCircuits": 3,
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed"
+  },
+  "hostedBrowser": {
+    "network": "preprod",
+    "contractAddress": "63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16",
+    "round": "1",
+    "phase": "Empty",
+    "wallet": "no compatible wallet injected into Codex in-app browser",
+    "desktop": "rendered and public configuration inspected",
+    "mobile": { "viewportWidth": 390, "contentWidth": 375, "scrollWidth": 375 },
+    "errorsObserved": [],
+    "assets": "level2-hosted-assets.log",
+    "screenshots": ["level2-hosted.png", "level2-hosted-mobile.png"]
+  },
+  "realLaceTransaction": "pending verification",
+  "realLocalProving": "pending verification",
+  "demoVideo": "not recorded",
+  "level2Submission": "not submitted"
+}

@@ -1,0 +1,4 @@
+
+> cat-bluff-midnight@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js src/web scripts/copy-web-artifacts.mjs
+

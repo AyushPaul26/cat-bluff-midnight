@@ -15,4 +15,8 @@ private-state/
 !docs/evidence/*.log
 .tools/
 .cache/
+public/zk/
+public/deployment.json
+public/artifact-manifest.json
+.vercel/
 # managed/ circuits and proving/verification artifacts MUST be committed.

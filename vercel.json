@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm install --prefix .tools/npm-bootstrap npm@11.11.1 --no-save --ignore-scripts && node .tools/npm-bootstrap/node_modules/npm/bin/npm-cli.js ci --include=dev --ignore-scripts",
+  "buildCommand": "node --version && node .tools/npm-bootstrap/node_modules/npm/bin/npm-cli.js --version && npm run build",
+  "outputDirectory": "dist"
+}

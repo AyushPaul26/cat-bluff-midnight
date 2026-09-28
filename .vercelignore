@@ -1,0 +1,14 @@
+.git/
+.private/
+.wallet/
+.tools/
+.cache/
+node_modules/
+dist/
+wallet-state/
+private-state/
+.env
+.env.*
+*.seed
+*.mnemonic
+*.enc.json
