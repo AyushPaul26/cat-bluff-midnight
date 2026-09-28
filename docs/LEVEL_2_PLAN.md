@@ -1,25 +1,34 @@
 # Level 2: audited design and implementation plan
 
-Checked 2026-09-28. Status: **local implementation verified; human E2E checkpoints pending**.
-The human approved this plan and authorized local development commits after the
-audit checkpoint. Pushes, hosting/contract deployment, Rise In submission and
-wallet approvals remain prohibited for the agent. References below to manual
-development commits describe the original checkpoint plan; local commits are now
-authorized without further permission.
+Checked 2026-09-28. Status: **frontend published; real-wallet E2E checkpoints pending**.
+The human approved this plan, authorized local development commits, and later
+explicitly authorized push, frontend publication and Rise In submission once
+verified. Wallet approvals remain human-only. References below to manual
+development commits and publication describe the original checkpoint plan;
+the current authorization permits those routine agent actions without another
+permission request. No new contract deployment is needed or claimed.
 
 ## Implementation outcome
 
 The approved flow is now implemented in `src/web/` and the local encrypted export
 tool. The contract and deployed address are unchanged. Local commits include the
-audit (`4f773f0`), private-state milestone (`15a5391`) and frontend integration
-(`c4328df`). At the integration commit: **14 total / 3 new Level 2 commits**;
-the final documentation/evidence commit is additional, not an artificial quota.
+audit (`4f773f0`), private-state milestone (`15a5391`), frontend integration
+(`c4328df`) and final local evidence (`b07fef0`). At `b07fef0`: **15 total /
+4 new Level 2 commits**, with the 11-commit Level 1 baseline preserved. The
+`codex/level2-integration` branch is pushed and [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1)
+is open; default-branch integration remains a separate verification step.
 
 Current evidence: 75 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
 ESLint and production build pass. The actual browser production preview reads
 Preprod round 1 Empty and verifies all three circuit keys. All nine generated
 circuit files and three WASM files pass served-byte checks. Desktop/mobile
 screenshots are real local preview evidence, not wallet-transaction evidence.
+The [Vercel frontend](https://cat-bluff-midnight.vercel.app) is now published.
+Its production build passed, the hosted page loaded public Preprod state, and
+[hosted verification](evidence/level2-hosted-assets.log) passed for all nine
+circuit artifacts and three WASM files. The independent
+[Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497)
+passed compilation, 75 Node tests, 15 mocked UI tests, types, lint and build.
 
 Important implementation adjustments from the original plan below:
 
@@ -33,11 +42,18 @@ Important implementation adjustments from the original plan below:
   public records prevent overwriting another in-flight transaction. A definitely
   unsent cancellation is distinct from an ambiguous wallet submission failure.
   Independent review reproduced both races before the fixes and verified them.
-- The selected browser has no compatible wallet injection. Docker's Linux API
-  is unavailable (`dockerDesktopLinuxEngine` named pipe missing). Real proving,
-  Lace requests, hosted-origin permissions and the video remain unverified.
-- No push, hosting/contract deployment, Rise In submission or wallet approval
-  was performed. The public repository's default branch still contains Level 1.
+- The inspected local and hosted browser has no compatible wallet injection.
+  The user confirmed Lace is not yet set up; wallet setup/password entry and
+  transaction approvals require the human.
+  Docker startup was retried and failed with a `sailor-ingest.sock` error:
+  “The file cannot be accessed by the system.” Current prover health, real
+  proving, Lace requests, hosted-origin local-network access and video remain
+  unverified.
+- Frontend publication used Vercel CLI 50.13.2 after the human signed in, on a
+  free Hobby project. The project is set to Node 22.x, and the subsequent
+  [production build log](evidence/level2-vercel-build.log) records Node v22.23.2
+  and npm 11.11.1. No new contract deployment,
+  Rise In submission or wallet approval was performed.
 
 The rest of this document preserves the audit and originally approved design;
 historical phrases such as “planned” and “none installed yet” describe that audit,

@@ -1,10 +1,12 @@
 # Level 2 submission evidence and checkpoints
 
-Audit date: 2026-09-28. **Not submission ready.** The human approved the design
-and authorized local development commits. Browser code, tests and hosting
-configuration are implemented and locally verified; a live URL, real Lace/prover flow,
-video and confirmed Level 2 transaction are still pending. Pushes, deployment,
-submission and wallet approvals remain human-only actions.
+Audit date: 2026-09-28. **Not submission ready.** The user approved the design,
+local development commits, and subsequently push, frontend publication and Rise In
+submission once verified. The frontend is published at
+[cat-bluff-midnight.vercel.app](https://cat-bluff-midnight.vercel.app); local checks,
+Linux CI and hosted public asset/state checks passed. A real Lace/prover flow,
+video and confirmed Level 2 transaction are still pending. Wallet approvals,
+password entry and other account-only actions remain human-only.
 
 ## Official requirements and evidence
 
@@ -14,15 +16,15 @@ the submission package and this project's engineering safeguards.
 
 | Item | Status | Concrete evidence / missing work |
 | --- | --- | --- |
-| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | Local connector 4.0.1 session and UI; real Lace connect, refusal and disconnect pending |
+| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | Local connector 4.0.1 session and UI; user confirmed Lace is not set up, so actual connection/refusal/disconnection remain pending |
 | Successful frontend Compact circuit call | IMPLEMENTED BUT UNVERIFIED | Browser `commit(claim)` integration targets existing contract; no live transaction or wallet approval yet |
-| Observable proof without showing private input | IMPLEMENTED BUT UNVERIFIED | Local UI and contract tests; hosted browser, actual proving path and confirmed public result pending |
+| Observable proof without showing private input | IMPLEMENTED BUT UNVERIFIED | Local UI and contract tests; hosted public read verified, actual proving path and confirmed circuit result pending |
 | Verifiable Preprod deployment | VERIFIED | [Original successful deployment](evidence/deployment.json); [fresh ledger/key check](evidence/level2-contract-audit.json) |
-| At least eight meaningful commits | VERIFIED | 11 Level 1 commits; 14 total at integration commit `c4328df` (3 new). Final evidence commit adds one; remote remains Level 1 |
-| Public repository with README | VERIFIED | [Public repository](https://github.com/AyushPaul26/cat-bluff-midnight), inspected on default `main`; publishing Level 2 files remains BLOCKED on human push/merge |
-| Live frontend URL | BLOCKED | Not deployed |
+| At least eight meaningful commits | VERIFIED | 11 Level 1 commits + 4 new Level 2 commits = 15 total at pushed `b07fef0`; no claim that eight additional commits are required |
+| Public repository with README | VERIFIED | [Public repository](https://github.com/AyushPaul26/cat-bluff-midnight); Level 2 branch pushed and [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) open. Default-branch integration still needs verification |
+| Live frontend URL | VERIFIED | [Published Vercel app](https://cat-bluff-midnight.vercel.app); actual page loaded Preprod public state, [hosted artifact checks passed](evidence/level2-hosted-assets.log) |
 | Demo video: connect and successful circuit call | BLOCKED | Not recorded |
-| README privacy claim | VERIFIED | Local README describes exact statement, capability authorization, local-prover trust and unresolved real E2E; human must publish it |
+| README privacy claim | VERIFIED | README on the pushed integration branch describes the exact statement, capability authorization, local-prover trust and unresolved real E2E; default-branch verification pending |
 
 The commit wording does not explicitly demand eight additional commits after
 Level 1. Record total and new counts separately. This audit does not determine
@@ -34,7 +36,7 @@ how organizers will assess the quality of future development history.
 | --- | --- | --- |
 | Read physical PDF pages 5–7 and live prompt guide | VERIFIED | Text extraction plus visual inspection; live Google Doc export agrees |
 | Connected address, rejection/missing-wallet/network errors | IMPLEMENTED BUT UNVERIFIED | Local wallet tests; actual Lace behavior pending |
-| Loading/result UI and absent private witness | IMPLEMENTED BUT UNVERIFIED | Local UI tests and privacy inspection with throwaway witnesses; live origin pending |
+| Loading/result UI and absent private witness | IMPLEMENTED BUT UNVERIFIED | Local UI tests and privacy inspection with throwaway witnesses; hosted page inspected without Lace, real processing/private traffic remains unverified |
 | Literal local **browser** proving (PDF p6) | BLOCKED | Native proof-server guidance differs; obtain clarification or prove supported browser execution |
 | Video under two minutes | BLOCKED | Human recording after hosted transaction |
 | Compiler / generated artifact baseline | VERIFIED | [Compile log](evidence/level2-baseline-compile.log); three circuits and matching key pairs |
@@ -43,11 +45,13 @@ how organizers will assess the quality of future development history.
 | Generated-contract and application tests | VERIFIED | [75 Node tests](evidence/level2-tests.log); actual generated bindings for contract behavior, mocks for wallet/transaction orchestration |
 | Mocked UI/hook tests | VERIFIED | [15 tests](evidence/level2-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
-| Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); tested npm 11.11.1 scripts-disabled install. Hosted Linux build remains unverified |
+| Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) loaded Preprod round 1 Empty; [nine circuit/three WASM checks](evidence/level2-hosted-assets.log) passed at 14:32:28 UTC. [Desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) show no Lace connection |
+| Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); Vercel independently installed 660 packages and passed typechecks/Vite. [Subsequent build log](evidence/level2-vercel-build.log) records Node v22.23.2 and npm 11.11.1 |
+| Linux validation | VERIFIED | [CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497): Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 75 Node + 15 mocked UI tests, types, lint and build |
 | Known-secret and credential-pattern audit | VERIFIED | [135 staged files and 189 history blobs checked](evidence/level2-secret-audit.log), including comparison with five local secret values without printing them |
-| Current proof-server readiness | BLOCKED | Docker Linux daemon unavailable during audit; do not infer current health from old logs |
+| Current proof-server readiness | BLOCKED | Docker restart reproduced `sailor-ingest.sock` / “The file cannot be accessed by the system”; no current health response |
 | Midnight docs MCP query | NOT APPLICABLE | Not configured/callable; official docs fallback used without changing persistent config |
-| Real-wallet E2E / hosted-origin proving | BLOCKED | Requires hosted app, Lace, measured local proof traffic and human approvals |
+| Real-wallet E2E / hosted-origin proving | BLOCKED | Hosted app exists; requires actual Lace, verified local proof traffic and human wallet approvals |
 | Fresh contract deployment | NOT APPLICABLE | Existing contract is Empty and verifier-compatible; only revisit if state changes |
 
 Status vocabulary: VERIFIED means observed evidence; IMPLEMENTED BUT UNVERIFIED
@@ -56,6 +60,8 @@ or awaiting its prerequisite; NOT APPLICABLE explains why a check is outside the
 present evidence. The former 22-test baseline remains historical. Current totals
 come from the final integrated logs linked above. Localhost screenshots show no
 wallet connected and no transaction performed; they are not Level 2 proof evidence.
+The hosted app's public read and asset delivery likewise establish no wallet
+connection, approval, proof generation or circuit transaction.
 
 ## Current Rise In state
 
@@ -95,14 +101,17 @@ git diff --cached
 git commit -m "docs: audit Level 2 baseline and define private action integration"
 ```
 
-Stop if the branch already exists or status contains unexpected changes; inspect
-before choosing it. Do not push. Recheck HEAD/status before the next milestone.
+At that historical checkpoint the instruction was to inspect unexpected changes
+and avoid pushing. The later explicit publication authorization supersedes that
+restriction; do not rerun this completed checkpoint.
 
-## Later manual checkpoints
+## Current checkpoints
 
-1. Review local milestone diffs and final typecheck, tests, lint, build and asset
-   responses. Record actual counts and commit hashes; the root task coordinates
-   file-scoped local commits. Nothing is pushed yet.
+1. **Completed:** review local milestone diffs, typechecks, 75 Node tests, 15
+   mocked UI tests, lint, production build and served assets. The integration
+   branch is pushed at `b07fef0`, with 15 total / 4 new Level 2 commits. PR #1
+   and Linux CI are available above; verify the final files on default `main`
+   after review/integration. Preserve meaningful development history.
 2. In a private interactive terminal run `npm run demo:export`; enter and confirm
    a strong passphrase without recording it. Keep the exclusive output
    `.private/cat-bluff-demo.enc.json` on the operator machine, and import it into
@@ -114,23 +123,23 @@ before choosing it. Do not push. Recheck HEAD/status before the next milestone.
    actual Preprod/indexer/node/prover settings and verify a real proof request
    reaches the local server from the hosted origin. A configured URI or health
    response by itself is insufficient.
-4. The human authenticates and publishes the reviewed static Vite build to
-   Vercel using [`vercel.json`](../vercel.json). Set Node 22.x and inspect build
-   logs for an actual Node release compatible with the project's >=22.22.0 range.
-   Provide the real URL and verify assets, WASM, wallet connection and local
-   network access from that HTTPS origin.
-   To publish the local branch for review, run `git push -u origin codex/level2-integration`
-   yourself, then review/merge it into `main` on GitHub. Import that repository into
-   Vercel, choose the Vite preset and root directory `.`, keep the checked-in build
-   settings, and publish personally. No billable service is required by this setup.
+4. **Publication completed:** the human signed in and the agent published the
+   reviewed static Vite build through Vercel CLI 50.13.2 on free Hobby hosting.
+   The live URL, hosted public read and circuit/WASM integrity are verified.
+   Project settings now select Node 22.x; the subsequent successful build log
+   records Node v22.23.2 and npm 11.11.1. Set up Lace personally, then verify
+   real connection and local-prover
+   access from this HTTPS origin separately. No hosted proof service is supplied.
 5. Record the first real commitment only after confirming the existing contract
    is still Empty. The human approves wallet requests. This consumes the sole
    available round at the original address. No extra deployment is planned.
 6. Verify successful indexed transaction and expected Committed public state;
-   preserve public evidence, update actual links, then manually commit/push the
-   final reviewed files. A pending ID is not confirmation.
-7. Human submits the repository/live URL/video/address to Rise In. Revisit the
-   UI to verify submitted/pending state; do not call that accepted or completed.
+   preserve public evidence, update actual links, and commit/push the final
+   reviewed files under the existing authorization. A pending ID is not confirmation.
+7. After all required evidence is verified, the agent may submit the
+   repository/live URL/video/address to Rise In under the user's authorization.
+   Revisit the UI to verify submitted/pending state; do not call that accepted
+   or completed. The proving-language conflict below remains unresolved.
 
 ## Focused organizer clarification (prepared, not sent)
 

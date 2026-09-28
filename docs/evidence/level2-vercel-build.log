@@ -1,0 +1,70 @@
+Vercel CLI 50.13.2
+Retrieving project…
+Deploying ayush-pauls-projects-bd0a7c11/cat-bluff-midnight
+Uploading [--------------------] (0.0B/78.9KB)
+Uploading [========------------] (32.9KB/78.9KB)
+Uploading [============--------] (48.9KB/78.9KB)
+Uploading [================----] (64.9KB/78.9KB)
+Uploading [====================] (78.9KB/78.9KB)
+Inspect: https://vercel.com/ayush-pauls-projects-bd0a7c11/cat-bluff-midnight/HbSYhWFkzKC4Soup5Ja1FHxCE8Yz [3s]
+Production: https://cat-bluff-midnight-gs6lcguc1-ayush-pauls-projects-bd0a7c11.vercel.app [3s]
+Building...
+2026-09-28T14:30:57.145Z  Running build in Washington, D.C., USA (East) – iad1
+2026-09-28T14:30:57.147Z  Build machine configuration: 2 cores, 8 GB
+2026-09-28T14:30:57.208Z  Retrieving list of deployment files...
+2026-09-28T14:30:57.663Z  Downloading 158 deployment files...
+2026-09-28T14:30:59.460Z  Restored build cache from previous deployment (4M4FKejbC51w8VyzMYKUYWjg52K2)
+2026-09-28T14:31:00.122Z  Running "vercel build"
+2026-09-28T14:31:00.150Z  Vercel CLI 59.25.4
+2026-09-28T14:31:00.955Z  Running "install" command: `npm install --prefix .tools/npm-bootstrap npm@11.11.1 --no-save --ignore-scripts && node .tools/npm-bootstrap/node_modules/npm/bin/npm-cli.js ci --include=dev --ignore-scripts`...
+2026-09-28T14:31:04.655Z  
+2026-09-28T14:31:04.657Z  up to date in 3s
+2026-09-28T14:31:04.657Z  
+2026-09-28T14:31:04.657Z  15 packages are looking for funding
+2026-09-28T14:31:04.657Z  run `npm fund` for details
+2026-09-28T14:31:12.529Z  npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-09-28T14:31:12.816Z  npm warn deprecated @substrate/connect@0.8.11: versions below 1.x are no longer maintained
+2026-09-28T14:31:13.592Z  npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+2026-09-28T14:31:15.526Z  npm warn deprecated eslint@9.39.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2026-09-28T14:31:17.825Z  
+2026-09-28T14:31:17.825Z  added 660 packages in 13s
+2026-09-28T14:31:18.101Z  v22.23.2
+2026-09-28T14:31:18.257Z  11.11.1
+2026-09-28T14:31:18.399Z  
+2026-09-28T14:31:18.399Z  > cat-bluff-midnight@0.1.0 build
+2026-09-28T14:31:18.399Z  > npm run typecheck && npm run assets && node node_modules/vite/bin/vite.js build
+2026-09-28T14:31:18.399Z  
+2026-09-28T14:31:18.546Z  
+2026-09-28T14:31:18.546Z  > cat-bluff-midnight@0.1.0 typecheck
+2026-09-28T14:31:18.546Z  > node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.web.json --noEmit
+2026-09-28T14:31:18.546Z  
+2026-09-28T14:31:27.500Z  
+2026-09-28T14:31:27.501Z  > cat-bluff-midnight@0.1.0 assets
+2026-09-28T14:31:27.501Z  > node scripts/copy-web-artifacts.mjs
+2026-09-28T14:31:27.501Z  
+2026-09-28T14:31:27.624Z  Prepared 9 genuine public circuit artifacts and deployment metadata.
+2026-09-28T14:31:27.977Z  vite v7.3.1 building client environment for production...
+2026-09-28T14:31:28.087Z  transforming...
+2026-09-28T14:31:30.433Z  node_modules/@scure/base/index.js (2:0): A comment
+2026-09-28T14:31:30.434Z  
+2026-09-28T14:31:30.434Z  "// Freeze the result of a thunk. `/* @__PURE__ */ freeze(() => expr)` keeps the whole"
+2026-09-28T14:31:30.434Z  
+2026-09-28T14:31:30.434Z  in "node_modules/@scure/base/index.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+2026-09-28T14:31:35.117Z  ✓ 1422 modules transformed.
+2026-09-28T14:31:35.742Z  rendering chunks...
+2026-09-28T14:31:36.022Z  computing gzip size...
+2026-09-28T14:31:36.316Z  dist/index.html                                                  0.57 kB │ gzip:     0.35 kB
+2026-09-28T14:31:36.317Z  dist/assets/midnight_onchain_runtime_wasm_bg-DLDy-U1U.wasm   1,321.37 kB │ gzip:   394.19 kB
+2026-09-28T14:31:36.319Z  dist/assets/midnight_onchain_runtime_wasm_bg-D2U4EkPt.wasm   1,398.94 kB │ gzip:   412.20 kB
+2026-09-28T14:31:36.320Z  dist/assets/midnight_ledger_wasm_bg-D5swusBh.wasm           10,143.78 kB │ gzip: 4,638.69 kB
+2026-09-28T14:31:36.320Z  dist/assets/index-CCImy7dB.css                                  11.48 kB │ gzip:     3.34 kB
+2026-09-28T14:31:36.320Z  dist/assets/index-DBjuackQ.js                                  222.83 kB │ gzip:    69.77 kB
+2026-09-28T14:31:36.320Z  dist/assets/App-C_gRe5Mt.js                                    830.97 kB │ gzip:   222.56 kB
+2026-09-28T14:31:36.323Z  ✓ built in 8.29s
+2026-09-28T14:31:36.323Z  
+2026-09-28T14:31:36.323Z  (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-09-28T14:31:36.324Z  - Using dynamic import() to code-split the application
+2026-09-28T14:31:36.324Z  - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-09-28T14:31:36.324Z  - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Aliased: https://cat-bluff-midnight.vercel.app [46s]
+https://cat-bluff-midnight-gs6lcguc1-ayush-pauls-projects-bd0a7c11.vercel.app
