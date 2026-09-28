@@ -23,6 +23,9 @@ jobs:
           npm run compile
           npm run typecheck
           npm test
+          npm run test:ui
+          npm run lint
+          npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: generated-cat-bluff

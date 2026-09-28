@@ -3,6 +3,7 @@ import { readFile, writeFile, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import { ledger as decodeLedger } from '../managed/cat-bluff/contract/index.js';
 import { decryptPackage, encryptPackage, validatePackageState, type PackageScope } from './web/private-package.ts';
 import type { PrivateState } from './web/private-state.ts';
@@ -80,6 +81,7 @@ export async function exportDemoPackage(): Promise<string> {
   const salt = saved.salt as string;
   const scope: PackageScope = { network: 'preprod', contractAddress, context, round: '1' };
   const state: PrivateState = { secret: decode32(playerSecret), rank: BigInt(saved.rank), salt: decode32(salt) };
+  setNetworkId('preprod');
   const provider = indexerPublicDataProvider(INDEXER, INDEXER_WS);
   let indexed;
   try { indexed = await provider.queryContractState(scope.contractAddress); }
