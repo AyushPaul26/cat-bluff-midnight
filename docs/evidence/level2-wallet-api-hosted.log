@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-09-28T15:13:10.812Z",
+  "origin": "https://cat-bluff-midnight.vercel.app",
+  "commit": "c2d18752750c71fa0549c66db9f588c30421ea7a",
+  "vercelDeployment": "dpl_9g1R55tqsobaAd8AVyb7oiCMzrTn",
+  "result": "PASS",
+  "entry": "/assets/index-l8XavahV.js",
+  "app": "App-CDSmzyaG.js",
+  "validatedWalletOperations": [
+    "getShieldedBalances",
+    "getUnshieldedBalances",
+    "getDustBalance",
+    "getShieldedAddresses",
+    "getUnshieldedAddress",
+    "getDustAddress",
+    "getTxHistory",
+    "balanceUnsealedTransaction",
+    "balanceSealedTransaction",
+    "makeTransfer",
+    "makeIntent",
+    "signData",
+    "submitTransaction",
+    "getProvingProvider",
+    "getConfiguration",
+    "getConnectionStatus"
+  ],
+  "initialStrictComparison": "Local Windows bundle filename was absent from Linux production; production has different content hashes. Exact byte equality is not claimed.",
+  "scope": "Production metadata and published runtime validation; real Lace reconnection pending"
+}

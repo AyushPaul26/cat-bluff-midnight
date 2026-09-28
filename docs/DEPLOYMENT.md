@@ -162,6 +162,31 @@ A real browser reload showed Preprod round 1 Empty, with no Lace injected in
 the inspection browser. These checks verify hosting and public reads; real
 wallet connection, local proof traffic and a circuit transaction remain pending.
 
+### Lace funding
+
+The [official token guide](https://docs.midnight.network/guides/acquire-tokens)
+requires an **unshielded Preprod address**, beginning `mn_addr_preprod1`, for
+the [free faucet](https://midnight-tmnight-preprod.nethermind.dev/).
+The operator's Receive screen currently shows only a shielded address, with
+no address-type tabs. The exact cause in that installed wallet is unverified.
+
+1. Connect Lace on Preprod at the live Cat Bluff site.
+2. Select **Show faucet address**. The connector reads `getUnshieldedAddress()`;
+   the pinned address-format SDK checks its checksum, type, network and length.
+   Session guards run before and after the read. No wallet transaction occurs.
+3. Select **Copy faucet address**, then **Open free Preprod faucet**. Paste it
+   there and complete the CAPTCHA/request personally. Do not use the shielded
+   or DUST address, buy tokens, or change to mainnet.
+4. Once tNIGHT appears in Lace, choose **Generate tDUST** and review/approve
+   the wallet request personally, using the wallet's own DUST recipient.
+   Wait for actual available tDUST before the one-time demo.
+
+The public faucet address exists only in the connected component's memory; it
+is removed on disconnect or identity change. It is not automatically sent to
+the faucet. Refresh also clears unlocked demo data; retain and reimport the
+original encrypted package when ready to record. Real faucet funding, tDUST
+generation and the hosted proof remain pending for this Lace wallet.
+
 ### Human-only operator preparation and one-time action
 
 Use a private, interactive terminal in this project root after confirming the

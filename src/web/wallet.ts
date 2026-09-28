@@ -1,4 +1,5 @@
 import type { WalletConnectedAPI, InitialAPI, Configuration } from '@midnight-ntwrk/dapp-connector-api';
+import { MidnightBech32m, UnshieldedAddress } from '@midnight-ntwrk/wallet-sdk-address-format';
 import { satisfies } from 'semver';
 
 export type WalletChoice = { id: string; name: string; apiVersion: string; api: InitialAPI; compatible: boolean };
@@ -156,6 +157,19 @@ export class WalletSession {
       ++this.generation;
       this.current = undefined;
       this.publish({ status: 'error', reason: reasonFor(error) });
+    }
+  }
+  async getFaucetAddress(): Promise<string> {
+    try {
+      const capture = this.capture();
+      await capture.guard();
+      const { unshieldedAddress } = await capture.api.getUnshieldedAddress();
+      await capture.guard();
+      UnshieldedAddress.codec.decode('preprod', MidnightBech32m.parse(unshieldedAddress));
+      return unshieldedAddress;
+    } catch {
+      // Wallet and codec errors may include response data. Keep the UI error static.
+      throw new Error('Faucet address unavailable. Reconnect Lace on Preprod and try again.');
     }
   }
   capture(): WalletCapture {

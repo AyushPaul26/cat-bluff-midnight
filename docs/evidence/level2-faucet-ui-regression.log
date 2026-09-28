@@ -1,0 +1,448 @@
+
+ RUN  v4.1.7 C:/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight
+
+ ❯ tests/ui/components.test.tsx (8 tests | 3 failed) 512ms
+     × reads and copies the returned faucet address only after an explicit request 65ms
+     × deduplicates a pending address request and discards it on disconnect 37ms
+     × sanitizes faucet address failures and permits retry 40ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/ui/components.test.tsx > UI component tests (mocked external callbacks, no real wallet) > reads and copies the returned faucet address only after an explicit request
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Show faucet address"
+
+Here are the accessible roles:
+
+  region:
+
+  Name "Bring your wallet":
+  <section
+    aria-labelledby="wallet-heading"
+    class="wallet-panel"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "Bring your wallet":
+  <h3
+    id="wallet-heading"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="connection-status"
+  />
+
+  Name "":
+  <p
+    class="address"
+  />
+
+  Name "":
+  <p
+    class="small-note"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Copy address":
+  <button
+    class="button secondary"
+  />
+
+  Name "Disconnect":
+  <button
+    class="text-button"
+  />
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  <span
+    class="small-note"
+    role="status"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wallet-heading"
+      class="wallet-panel"
+    >
+      <div
+        class="step-label"
+      >
+        <span>
+          01
+        </span>
+        <h3
+          id="wallet-heading"
+        >
+          Bring your wallet
+        </h3>
+      </div>
+      <p
+        class="connection-status"
+      >
+        <span
+          class="status-dot"
+        />
+        Lace
+         connected · Preprod
+      </p>
+      <label
+        class="field-label"
+      >
+        Shielded address
+      </label>
+      <p
+        class="address"
+      >
+        shielded-fixture
+      </p>
+      <div
+        class="button-row"
+      >
+        <button
+          class="button secondary"
+        >
+          Copy address
+        </button>
+        <button
+          class="text-button"
+        >
+          Disconnect
+        </button>
+      </div>
+      <span
+        class="small-note"
+        role="status"
+      />
+      <p
+        class="small-note"
+      >
+        Disconnect clears this app’s session. Saved Lace site permissions are managed inside your wallet.
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/ui/components.test.tsx:29:28
+     27|     expect(read).not.toHaveBeenCalled();
+     28|     expect(screen.queryByRole('button',{name:'Copy faucet address'})).…
+     29|     fireEvent.click(screen.getByRole('button',{name:'Show faucet addre…
+       |                            ^
+     30|     expect(await screen.findByText(address)).toBeVisible();
+     31|     fireEvent.click(screen.getByRole('button',{name:'Copy faucet addre…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/ui/components.test.tsx > UI component tests (mocked external callbacks, no real wallet) > deduplicates a pending address request and discards it on disconnect
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Show faucet address"
+
+Here are the accessible roles:
+
+  region:
+
+  Name "Bring your wallet":
+  <section
+    aria-labelledby="wallet-heading"
+    class="wallet-panel"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "Bring your wallet":
+  <h3
+    id="wallet-heading"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="connection-status"
+  />
+
+  Name "":
+  <p
+    class="address"
+  />
+
+  Name "":
+  <p
+    class="small-note"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Copy address":
+  <button
+    class="button secondary"
+  />
+
+  Name "Disconnect":
+  <button
+    class="text-button"
+  />
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  <span
+    class="small-note"
+    role="status"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wallet-heading"
+      class="wallet-panel"
+    >
+      <div
+        class="step-label"
+      >
+        <span>
+          01
+        </span>
+        <h3
+          id="wallet-heading"
+        >
+          Bring your wallet
+        </h3>
+      </div>
+      <p
+        class="connection-status"
+      >
+        <span
+          class="status-dot"
+        />
+        Lace
+         connected · Preprod
+      </p>
+      <label
+        class="field-label"
+      >
+        Shielded address
+      </label>
+      <p
+        class="address"
+      >
+        shielded-fixture
+      </p>
+      <div
+        class="button-row"
+      >
+        <button
+          class="button secondary"
+        >
+          Copy address
+        </button>
+        <button
+          class="text-button"
+        >
+          Disconnect
+        </button>
+      </div>
+      <span
+        class="small-note"
+        role="status"
+      />
+      <p
+        class="small-note"
+      >
+        Disconnect clears this app’s session. Saved Lace site permissions are managed inside your wallet.
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/ui/components.test.tsx:41:28
+     39|     const props={choices:[],onConnect:vi.fn(),onDisconnect:vi.fn(),onG…
+     40|     const view=render(<WalletConnect {...props} wallet={{status:'conne…
+     41|     fireEvent.click(screen.getByRole('button',{name:'Show faucet addre…
+       |                            ^
+     42|     fireEvent.click(screen.getByRole('button',{name:'Reading wallet…'}…
+     43|     expect(read).toHaveBeenCalledOnce();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/ui/components.test.tsx > UI component tests (mocked external callbacks, no real wallet) > sanitizes faucet address failures and permits retry
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Show faucet address"
+
+Here are the accessible roles:
+
+  region:
+
+  Name "Bring your wallet":
+  <section
+    aria-labelledby="wallet-heading"
+    class="wallet-panel"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "Bring your wallet":
+  <h3
+    id="wallet-heading"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="connection-status"
+  />
+
+  Name "":
+  <p
+    class="address"
+  />
+
+  Name "":
+  <p
+    class="small-note"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Copy address":
+  <button
+    class="button secondary"
+  />
+
+  Name "Disconnect":
+  <button
+    class="text-button"
+  />
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  <span
+    class="small-note"
+    role="status"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wallet-heading"
+      class="wallet-panel"
+    >
+      <div
+        class="step-label"
+      >
+        <span>
+          01
+        </span>
+        <h3
+          id="wallet-heading"
+        >
+          Bring your wallet
+        </h3>
+      </div>
+      <p
+        class="connection-status"
+      >
+        <span
+          class="status-dot"
+        />
+        Lace
+         connected · Preprod
+      </p>
+      <label
+        class="field-label"
+      >
+        Shielded address
+      </label>
+      <p
+        class="address"
+      >
+        shielded-fixture
+      </p>
+      <div
+        class="button-row"
+      >
+        <button
+          class="button secondary"
+        >
+          Copy address
+        </button>
+        <button
+          class="text-button"
+        >
+          Disconnect
+        </button>
+      </div>
+      <span
+        class="small-note"
+        role="status"
+      />
+      <p
+        class="small-note"
+      >
+        Disconnect clears this app’s session. Saved Lace site permissions are managed inside your wallet.
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/ui/components.test.tsx:53:28
+     51|     const read=vi.fn(async()=>{throw new Error('PRIVATE_ERROR_SENTINEL…
+     52|     render(<WalletConnect wallet={{status:'connected',name:'Lace',addr…
+     53|     fireEvent.click(screen.getByRole('button',{name:'Show faucet addre…
+       |                            ^
+     54|     expect(await screen.findByRole('alert')).toHaveTextContent(/Could …
+     55|     expect(document.body.innerHTML).not.toContain('PRIVATE_ERROR_SENTI…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 5 passed (8)
+   Start at  20:57:21
+   Duration  2.21s (transform 118ms, setup 0ms, import 455ms, tests 512ms, environment 1.02s)
+
+
+ RUN  v4.1.7 C:/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  20:58:10
+   Duration  2.32s (transform 126ms, setup 0ms, import 516ms, tests 531ms, environment 1.04s)
+

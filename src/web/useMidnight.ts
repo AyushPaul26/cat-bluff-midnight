@@ -80,6 +80,7 @@ export function useMidnight(){
   try{await session.connect(choice);}finally{operation.current=false;if(mounted.current)setBusy(false);}
  },[clearPrivate,session]);
  const disconnect=useCallback(()=>{session.disconnect();clearPrivate();if(mounted.current){setResult(null);setStage(null);setError(null);}},[clearPrivate,session]);
+ const getFaucetAddress=useCallback(()=>session.getFaucetAddress(),[session]);
  const importPackage=useCallback(async(text:string,password:string)=>{
   if(operation.current)return;operation.current=true;const token=generation.current;let temporary:OpenedPackage|null=null;
   if(mounted.current){setBusy(true);setError(null);}clearPrivate();
@@ -106,5 +107,5 @@ export function useMidnight(){
   }catch(e){if(mounted.current&&token===generation.current){setStage('failed');setError(message(e,'Transaction could not be completed. Check the wallet, local prover, and public pending record.'));}}
   finally{operation.current=false;if(mounted.current&&token===generation.current){setBusy(false);try{updatePending();}catch(e){setError(message(e,'Public pending storage is unavailable.'));}}}
  },[clearPrivate,session,updatePending]);
- return {config,error,wallet,choices,publicState,publicLoading,privateReady,busy,stage,result,pending,connect,disconnect,importPackage,commit,recheck,refresh};
+ return {config,error,wallet,choices,publicState,publicLoading,privateReady,busy,stage,result,pending,connect,disconnect,getFaucetAddress,importPackage,commit,recheck,refresh};
 }

@@ -1,0 +1,13 @@
+
+> cat-bluff-midnight@0.1.0 test:ui
+> node node_modules/vitest/vitest.mjs run
+
+
+ RUN  v4.1.7 C:/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight
+
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  21:01:08
+   Duration  2.68s (transform 432ms, setup 0ms, import 1.63s, tests 1.71s, environment 3.15s)
+

@@ -30,7 +30,7 @@ export default function App(){
       <p className="scope-note">One round. One private action. This prototype proves an authorized commitment to a valid hidden rank. The full multiplayer card game comes later.</p>
       {app.error && <div className="error global-error" role="alert">{app.error}<button className="text-button" disabled={app.busy} onClick={()=>{void app.refresh();}}>Refresh public state</button></div>}
       <div className="demo-grid">
-        <WalletConnect wallet={app.wallet} choices={app.choices} onConnect={choice=>{void app.connect(choice);}} onDisconnect={app.disconnect}/>
+        <WalletConnect wallet={app.wallet} choices={app.choices} onConnect={choice=>{void app.connect(choice);}} onDisconnect={app.disconnect} onGetFaucetAddress={app.getFaucetAddress} busy={app.busy}/>
         <PrivatePackageForm enabled={app.wallet.status==='connected'&&!app.busy} ready={app.privateReady} onImport={app.importPackage}/>
         <CircuitCall canCommit={canCommit} busy={app.busy} claim={claim} onClaim={setClaim} onCommit={()=>{if(sound)clickSound();void app.commit(BigInt(claim));}} reason={reason} stage={app.stage??undefined} txId={txId} confirmation={confirmed} onRecheck={app.pending?()=>{void app.recheck();}:undefined}/>
       </div>

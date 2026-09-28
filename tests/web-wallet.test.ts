@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import type { ConnectedAPI, InitialAPI } from '@midnight-ntwrk/dapp-connector-api';
+import {
+  DustAddress, MidnightBech32m, ShieldedAddress, ShieldedCoinPublicKey,
+  ShieldedEncryptionPublicKey, UnshieldedAddress,
+} from '@midnight-ntwrk/wallet-sdk-address-format';
 import { discoverWallets, WalletSession } from '../src/web/wallet.ts';
 
 function wallet(api: ConnectedAPI, overrides: Partial<InitialAPI> = {}): InitialAPI {
@@ -187,4 +191,129 @@ test('changed prover and indexer configuration invalidates an existing capture',
   api.getConfiguration = async () => ({ indexerUri: 'https://other-indexer.example', indexerWsUri: 'wss://indexer.example', substrateNodeUri: 'wss://node.example', proverServerUri: 'https://other-prover.example', networkId: 'preprod' });
   await assert.rejects(capture.guard());
   assert.equal(capture.isCurrent(), false);
+});
+
+// These are throwaway public test addresses, not funded wallets or signing keys.
+function faucetAddress(network = 'preprod'): string {
+  return UnshieldedAddress.codec.encode(network, new UnshieldedAddress(Buffer.alloc(32, 1))).asString();
+}
+
+async function faucetSession(api: ConnectedAPI): Promise<WalletSession> {
+  const session = new WalletSession();
+  await session.connect({ id: 'faucet', name: 'Faucet', apiVersion: '4.0.1', compatible: true, api: wallet(api) });
+  assert.equal(session.snapshot.status, 'connected');
+  return session;
+}
+
+test('faucet address reads a validated Preprod unshielded address without wallet mutations or caching', async () => {
+  const api = connected();
+  const expected = faucetAddress();
+  let reads = 0;
+  let mutations = 0;
+  api.getUnshieldedAddress = async () => { reads++; return { unshieldedAddress: expected }; };
+  const unexpectedMutation = async () => { mutations++; throw new Error('Unexpected wallet mutation'); };
+  api.balanceUnsealedTransaction = unexpectedMutation;
+  api.balanceSealedTransaction = unexpectedMutation;
+  api.submitTransaction = unexpectedMutation;
+  api.makeIntent = unexpectedMutation;
+  api.makeTransfer = unexpectedMutation;
+  api.signData = unexpectedMutation;
+  const session = await faucetSession(api);
+  assert.equal(typeof session.getFaucetAddress, 'function');
+  assert.equal(await session.getFaucetAddress(), expected);
+  assert.equal(await session.getFaucetAddress(), expected);
+  assert.equal(reads, 2);
+  assert.equal(mutations, 0);
+  assert.deepEqual(session.snapshot, { status: 'connected', name: 'Faucet', address: 'shielded-A' });
+});
+
+test('faucet address rejects other address types, networks, bad checksums and invalid payload lengths', async () => {
+  const invalid = [
+    ShieldedAddress.codec.encode('preprod', new ShieldedAddress(
+      new ShieldedCoinPublicKey(Buffer.alloc(32, 2)),
+      new ShieldedEncryptionPublicKey(Buffer.alloc(32, 3)),
+    )).asString(),
+    DustAddress.codec.encode('preprod', new DustAddress(1n)).asString(),
+    faucetAddress('preview'), faucetAddress('mainnet'),
+    'mn_addr_preprod1malformed', '',
+    new MidnightBech32m('addr', 'preprod', Buffer.alloc(31)).asString(),
+  ];
+  for (const address of invalid) {
+    const api = connected();
+    api.getUnshieldedAddress = async () => ({ unshieldedAddress: address });
+    const session = await faucetSession(api);
+    assert.equal(typeof session.getFaucetAddress, 'function');
+    await assert.rejects(session.getFaucetAddress());
+  }
+});
+
+test('faucet address refuses a disconnected session before reading the wallet', async () => {
+  const api = connected();
+  let reads = 0;
+  api.getUnshieldedAddress = async () => { reads++; return { unshieldedAddress: faucetAddress() }; };
+  const session = await faucetSession(api);
+  session.disconnect();
+  assert.equal(typeof session.getFaucetAddress, 'function');
+  await assert.rejects(session.getFaucetAddress());
+  assert.equal(reads, 0);
+});
+
+test('faucet address checks account identity before requesting an address', async () => {
+  const api = connected();
+  let reads = 0;
+  api.getUnshieldedAddress = async () => { reads++; return { unshieldedAddress: faucetAddress() }; };
+  const session = await faucetSession(api);
+  api.getShieldedAddresses = async () => ({ shieldedAddress: 'shielded-B', shieldedCoinPublicKey: 'coin-B', shieldedEncryptionPublicKey: 'encryption-B' });
+  assert.equal(typeof session.getFaucetAddress, 'function');
+  await assert.rejects(session.getFaucetAddress());
+  assert.equal(reads, 0);
+  assert.equal(session.snapshot.status, 'error');
+});
+
+for (const change of ['disconnect', 'reconnect', 'account'] as const) {
+  test(`faucet address discards an in-flight result after ${change}`, async () => {
+    const api = connected();
+    let started!: () => void;
+    let complete!: (value: { unshieldedAddress: string }) => void;
+    const entered = new Promise<void>(resolve => { started = resolve; });
+    const delayed = new Promise<{ unshieldedAddress: string }>(resolve => { complete = resolve; });
+    api.getUnshieldedAddress = async () => { started(); return delayed; };
+    const session = await faucetSession(api);
+    assert.equal(typeof session.getFaucetAddress, 'function');
+    const pending = session.getFaucetAddress();
+    const rejected = assert.rejects(pending);
+    await entered;
+    if (change === 'account') {
+      api.getShieldedAddresses = async () => ({ shieldedAddress: 'shielded-B', shieldedCoinPublicKey: 'coin-B', shieldedEncryptionPublicKey: 'encryption-B' });
+    } else {
+      session.disconnect();
+      if (change === 'reconnect') {
+        await session.connect({ id: 'new', name: 'New', apiVersion: '4.0.1', compatible: true, api: wallet(connected()) });
+      }
+    }
+    complete({ unshieldedAddress: faucetAddress() });
+    await rejected;
+    assert.equal(session.snapshot.status, change === 'account' ? 'error' : change === 'reconnect' ? 'connected' : 'disconnected');
+    if (change === 'reconnect') assert.deepEqual(session.snapshot, { status: 'connected', name: 'New', address: 'shielded-A' });
+  });
+}
+
+test('faucet address sanitizes wallet rejection and malformed response errors', async () => {
+  const api = connected();
+  const session = await faucetSession(api);
+  api.getUnshieldedAddress = async () => { throw new Error('SDK_PRIVATE_SENTINEL'); };
+  assert.equal(typeof session.getFaucetAddress, 'function');
+  await assert.rejects(session.getFaucetAddress(), (error: unknown) => {
+    assert.ok(error instanceof Error);
+    assert.doesNotMatch(error.message, /SDK_PRIVATE_SENTINEL/);
+    assert.equal(error.cause, undefined);
+    return true;
+  });
+  api.getUnshieldedAddress = async () => ({ unshieldedAddress: 'SDK_PRIVATE_SENTINEL' });
+  await assert.rejects(session.getFaucetAddress(), (error: unknown) => {
+    assert.ok(error instanceof Error);
+    assert.doesNotMatch(error.message, /SDK_PRIVATE_SENTINEL/);
+    assert.equal(error.cause, undefined);
+    return true;
+  });
 });

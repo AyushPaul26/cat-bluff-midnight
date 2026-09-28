@@ -1,7 +1,8 @@
 import type { WalletChoice, WalletSnapshot } from '../wallet.ts';
 import { useState } from 'react';
-export type WalletConnectProps = {wallet:WalletSnapshot; choices:WalletChoice[]; onConnect:(choice:WalletChoice)=>void; onDisconnect:()=>void};
-export function WalletConnect({wallet,choices,onConnect,onDisconnect}:WalletConnectProps) {
+import { FaucetAddress } from './FaucetAddress.tsx';
+export type WalletConnectProps = {wallet:WalletSnapshot; choices:WalletChoice[]; onConnect:(choice:WalletChoice)=>void; onDisconnect:()=>void; onGetFaucetAddress:()=>Promise<string>; busy?:boolean};
+export function WalletConnect({wallet,choices,onConnect,onDisconnect,onGetFaucetAddress,busy=false}:WalletConnectProps) {
   const [selected,setSelected] = useState('');
   const [copyStatus,setCopyStatus] = useState('');
   const compatible = choices.filter(choice=>choice.compatible);
@@ -13,6 +14,7 @@ export function WalletConnect({wallet,choices,onConnect,onDisconnect}:WalletConn
       <label className="field-label">Shielded address</label><p className="address">{wallet.address}</p>
       <div className="button-row"><button className="button secondary" onClick={()=>{void navigator.clipboard.writeText(wallet.address).then(()=>setCopyStatus('Copied')).catch(()=>setCopyStatus('Select the address to copy it.'));}}>Copy address</button><button className="text-button" onClick={onDisconnect}>Disconnect</button></div>
       <span className="small-note" role="status">{copyStatus}</span>
+      <FaucetAddress key={`${wallet.name}:${wallet.address}`} onRead={onGetFaucetAddress} disabled={busy}/>
     </> : <>
       <p className="muted">Connect Lace to approve a private action on the free Preprod network.</p>
       {compatible.length===0 ? <p className="setup-note">No compatible wallet detected. Install or unlock Lace in a supported browser, select Preprod, then return here. We check for it automatically.</p> : <>

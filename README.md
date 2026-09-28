@@ -2,7 +2,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. **Real Lace connect/disconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. [Real Lace connection](docs/evidence/level2-lace-connection.md) is verified by the operator's screenshot. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
 
 ## Live Demo
 
@@ -93,6 +93,17 @@ retry. Web Locks serialize actions across tabs. Unsupported browsers fail closed
 No wallet requests are approved automatically.
 
 ### Run locally
+
+For free wallet funding, connect Lace on Preprod, then choose **Show faucet
+address** in the wallet panel. It reads and validates the connected wallet's
+unshielded `mn_addr_preprod1…` address on demand. Use **Copy faucet address**
+and **Open free Preprod faucet**; complete the faucet's CAPTCHA personally.
+The shielded address shown above it is a different address type. This fallback
+also works when Lace's Receive screen shows only the shielded address. After
+tNIGHT arrives, use **Generate tDUST** in Lace and review/approve it yourself.
+The address control does not sign or submit anything and forgets its displayed
+value when the dApp session ends. Funding and generation remain unverified for
+the operator's Lace wallet. [Funding procedure](docs/DEPLOYMENT.md#lace-funding).
 
 After installing the pinned toolchain and dependencies below, use Node 22.22.0:
 

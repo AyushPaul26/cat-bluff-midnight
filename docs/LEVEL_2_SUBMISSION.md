@@ -16,7 +16,7 @@ the submission package and this project's engineering safeguards.
 
 | Item | Status | Concrete evidence / missing work |
 | --- | --- | --- |
-| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | Local connector 4.0.1 session and UI; user reports Lace installed, password created and three accounts activated. Preprod selection, funding and actual connection/refusal/disconnection remain unverified |
+| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | [Real connection screenshot](evidence/level2-lace-connection.md) verifies Lace connected on Preprod after human authorization. Actual disconnect and reconnect still require verification; funding is a separate pending step |
 | Successful frontend Compact circuit call | IMPLEMENTED BUT UNVERIFIED | Browser `commit(claim)` integration targets existing contract; no live transaction or wallet approval yet |
 | Observable proof without showing private input | IMPLEMENTED BUT UNVERIFIED | Local UI and contract tests; hosted public read verified, actual proving path and confirmed circuit result pending |
 | Verifiable Preprod deployment | VERIFIED | [Original successful deployment](evidence/deployment.json); [fresh ledger/key check](evidence/level2-contract-audit.json) |
@@ -42,12 +42,12 @@ how organizers will assess the quality of future development history.
 | Compiler / generated artifact baseline | VERIFIED | [Compile log](evidence/level2-baseline-compile.log); three circuits and matching key pairs |
 | Baseline typecheck / contract tests | VERIFIED | [Typecheck](evidence/level2-baseline-typecheck.log), [22 passing tests](evidence/level2-baseline-tests.log) |
 | Frontend build/lint | VERIFIED | [Build and both typechecks](evidence/level2-build.log), [ESLint](evidence/level2-lint.log) |
-| Generated-contract and application tests | VERIFIED | [81 Node tests](evidence/level2-wallet-api-tests.log), including the [post-authorization regression](evidence/level2-wallet-api-fix.md); earlier endpoint and contract logs remain historical. Real generated bindings test contract behavior; wallet orchestration uses mocks |
-| Mocked UI/hook tests | VERIFIED | [15 tests](evidence/level2-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
+| Generated-contract and application tests | VERIFIED | [89 Node tests](evidence/level2-faucet-core-tests.log), including the [validated faucet fallback](evidence/level2-faucet-helper.md) and earlier post-authorization regression. Real generated bindings test contract behavior; wallet orchestration uses mocks |
+| Mocked UI/hook tests | VERIFIED | [18 tests](evidence/level2-faucet-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
 | Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) reloaded Preprod round 1 Empty after the merged deployment became Ready; [nine circuit/three WASM checks](evidence/level2-main-assets.log) passed at 14:47:28 UTC. Earlier [desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) captures show no Lace connection |
 | Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); Vercel independently installed 660 packages and passed typechecks/Vite. [Subsequent build log](evidence/level2-vercel-build.log) records Node v22.23.2 and npm 11.11.1 |
-| Linux validation | VERIFIED | [Latest CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406) at reviewed head `6ffb12d`: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 79 Node + 15 mocked UI tests, both typechecks, lint and build |
+| Linux validation | VERIFIED | [Connection-fix CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36441522847) at `c2d1875`: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 81 Node + 15 mocked UI tests, both typechecks, lint and build. New faucet helper has separate local results above |
 | Known-secret and credential-pattern audit | VERIFIED | [135 staged files and 189 history blobs checked](evidence/level2-secret-audit.log), including comparison with five local secret values without printing them |
 | Current proof-server readiness | VERIFIED | [2026-09-28 14:36:42 UTC health record](evidence/level2-proof-server.json): proof-server 8.1.0 returned `ok`, bound only to `127.0.0.1:6300`, after user-approved Docker runtime repair. Native readiness only; hosted-origin proving pending |
 | Midnight docs MCP query | NOT APPLICABLE | Not configured/callable; official docs fallback used without changing persistent config |
