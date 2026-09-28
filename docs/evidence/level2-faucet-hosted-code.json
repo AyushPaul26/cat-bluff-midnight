@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-28T15:34:38.948Z",
+  "origin": "https://cat-bluff-midnight.vercel.app",
+  "entry": "/assets/index-DI3zOuMN.js",
+  "appChunk": "App-DO4VFEux.js",
+  "checks": {
+    "Show faucet address": true,
+    "Copy faucet address": true,
+    "Open free Preprod faucet": true,
+    "getUnshieldedAddress": true,
+    "midnight-tmnight-preprod.nethermind.dev": true
+  },
+  "scope": "Actual hosted code delivery; real Lace address read remains pending"
+}

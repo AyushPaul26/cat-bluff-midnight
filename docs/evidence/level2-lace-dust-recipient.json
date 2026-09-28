@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-09-28T16:01:52.358Z",
+  "network": "preprod",
+  "ledgerVersion": "8.1.0",
+  "transactionHash": "a659700b71846bfe228550ed2901fe6eb8b3ee37f48b83d1b7707c5727f11d57",
+  "identifiers": [
+    "00dc2f2730a153d263e6e0cd87caf014802f67bcb1e067497e3e6e410b594f81c7"
+  ],
+  "status": "SUCCESS",
+  "block": {
+    "height": 2748825,
+    "timestamp": 1790610624000
+  },
+  "registrations": [
+    {
+      "segment": 1,
+      "nightKey": "ac28b12a2130016ae8c1d552fdb2e14ff466df6d3e78001b722758c37c92104b",
+      "dustAddress": "mn_dust_preprod1w0gmfl2px74j27lsh8p9lxuy7jfdke0r4x5rd406qac6gysgn3tsxeztrrp",
+      "allowFeePayment": "30629235000000000"
+    }
+  ],
+  "events": [
+    {
+      "id": 1571715,
+      "source": {
+        "transactionHash": "a659700b71846bfe228550ed2901fe6eb8b3ee37f48b83d1b7707c5727f11d57",
+        "logicalSegment": 0,
+        "physicalSegment": 1
+      },
+      "tag": "dustInitialUtxo",
+      "output": {
+        "initialValue": "30629234999999999",
+        "owner": "1511731130458459837922993724936743761859270961481090874512045676245601334481",
+        "nonce": "36223830671640612181148835439680783132154101203157587045667847867886421989630",
+        "seq": 0,
+        "ctime": "2026-09-28T15:50:15.000Z",
+        "backingNight": "93a56aaafdc2033648dfd14b999a01e6b318a147618257b6ae393234436a837a",
+        "mtIndex": "1168832"
+      },
+      "generation": {
+        "value": "5000000000",
+        "owner": "1511731130458459837922993724936743761859270961481090874512045676245601334481",
+        "nonce": "93a56aaafdc2033648dfd14b999a01e6b318a147618257b6ae393234436a837a"
+      },
+      "generationIndex": "401552",
+      "blockTime": "2026-09-28T15:50:24.000Z",
+      "dustAddress": "mn_dust_preprod1w0gmfl2px74j27lsh8p9lxuy7jfdke0r4x5rd406qac6gysgn3tsxeztrrp"
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+RED: current Blockfrost endpoint regression before implementation
+TAP version 13
+# Subtest: tests\\web-wallet-endpoints.test.ts
+not ok 1 - tests\\web-wallet-endpoints.test.ts
+  ---
+  duration_ms: 8.4317
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet-endpoints.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  error: 'spawn EPERM'
+  code: 'EPERM'
+  stack: |-
+    ChildProcess.spawn (node:internal/child_process:420:11)
+    spawn (node:child_process:787:9)
+    TestContext.<anonymous> (node:internal/test_runner/runner:376:19)
+    FileTest.runInAsyncScope (node:async_hooks:214:14)
+    FileTest.run (node:internal/test_runner/test:1047:25)
+    FileTest.start (node:internal/test_runner/test:944:17)
+    runTestFile (node:internal/test_runner/runner:455:32)
+    node:internal/test_runner/runner:726:25
+    node:internal/per_context/primordials:559:37
+    new Promise (<anonymous>)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30.1586
+EXIT_CODE=1
+RED retry outside process sandbox: unchanged endpoint regression
+TAP version 13
+# Subtest: Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+ok 1 - Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+  ---
+  duration_ms: 4.212
+  type: 'test'
+  ...
+# Subtest: official Preprod endpoints still pass the commit configuration gate
+ok 2 - official Preprod endpoints still pass the commit configuration gate
+  ---
+  duration_ms: 0.2836
+  type: 'test'
+  ...
+# Subtest: current Blockfrost Preprod tuple accepts one matching project credential without wallet side effects
+not ok 3 - current Blockfrost Preprod tuple accepts one matching project credential without wallet side effects
+  ---
+  duration_ms: 1.4448
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet-endpoints.test.ts:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Web Locks/. Input:
+    
+    'Error: Wallet endpoints must use a supported Preprod service configuration.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Wallet endpoints must use a supported Preprod service configuration.'
+  stack: |-
+    validateWallet (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/src/web/contract.ts:65:108)
+    runCommit (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/src/web/contract.ts:94:2)
+    check (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:36:10)
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:53:24)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:53:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: current Blockfrost tuple rejects mismatched credentials and unsupported URL components
+ok 4 - current Blockfrost tuple rejects mismatched credentials and unsupported URL components
+  ---
+  duration_ms: 3.7007
+  type: 'test'
+  ...
+# Subtest: current Blockfrost endpoints still require the configured local prover
+not ok 5 - current Blockfrost endpoints still require the configured local prover
+  ---
+  duration_ms: 0.6062
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet-endpoints.test.ts:98:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /local proof server/. Input:
+    
+    'Error: Wallet endpoints must use a supported Preprod service configuration.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Wallet endpoints must use a supported Preprod service configuration.'
+  stack: |-
+    validateWallet (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/src/web/contract.ts:65:108)
+    runCommit (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/src/web/contract.ts:94:2)
+    check (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:36:10)
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:100:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet-endpoints.test.ts:100:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+ok 6 - Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+  ---
+  duration_ms: 0.4425
+  type: 'test'
+  ...
+# Subtest: Lace Preprod still requires the configured user-local prover
+ok 7 - Lace Preprod still requires the configured user-local prover
+  ---
+  duration_ms: 0.3989
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 5
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2605.0369
+EXIT_CODE=1
+GREEN: strict current Blockfrost endpoint support
+TAP version 13
+# Subtest: Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+ok 1 - Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+  ---
+  duration_ms: 3.4168
+  type: 'test'
+  ...
+# Subtest: official Preprod endpoints still pass the commit configuration gate
+ok 2 - official Preprod endpoints still pass the commit configuration gate
+  ---
+  duration_ms: 0.3206
+  type: 'test'
+  ...
+# Subtest: current Blockfrost Preprod tuple accepts one matching project credential without wallet side effects
+ok 3 - current Blockfrost Preprod tuple accepts one matching project credential without wallet side effects
+  ---
+  duration_ms: 0.5706
+  type: 'test'
+  ...
+# Subtest: current Blockfrost tuple rejects mismatched credentials and unsupported URL components
+ok 4 - current Blockfrost tuple rejects mismatched credentials and unsupported URL components
+  ---
+  duration_ms: 3.2254
+  type: 'test'
+  ...
+# Subtest: current Blockfrost endpoints still require the configured local prover
+ok 5 - current Blockfrost endpoints still require the configured local prover
+  ---
+  duration_ms: 0.5754
+  type: 'test'
+  ...
+# Subtest: Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+ok 6 - Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+  ---
+  duration_ms: 0.4661
+  type: 'test'
+  ...
+# Subtest: Lace Preprod still requires the configured user-local prover
+ok 7 - Lace Preprod still requires the configured user-local prover
+  ---
+  duration_ms: 0.3511
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2353.088
+EXIT_CODE=0

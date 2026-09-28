@@ -54,10 +54,24 @@ const preprodWalletServices = [
  ['https://indexer.preprod.midnight.network/api/v4/graphql','wss://indexer.preprod.midnight.network/api/v4/graphql/ws','https://rpc.preprod.midnight.network/'],
  ['https://blockfrost.lw.iog.io/midnight-preprod/','wss://blockfrost.lw.iog.io/midnight-preprod/ws','https://blockfrost.lw.iog.io/midnight-preprod-rpc/'],
 ] as const;
+// Current Blockfrost service URLs: https://docs.blockfrost.io/midnight/.
+// Lace 2.4.1 preserves project_id when deriving the indexer WebSocket URL.
+// The wallet supplies the credential at runtime; never log or persist it here.
+const blockfrostPreprodServices = [
+ 'https://midnight-preprod.blockfrost.io/api/v0',
+ 'wss://midnight-preprod.blockfrost.io/api/v0/ws',
+ 'https://rpc.midnight-preprod.blockfrost.io/',
+] as const;
 function approvedWalletServices(wallet:WalletCapture['configuration']):boolean {
  try {
-  const endpoints=[wallet.indexerUri,wallet.indexerWsUri,wallet.substrateNodeUri].map(uri=>new URL(uri).href);
-  return preprodWalletServices.some(tuple=>tuple.every((uri,index)=>uri===endpoints[index]));
+  const endpoints=[wallet.indexerUri,wallet.indexerWsUri,wallet.substrateNodeUri].map(uri=>new URL(uri));
+  if(preprodWalletServices.some(tuple=>tuple.every((uri,index)=>uri===endpoints[index]?.href)))return true;
+  const projectId=endpoints[0]?.searchParams.get('project_id');
+  return !!projectId && endpoints.every((url,index)=>
+   !url.username && !url.password && !url.hash
+   && url.origin+url.pathname===blockfrostPreprodServices[index]
+   && Array.from(url.searchParams).length===1
+   && url.searchParams.get('project_id')===projectId);
  }catch{return false;}
 }
 function validateWallet(config:BrowserConfig,session:WalletCapture){

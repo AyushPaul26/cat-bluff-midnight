@@ -60,9 +60,9 @@ Do not stop unrelated containers, publish the port, change Docker settings, or
 disable browser security. If Docker requests a restart/admin permission, the
 human completes it. The implemented browser path asks Lace for its proving provider;
 the installed wallet's configuration must establish that it uses the intended
-user-local prover. Wallet configuration instructions must be based on its actual
-UI/version, which has not yet been inspected. A health response alone does not
-verify a browser-origin proof request.
+user-local prover. The inspected Lace 2.4.1 settings select Local with
+`http://localhost:6300`. Configuration and a health response alone do not verify
+a browser-origin proof request.
 
 ### Level 2 frontend build and hosting
 
@@ -101,9 +101,15 @@ Compact or any private files. The public browser build needs the packaged Vite,
 Rollup and WASM assets; it does not execute the Node wallet's native dependencies.
 See [complete clean-install/build log](evidence/level2-clean-build.log), including
 failed attempts. The subsequent Vercel build passed independently. The
-[latest Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406)
-also passed real compilation of three circuits, 79 Node tests, 15 mocked UI tests,
-both typechecks, lint and build on Node 22.22.0 at `6ffb12d`.
+[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36444479417)
+also passed real compilation of three circuits, 89 Node tests, 18 mocked UI tests,
+both typechecks, lint and build on Node 22.22.0 at `154d1da`. This precedes the
+current Blockfrost endpoint correction. That correction now passes
+[92 Node tests](evidence/level2-blockfrost-full-tests.log),
+[7 focused endpoint regressions](evidence/level2-blockfrost-endpoint-tests.log),
+and [18 mocked UI tests, lint, both typechecks and build](evidence/level2-blockfrost-ui-build.log).
+Independent review found no blockers. Its commit, CI and publication remain
+pending; local validation does not establish real-wallet execution.
 
 `.vercelignore` explicitly excludes private records, encrypted packages, local
 tool/cache directories and environment files from CLI uploads. Public circuit
@@ -142,8 +148,9 @@ the public manifest/receipt, nine genuine circuit artifacts, three WASM files
 and artwork against the expected hashes/bytes. The actual hosted browser screen
 loaded Preprod round 1 Empty; no compatible Lace wallet was injected there.
 [Hosted screenshot](evidence/level2-hosted.png) records this public-read state.
-Wallet connection and the actual proof request path from that HTTPS origin
-remain unverified. A hosted frontend supplies public code and circuit assets; each
+That early inspection did not test wallet connection. A later operator screenshot
+verifies connection, while the actual proof path from that HTTPS origin remains
+unverified. A hosted frontend supplies public code and circuit assets; each
 operator still needs the intended user-local prover. A wallet-reported localhost
 URI alone does not prove traffic reached that server.
 
@@ -159,8 +166,15 @@ See the [publication record](evidence/level2-main-publication.json).
 The [2026-09-28 14:47:28 UTC asset check](evidence/level2-main-assets.log)
 passed for nine circuit artifacts and three WASM files at the live alias.
 A real browser reload showed Preprod round 1 Empty, with no Lace injected in
-the inspection browser. These checks verify hosting and public reads; real
-wallet connection, local proof traffic and a circuit transaction remain pending.
+the inspection browser. These checks verified hosting and public reads. The
+operator later provided [real Preprod connection evidence](evidence/level2-lace-connection.md);
+local proof traffic, disconnect/reconnect and a circuit transaction remain pending.
+
+The subsequent faucet-helper deployment from `154d1da` is **Ready** and aliased
+to the same live URL. Its [publication record](evidence/level2-faucet-publication.json),
+[hosted helper-code check](evidence/level2-faucet-hosted-code.json) and
+[nine-circuit/three-WASM verification](evidence/level2-faucet-hosted-assets.log)
+record the actual published version. No endpoint-correction deployment is claimed.
 
 ### Lace funding
 
@@ -184,8 +198,21 @@ no address-type tabs. The exact cause in that installed wallet is unverified.
 The public faucet address exists only in the connected component's memory; it
 is removed on disconnect or identity change. It is not automatically sent to
 the faucet. Refresh also clears unlocked demo data; retain and reimport the
-original encrypted package when ready to record. Real faucet funding, tDUST
-generation and the hosted proof remain pending for this Lace wallet.
+original encrypted package when ready to record.
+
+The operator's faucet receipt of **5,000 tNIGHT** is confirmed at block 2748700.
+The personally approved DUST registration succeeded at block 2748825 on
+2026-09-28 at 15:50:24 UTC; the replacement output is registered for generation.
+Public ledger decoding confirms the intended DUST destination and an initial
+DUST output. [Funding and registration evidence](evidence/level2-lace-funding.md)
+links both public JSON records.
+
+Lace 2.4.1 nevertheless remained at **Syncing 99%** for over 30 minutes, with
+0/0 tDUST displayed. Process sampling showed continued CPU activity (13.5 CPU
+seconds across a 38-second interval) and falling memory use; this does not prove
+synchronization will finish or funds are spendable. Do not submit another
+registration solely because the display is empty. Completion of synchronization,
+spendable wallet DUST and the hosted circuit call remain unverified.
 
 ### Human-only operator preparation and one-time action
 
@@ -208,16 +235,19 @@ docker compose ps
 The compose file pins `midnightntwrk/proof-server:8.1.0` and binds only
 `127.0.0.1:6300`. Start Docker Desktop's Linux engine first if it is stopped.
 Use Lace on Preprod with its local prover at `http://localhost:6300` (equivalent
-to this project's `127.0.0.1:6300`). Lace 2.4's default Blockfrost Preprod indexer
-and node form a separately allowlisted endpoint tuple; they need not match the
-dApp's official Midnight public indexer. The wallet displays these endpoints
-read-only, so do not attempt to edit them. The defaults and API 4.0.1 are verified
-against [Lace 2.4 configuration](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/contract/midnight-context/src/const.ts)
-and [connector source](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/module/dapp-connector-midnight/src/midnight-wallet-api.ts).
-The user reports Lace installed, a password created and all three wallet accounts
-activated. Preprod selection, funding and dApp connection remain unverified;
-password entry and wallet approval must be completed personally. The real
-wallet UI/version has not yet been inspected, so no menu path is asserted.
+to this project's `127.0.0.1:6300`). Actual Lace 2.4.1 settings now confirm this
+local prover and the current Blockfrost Preprod HTTP/WebSocket/RPC hosts.
+The wallet's services need not match the dApp's official Midnight public indexer.
+The older Lace source used for the initial allowlist names retired endpoints.
+The local correction accepts the observed tuple while retaining strict network,
+host and local-prover checks. Regression tests and independent review pass;
+its commit and publication remain pending. See
+[the current endpoint audit](evidence/level2-blockfrost-compatibility.md).
+Do not copy wallet endpoint query credentials into documentation or change the
+wallet's read-only configuration to match stale sample code.
+Lace installation/account activation, Preprod dApp connection, faucet receipt
+and DUST registration have evidence. Synchronization and spendable DUST remain
+unverified; password entry and Cat Bluff wallet approval remain personal actions.
 Confirm the wallet reports the intended
 loopback prover URI **and** observe a genuine wallet-mediated proof request at
 that local server; test browser local-network access/CORS from the hosted origin.

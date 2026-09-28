@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-09-28T15:59:53.988Z",
+  "network": "preprod",
+  "address": "mn_addr_preprod1t2lgj4av7l8nka3wfqzv4kqwxjj37d93ngth2p7fvsjtjwj4txys82jdm0",
+  "matchingTransaction": {
+    "type": "UnshieldedTransaction",
+    "createdUtxos": [
+      {
+        "owner": "mn_addr_preprod1t2lgj4av7l8nka3wfqzv4kqwxjj37d93ngth2p7fvsjtjwj4txys82jdm0",
+        "value": "5000000000",
+        "tokenType": "0000000000000000000000000000000000000000000000000000000000000000",
+        "registeredForDustGeneration": true,
+        "outputIndex": 0,
+        "intentHash": "96d159394f9b222aff9d165f05fb3d8e7237e31a2ca54ef671b85393b1ed0379"
+      }
+    ],
+    "spentUtxos": [
+      {
+        "owner": "mn_addr_preprod1t2lgj4av7l8nka3wfqzv4kqwxjj37d93ngth2p7fvsjtjwj4txys82jdm0",
+        "value": "5000000000",
+        "registeredForDustGeneration": false,
+        "outputIndex": 0,
+        "intentHash": "68e95ec9a6bf3b67bb4f79feda03d82d05428b2c175bf44f102485c5ec27294f"
+      }
+    ],
+    "transaction": {
+      "id": 631061,
+      "hash": "a659700b71846bfe228550ed2901fe6eb8b3ee37f48b83d1b7707c5727f11d57",
+      "identifiers": [
+        "00dc2f2730a153d263e6e0cd87caf014802f67bcb1e067497e3e6e410b594f81c7"
+      ],
+      "transactionResult": {
+        "status": "SUCCESS"
+      },
+      "dustLedgerEvents": [
+        {
+          "id": 1571715
+        }
+      ],
+      "block": {
+        "height": 2748825,
+        "timestamp": 1790610624000
+      }
+    }
+  },
+  "earlierTransactions": [
+    {
+      "type": "UnshieldedTransaction",
+      "createdUtxos": [
+        {
+          "owner": "mn_addr_preprod1t2lgj4av7l8nka3wfqzv4kqwxjj37d93ngth2p7fvsjtjwj4txys82jdm0",
+          "value": "5000000000",
+          "tokenType": "0000000000000000000000000000000000000000000000000000000000000000",
+          "registeredForDustGeneration": false,
+          "outputIndex": 0,
+          "intentHash": "68e95ec9a6bf3b67bb4f79feda03d82d05428b2c175bf44f102485c5ec27294f"
+        }
+      ],
+      "spentUtxos": [],
+      "transaction": {
+        "id": 631051,
+        "hash": "22244b88d981ff307ad3d3b3533fd23fefaaf49ba0b7e64fdd22c5eb4a21ef19",
+        "identifiers": [
+          "00b51781e8ac1003ed7222942f55feee1c30958fee39631cb1a7ad0b399c392fcb",
+          "00069ab22b8eae3a0d100ed8e95d6e6e354d0511c8ef862167118abb8530f1eef0"
+        ],
+        "transactionResult": {
+          "status": "SUCCESS"
+        },
+        "dustLedgerEvents": [
+          {
+            "id": 1571672
+          },
+          {
+            "id": 1571673
+          },
+          {
+            "id": 1571674
+          },
+          {
+            "id": 1571675
+          },
+          {
+            "id": 1571676
+          }
+        ],
+        "block": {
+          "height": 2748700,
+          "timestamp": 1790609874001
+        }
+      }
+    }
+  ]
+}

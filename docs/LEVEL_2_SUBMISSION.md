@@ -16,13 +16,13 @@ the submission package and this project's engineering safeguards.
 
 | Item | Status | Concrete evidence / missing work |
 | --- | --- | --- |
-| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | [Real connection screenshot](evidence/level2-lace-connection.md) verifies Lace connected on Preprod after human authorization. Actual disconnect and reconnect still require verification; funding is a separate pending step |
-| Successful frontend Compact circuit call | IMPLEMENTED BUT UNVERIFIED | Browser `commit(claim)` integration targets existing contract; no live transaction or wallet approval yet |
+| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | [Real connection screenshot](evidence/level2-lace-connection.md) verifies Lace connected on Preprod after human authorization. Actual disconnect and reconnect still require verification; faucet receipt and DUST registration are separately confirmed |
+| Successful frontend Compact circuit call | IMPLEMENTED BUT UNVERIFIED | Browser `commit(claim)` integration targets existing contract; no Cat Bluff transaction or circuit-call wallet approval yet |
 | Observable proof without showing private input | IMPLEMENTED BUT UNVERIFIED | Local UI and contract tests; hosted public read verified, actual proving path and confirmed circuit result pending |
 | Verifiable Preprod deployment | VERIFIED | [Original successful deployment](evidence/deployment.json); [fresh ledger/key check](evidence/level2-contract-audit.json) |
 | At least eight meaningful commits | VERIFIED | 11 Level 1 + 6 Level 2 = 17 meaningful non-merge commits at the PR #1 merge; normal merge preserves all six Level 2 commits. No claim that eight additional commits are required |
 | Public repository with README | VERIFIED | [Public repository](https://github.com/AyushPaul26/cat-bluff-midnight); [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) merged into default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`, with the same tree as reviewed `6ffb12d`. [Merge screenshot](evidence/level2-merged.png) |
-| Live frontend URL | VERIFIED | [Published Vercel app](https://cat-bluff-midnight.vercel.app); merged `main` deployment **Ready**, actual page loaded Preprod public state, [latest hosted artifact checks passed](evidence/level2-main-assets.log). [Publication record](evidence/level2-main-publication.json) |
+| Live frontend URL | VERIFIED | [Published Vercel app](https://cat-bluff-midnight.vercel.app); faucet-helper revision `154d1da` **Ready**, [latest hosted artifact checks passed](evidence/level2-faucet-hosted-assets.log). [Publication record](evidence/level2-faucet-publication.json) |
 | Demo video: connect and successful circuit call | BLOCKED | Not recorded |
 | README privacy claim | VERIFIED | README on default `main` describes the exact statement, capability authorization, local-prover trust and unresolved real E2E |
 
@@ -35,23 +35,26 @@ how organizers will assess the quality of future development history.
 | Item | Status | Evidence / next check |
 | --- | --- | --- |
 | Read physical PDF pages 5–7 and live prompt guide | VERIFIED | Text extraction plus visual inspection; live Google Doc export agrees |
-| Connected address, rejection/missing-wallet/network errors | IMPLEMENTED BUT UNVERIFIED | Local wallet tests; actual Lace behavior pending |
+| Connected address, rejection/missing-wallet/network errors | IMPLEMENTED BUT UNVERIFIED | Real connected address shown in operator evidence; automated wallet tests pass, but actual rejection and wrong-network handling remain pending |
 | Loading/result UI and absent private witness | IMPLEMENTED BUT UNVERIFIED | Local UI tests and privacy inspection with throwaway witnesses; hosted page inspected without Lace, real processing/private traffic remains unverified |
 | Literal local **browser** proving (PDF p6) | BLOCKED | Native proof-server guidance differs; obtain clarification or prove supported browser execution |
 | Video under two minutes | BLOCKED | Human recording after hosted transaction |
 | Compiler / generated artifact baseline | VERIFIED | [Compile log](evidence/level2-baseline-compile.log); three circuits and matching key pairs |
 | Baseline typecheck / contract tests | VERIFIED | [Typecheck](evidence/level2-baseline-typecheck.log), [22 passing tests](evidence/level2-baseline-tests.log) |
-| Frontend build/lint | VERIFIED | [Build and both typechecks](evidence/level2-build.log), [ESLint](evidence/level2-lint.log) |
-| Generated-contract and application tests | VERIFIED | [89 Node tests](evidence/level2-faucet-core-tests.log), including the [validated faucet fallback](evidence/level2-faucet-helper.md) and earlier post-authorization regression. Real generated bindings test contract behavior; wallet orchestration uses mocks |
-| Mocked UI/hook tests | VERIFIED | [18 tests](evidence/level2-faucet-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
+| Frontend build/lint | VERIFIED | [Endpoint-correction validation](evidence/level2-blockfrost-ui-build.log): both typechecks, ESLint and production build pass |
+| Generated-contract and application tests | VERIFIED | [92 Node tests](evidence/level2-blockfrost-full-tests.log), including [7 focused endpoint tests](evidence/level2-blockfrost-endpoint-tests.log), the faucet fallback and earlier authorization regression. Real generated bindings test contract behavior; wallet orchestration uses mocks |
+| Mocked UI/hook tests | VERIFIED | [18 tests](evidence/level2-blockfrost-ui-build.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
-| Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) reloaded Preprod round 1 Empty after the merged deployment became Ready; [nine circuit/three WASM checks](evidence/level2-main-assets.log) passed at 14:47:28 UTC. Earlier [desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) captures show no Lace connection |
+| Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) served the Ready faucet-helper revision `154d1da`; [nine circuit/three WASM checks](evidence/level2-faucet-hosted-assets.log) passed at 15:35:10 UTC and [helper code delivery](evidence/level2-faucet-hosted-code.json) was verified. Earlier [desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) captures show no Lace connection |
 | Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); Vercel independently installed 660 packages and passed typechecks/Vite. [Subsequent build log](evidence/level2-vercel-build.log) records Node v22.23.2 and npm 11.11.1 |
-| Linux validation | VERIFIED | [Connection-fix CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36441522847) at `c2d1875`: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 81 Node + 15 mocked UI tests, both typechecks, lint and build. New faucet helper has separate local results above |
+| Linux validation | VERIFIED | [Latest completed CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36444479417) at `154d1da`: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 89 Node + 18 mocked UI tests, both typechecks, lint and build. This predates the current endpoint correction |
 | Known-secret and credential-pattern audit | VERIFIED | [135 staged files and 189 history blobs checked](evidence/level2-secret-audit.log), including comparison with five local secret values without printing them |
 | Current proof-server readiness | VERIFIED | [2026-09-28 14:36:42 UTC health record](evidence/level2-proof-server.json): proof-server 8.1.0 returned `ok`, bound only to `127.0.0.1:6300`, after user-approved Docker runtime repair. Native readiness only; hosted-origin proving pending |
+| Operator faucet receipt and DUST registration | VERIFIED | [Funding evidence](evidence/level2-lace-funding.md): 5,000 tNIGHT received; personally approved registration succeeded at block 2748825, with the intended DUST destination and initial output |
+| Operator wallet synchronization / spendable DUST | BLOCKED | Lace 2.4.1 remains Syncing 99% and displays 0/0 tDUST despite confirmed registration; process activity does not establish completion or spendability |
+| Current Blockfrost endpoint compatibility | IMPLEMENTED BUT UNVERIFIED | [Correction and audit](evidence/level2-blockfrost-compatibility.md): 7 focused / 92 full Node tests, 18 mocked UI tests, types/lint/build and independent review pass locally. Commit/publication and actual wallet proof remain pending |
 | Midnight docs MCP query | NOT APPLICABLE | Not configured/callable; official docs fallback used without changing persistent config |
-| Real-wallet E2E / hosted-origin proving | BLOCKED | Hosted app exists; requires actual Lace, verified local proof traffic and human wallet approvals |
+| Real-wallet E2E / hosted-origin proving | BLOCKED | Real Preprod connection and registration exist; synchronization, spendable DUST, current endpoint compatibility, actual local proof traffic and personal Cat Bluff approval remain pending |
 | Fresh contract deployment | NOT APPLICABLE | Existing contract is Empty and verifier-compatible; only revisit if state changes |
 
 Status vocabulary: VERIFIED means observed evidence; IMPLEMENTED BUT UNVERIFIED
@@ -62,9 +65,11 @@ come from the final integrated logs linked above. Localhost screenshots show no
 wallet connected and no transaction performed; they are not Level 2 proof evidence.
 The hosted app's public read and asset delivery likewise establish no wallet
 connection, approval, proof generation or circuit transaction.
-The merge-triggered production deployment is **Ready**: Vercel metadata identifies
-default `main` commit `c462dabd1e9e0115f3d35408ffe03993e150aa86`, and its stable
-alias passed fresh public-asset checks. Browser reload verified public state only.
+The original merge-triggered deployment is preserved in historical evidence.
+The latest verified production revision is **Ready** at `154d1da`, including
+the faucet-address helper. The endpoint correction passes local checks and
+independent review, but is not yet committed or published; the completed
+CI/hosting evidence must not be read as validation of that correction.
 
 ## Current Rise In state
 
@@ -132,9 +137,11 @@ restriction; do not rerun this completed checkpoint.
    reviewed static Vite build through Vercel CLI 50.13.2 on free Hobby hosting.
    The live URL, hosted public read and circuit/WASM integrity are verified.
    Project settings now select Node 22.x; the subsequent successful build log
-   records Node v22.23.2 and npm 11.11.1. The user reports Lace installation and
-   account activation complete; verify Preprod/funding, real connection and local-prover
-   access from this HTTPS origin separately. No hosted proof service is supplied.
+   records Node v22.23.2 and npm 11.11.1. Lace account activation and Preprod
+   connection are verified, and faucet receipt/DUST registration are confirmed.
+   Finish wallet synchronization, verify spendable DUST and the current endpoint
+   correction, then verify local-prover access from this HTTPS origin separately.
+   No hosted proof service is supplied.
 5. Record the first real commitment only after confirming the existing contract
    is still Empty. The human approves wallet requests. This consumes the sole
    available round at the original address. No extra deployment is planned.

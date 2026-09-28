@@ -6,14 +6,15 @@ Cat Bluff is a multiplayer bluffing card game concept: players make public claim
 
 ## Live Demo
 
-[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [latest hosted asset verification](docs/evidence/level2-main-assets.log) after the merged version reached production. The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
+[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [latest hosted asset verification](docs/evidence/level2-faucet-hosted-assets.log) at the published faucet-helper revision. The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
 
 [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) is merged into
 default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`, preserving all
 six Level 2 development commits (17 meaningful non-merge commits at that merge).
 At the recorded check, the merge-triggered production deployment was **Ready**
-and served that commit at the live alias. Subsequent evidence-only commits preserve
-the same application. [Publication record](docs/evidence/level2-main-publication.json).
+and served that commit at the live alias. [Initial publication record](docs/evidence/level2-main-publication.json).
+The later wallet/faucet-helper version at `154d1da` is also **Ready** and served
+at the live alias. [Current publication record](docs/evidence/level2-faucet-publication.json).
 
 ## Demo Video
 
@@ -102,8 +103,12 @@ The shielded address shown above it is a different address type. This fallback
 also works when Lace's Receive screen shows only the shielded address. After
 tNIGHT arrives, use **Generate tDUST** in Lace and review/approve it yourself.
 The address control does not sign or submit anything and forgets its displayed
-value when the dApp session ends. Funding and generation remain unverified for
-the operator's Lace wallet. [Funding procedure](docs/DEPLOYMENT.md#lace-funding).
+value when the dApp session ends. The operator's **5,000 tNIGHT receipt and DUST
+registration are confirmed on-chain**, including the correct DUST destination
+and an initial output. Lace 2.4.1 still shows Syncing 99%; spendable wallet DUST
+and the Cat Bluff circuit call remain unverified. Do not repeat registration
+solely because the wallet still displays zero. [Funding evidence](docs/evidence/level2-lace-funding.md)
+and [procedure](docs/DEPLOYMENT.md#lace-funding).
 
 After installing the pinned toolchain and dependencies below, use Node 22.22.0:
 
@@ -138,9 +143,14 @@ npm run demo:export   # private interactive terminal; password is not echoed
 
 The encrypted output is `.private/cat-bluff-demo.enc.json`; it is never uploaded
 to hosting. Configure Lace for Preprod and the loopback proof server at
-`http://127.0.0.1:6300`. Lace 2.4's default `localhost:6300` prover and its
-allowlisted Blockfrost Preprod endpoints are supported; the dApp uses Midnight's
-official public indexer. Connect Lace,
+`http://127.0.0.1:6300`. The actual Lace 2.4.1 settings show the equivalent
+`http://localhost:6300` prover and current Blockfrost Preprod hosts. The deployed
+gate was based on older endpoint documentation; support for the observed hosts
+now passes local validation and independent review, but is **not yet committed
+or published**. See the
+[endpoint audit](docs/evidence/level2-blockfrost-compatibility.md). The dApp uses
+Midnight's official public indexer. Once compatibility and synchronization are
+verified, connect Lace,
 import the package, choose a public claim, and personally review the wallet request.
 Use the verified live origin for this one-time transaction and its recording.
 Each visitor needs their own proving prerequisites; hosting supplies no prover.
@@ -148,28 +158,27 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 
 ### Verification
 
-- **81 Node tests passed**, including the original real generated-contract tests,
+- **92 Node tests passed**, including the original real generated-contract tests,
   wallet lifecycle, encrypted-package rejection, and pending recovery tests.
-- **15 UI/hook tests passed** with mocked wallet/transaction adapters. These do
+- **18 UI/hook tests passed** with mocked wallet/transaction adapters. These do
   not establish a real Lace transaction or inspect its actual proof payloads.
 - Both TypeScript targets, ESLint and the production build passed. The browser
   loaded real WASM, fetched Preprod state and matched its verifier keys.
 - Nine circuit artifacts and three WASM files passed served-byte/hash checks.
 - The [published frontend](https://cat-bluff-midnight.vercel.app) loaded public
   Preprod state, and its nine circuit artifacts and three WASM files passed the
-  same [hosted checks](docs/evidence/level2-main-assets.log) after the `main` merge.
+  same [hosted checks](docs/evidence/level2-faucet-hosted-assets.log) at `154d1da`.
 - Desktop and 390-pixel mobile viewports were inspected. No mobile horizontal
   overflow was observed. Missing-wallet controls stayed disabled.
 
-[Node tests](docs/evidence/level2-tests.log) ·
-[UI tests](docs/evidence/level2-ui-tests.log) ·
-[build/typecheck](docs/evidence/level2-build.log) ·
-[lint](docs/evidence/level2-lint.log) ·
+[Node tests](docs/evidence/level2-blockfrost-full-tests.log) ·
+[UI tests, lint, build/typechecks](docs/evidence/level2-blockfrost-ui-build.log) ·
+[endpoint regression](docs/evidence/level2-blockfrost-endpoint-tests.log) ·
 [asset checks](docs/evidence/level2-assets.log).
 
-The later [Lace 2.4 compatibility validation](docs/evidence/level2-lace-compatibility.log)
-adds four endpoint regression tests and records the current 79 Node / 15 mocked
-UI test totals, both typechecks, lint and build. Earlier 75-test logs remain
+The earlier [Lace 2.4 compatibility validation](docs/evidence/level2-lace-compatibility.log)
+added four endpoint regression tests and recorded 79 Node / 15 mocked
+UI tests, both typechecks, lint and build. Those results and the 75-test logs remain
 historical evidence. The [local proof server health](docs/evidence/level2-proof-server.json)
 is verified; real wallet-mediated proving is still pending.
 
@@ -179,18 +188,23 @@ installation or private file was needed in the build copy. The Vercel production
 build installed 660 packages and passed both typechecks and Vite. A subsequent
 [hosted build log](docs/evidence/level2-vercel-build.log) explicitly records
 Node **22.23.2** and npm **11.11.1**, within the configured Node 22.x range. The
-[recorded Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406)
+[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36444479417)
 also passed: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, all three circuits,
-79 Node tests, 15 mocked UI tests, types, lint and production build at `6ffb12d`.
+89 Node tests, 18 mocked UI tests, types, lint and production build at `154d1da`.
+These results predate the current Blockfrost endpoint correction.
+The correction's local checks subsequently passed: **92 Node tests, 7 focused
+endpoint tests, 18 mocked UI tests, both typechecks, lint and production build**.
+An independent review found no blockers. Its commit, CI and publication remain
+pending; these checks do not establish a real wallet proof or transaction.
 [Local browser evidence](docs/evidence/level2-browser.json) records the real
 public read and disabled action in the absence of Lace. Hosting success does
 not establish a real Lace proof or transaction.
 
 A real Lace authorization exposed an unnecessary `hintUsage` method check.
 The [post-authorization compatibility fix](docs/evidence/level2-wallet-api-fix.md)
-preserves all wallet operations and session checks. Its new full verification
-passed 81 Node tests, 15 mocked UI tests, both typechecks, lint and build;
-real-wallet reconnection remains pending.
+preserves all wallet operations and session checks. Its verification passed
+81 Node tests, 15 mocked UI tests, both typechecks, lint and build; the operator
+subsequently verified a real connection. Disconnect/reconnect remains pending.
 
 ![Actual local production preview; no wallet transaction performed](docs/evidence/level2-desktop.png)
 
@@ -199,7 +213,7 @@ real-wallet reconnection remains pending.
 The bundle includes large Midnight WASM files and an approximately 830 KB
 application JS chunk; production compression/caching matter. Build warnings
 about that chunk and an upstream PURE comment remain visible in the log.
-Lace approval, proof generation, actual private traffic inspection, hosted-origin
+Cat Bluff wallet approval, proof generation, actual private traffic inspection, hosted-origin
 local-network access, video and submission are still pending.
 
 ## Toolchain and setup
