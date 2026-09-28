@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-28T18:00:39.0486495Z",
+  "id": "dpl_CDhW2nsT3cWqkKHxvNucBYf7rZAd",
+  "url": "cat-bluff-midnight-hf11ew2kw-ayush-pauls-projects-bd0a7c11.vercel.app",
+  "readyState": "READY",
+  "target": "production",
+  "commit": "014eec45826d6e26b35fe3b913f9ffd9377faa16",
+  "branch": "main",
+  "aliases": [
+    "cat-bluff-midnight.vercel.app",
+    "cat-bluff-midnight-ayush-pauls-projects-bd0a7c11.vercel.app",
+    "cat-bluff-midnight-git-main-ayush-pauls-projects-bd0a7c11.vercel.app"
+  ]
+}

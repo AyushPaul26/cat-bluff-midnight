@@ -1,0 +1,31 @@
+
+ RUN  v4.1.7 C:/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight
+
+ ❯ tests/ui/components.test.tsx (10 tests | 1 failed) 1076ms
+     × shows a readable support code only while that connection error is current 24ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/ui/components.test.tsx > UI component tests (mocked external callbacks, no real wallet) > shows a readable support code only while that connection error is current
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  Support code: connect.authorize/PermissionRejected
+Received:
+  Wallet connection failed. Unlock Lace, select Preprod, and retry. You can decline requests safely.
+ ❯ tests/ui/components.test.tsx:18:39
+     16|     const failure={status:'error' as const,reason:'Wallet connection f…
+     17|     const view=render(<WalletConnect {...props} wallet={failure}/>);
+     18|     expect(screen.getByRole('alert')).toHaveTextContent('Support code:…
+       |                                       ^
+     19|     expect(screen.getByText('connect.authorize/PermissionRejected').ta…
+     20|     view.rerender(<WalletConnect {...props} wallet={{status:'connectin…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  23:57:05
+   Duration  3.68s (transform 181ms, setup 0ms, import 667ms, tests 1.08s, environment 1.65s)
+

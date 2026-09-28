@@ -11,6 +11,25 @@ describe('UI component tests (mocked external callbacks, no real wallet)', () =>
     expect(screen.getByText(/No compatible wallet detected/i)).toBeVisible();
     expect(screen.queryByRole('button',{name:/connect lace/i})).not.toBeInTheDocument();
   });
+  it('shows a readable support code only while that connection error is current', () => {
+    const props={choices:[],onConnect:vi.fn(),onDisconnect:vi.fn(),onGetFaucetAddress:async()=>''};
+    const failure={status:'error' as const,reason:'Wallet connection failed',diagnostic:'connect.authorize/PermissionRejected' as const};
+    const view=render(<WalletConnect {...props} wallet={failure}/>);
+    expect(screen.getByRole('alert')).toHaveTextContent('Support code: connect.authorize/PermissionRejected');
+    expect(screen.getByText('connect.authorize/PermissionRejected').tagName).toBe('CODE');
+    view.rerender(<WalletConnect {...props} wallet={{status:'connecting',name:'Lace'}}/>);
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Support code:/)).not.toBeInTheDocument();
+    view.rerender(<WalletConnect {...props} wallet={{status:'connected',name:'Lace',address:'shielded-fixture'}}/>);
+    expect(screen.queryByText(/Support code:/)).not.toBeInTheDocument();
+    view.rerender(<WalletConnect {...props} wallet={{status:'disconnected'}}/>);
+    expect(screen.queryByText(/Support code:/)).not.toBeInTheDocument();
+  });
+  it('keeps legacy errors readable when no support code is available', () => {
+    render(<WalletConnect wallet={{status:'error',reason:'Wallet connection failed'}} choices={[]} onConnect={vi.fn()} onDisconnect={vi.fn()} onGetFaucetAddress={async()=>''}/>);
+    expect(screen.getByRole('alert')).toHaveTextContent('Wallet connection failed.');
+    expect(screen.queryByText(/Support code:/)).not.toBeInTheDocument();
+  });
   it('shows the actual shielded address and lets the user disconnect', () => {
     const disconnect = vi.fn();
     render(<WalletConnect wallet={{status:'connected',name:'Lace',address:'mn_shield-addr_preprod_actual_fixture'}} choices={[]} onConnect={vi.fn()} onDisconnect={disconnect} onGetFaucetAddress={async()=>''}/>);

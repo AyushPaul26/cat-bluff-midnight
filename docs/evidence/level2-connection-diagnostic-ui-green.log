@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 C:/Users/Ayush Paul/Desktop/midnight/cat-bluff-midnight
+
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  23:57:53
+   Duration  3.20s (transform 176ms, setup 0ms, import 676ms, tests 713ms, environment 1.49s)
+

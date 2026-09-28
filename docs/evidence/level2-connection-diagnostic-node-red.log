@@ -1,0 +1,293 @@
+TAP version 13
+# Subtest: discovers every structurally valid injected wallet and marks incompatible versions
+ok 1 - discovers every structurally valid injected wallet and marks incompatible versions
+  ---
+  duration_ms: 5.9628
+  type: 'test'
+  ...
+# Subtest: connect requires Preprod status, configuration, and shielded identity
+ok 2 - connect requires Preprod status, configuration, and shielded identity
+  ---
+  duration_ms: 0.6856
+  type: 'test'
+  ...
+# Subtest: Lace authorization connects and revalidates without the unused hintUsage extension
+ok 3 - Lace authorization connects and revalidates without the unused hintUsage extension
+  ---
+  duration_ms: 0.5689
+  type: 'test'
+  ...
+# Subtest: a connected wallet missing its proving method remains rejected
+ok 4 - a connected wallet missing its proving method remains rejected
+  ---
+  duration_ms: 0.3531
+  type: 'test'
+  ...
+# Subtest: rejected permission is sanitized and leaves no connected API
+ok 5 - rejected permission is sanitized and leaves no connected API
+  ---
+  duration_ms: 0.7541
+  type: 'test'
+  ...
+# Subtest: connection failure identifies the exact failing operation without calling later operations
+not ok 6 - connection failure identifies the exact failing operation without calling later operations
+  ---
+  duration_ms: 1.4068
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:94:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'connect.authorize/InternalError'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'connect.authorize/InternalError'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:112:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: revalidation failures identify status, configuration or address and invalidate the capture
+not ok 7 - revalidation failures identify status, configuration or address and invalidate the capture
+  ---
+  duration_ms: 0.6707
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:119:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'revalidate.status/Disconnected'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'revalidate.status/Disconnected'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:129:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: diagnostics preserve only the five declared connector API error codes
+not ok 8 - diagnostics preserve only the five declared connector API error codes
+  ---
+  duration_ms: 0.9327
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:134:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    -   diagnostic: 'connect.authorize/InternalError',
+        reason: 'Wallet connection failed',
+        status: 'error'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    status: 'error'
+    reason: 'Wallet connection failed'
+    diagnostic: 'connect.authorize/InternalError'
+  actual:
+    status: 'error'
+    reason: 'Wallet connection failed'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:139:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: diagnostics never reflect unknown codes, untrusted fields or hostile property getters
+not ok 9 - diagnostics never reflect unknown codes, untrusted fields or hostile property getters
+  ---
+  duration_ms: 0.9366
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:143:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    -   diagnostic: 'connect.authorize/Unknown',
+        reason: 'Wallet connection failed',
+        status: 'error'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    status: 'error'
+    reason: 'Wallet connection failed'
+    diagnostic: 'connect.authorize/Unknown'
+  actual:
+    status: 'error'
+    reason: 'Wallet connection failed'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:154:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a retry clears the previous diagnostic while pending, after success and after disconnect
+not ok 10 - a retry clears the previous diagnostic while pending, after success and after disconnect
+  ---
+  duration_ms: 0.6819
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:159:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'connect.authorize/Rejected'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'connect.authorize/Rejected'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:163:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: late authorization errors cannot publish diagnostics after disconnect or replacement
+ok 11 - late authorization errors cannot publish diagnostics after disconnect or replacement
+  ---
+  duration_ms: 0.4498
+  type: 'test'
+  ...
+# Subtest: superseded revalidation errors cannot publish stale diagnostics
+ok 12 - superseded revalidation errors cannot publish stale diagnostics
+  ---
+  duration_ms: 0.4717
+  type: 'test'
+  ...
+# Subtest: a wallet reporting another network is refused
+ok 13 - a wallet reporting another network is refused
+  ---
+  duration_ms: 0.1731
+  type: 'test'
+  ...
+# Subtest: disconnect during delayed authorization prevents stale connect result
+ok 14 - disconnect during delayed authorization prevents stale connect result
+  ---
+  duration_ms: 0.1676
+  type: 'test'
+  ...
+# Subtest: account change invalidates capture and cached session
+ok 15 - account change invalidates capture and cached session
+  ---
+  duration_ms: 0.2105
+  type: 'test'
+  ...
+# Subtest: older revalidation cannot disconnect a newly connected wallet
+ok 16 - older revalidation cannot disconnect a newly connected wallet
+  ---
+  duration_ms: 0.2337
+  type: 'test'
+  ...
+# Subtest: duplicate connect while authorization is pending does not prompt twice
+ok 17 - duplicate connect while authorization is pending does not prompt twice
+  ---
+  duration_ms: 0.2869
+  type: 'test'
+  ...
+# Subtest: a superseded guard cannot authorize side effects
+ok 18 - a superseded guard cannot authorize side effects
+  ---
+  duration_ms: 0.3704
+  type: 'test'
+  ...
+# Subtest: late wallet injection is found by a fresh discovery call
+ok 19 - late wallet injection is found by a fresh discovery call
+  ---
+  duration_ms: 0.1475
+  type: 'test'
+  ...
+# Subtest: unsupported API version never invokes wallet authorization
+ok 20 - unsupported API version never invokes wallet authorization
+  ---
+  duration_ms: 0.1246
+  type: 'test'
+  ...
+# Subtest: missing connected methods or shielded keys never yield a capture
+ok 21 - missing connected methods or shielded keys never yield a capture
+  ---
+  duration_ms: 0.248
+  type: 'test'
+  ...
+# Subtest: changed prover and indexer configuration invalidates an existing capture
+ok 22 - changed prover and indexer configuration invalidates an existing capture
+  ---
+  duration_ms: 0.1833
+  type: 'test'
+  ...
+# Subtest: faucet address reads a validated Preprod unshielded address without wallet mutations or caching
+ok 23 - faucet address reads a validated Preprod unshielded address without wallet mutations or caching
+  ---
+  duration_ms: 1.9572
+  type: 'test'
+  ...
+# Subtest: faucet address rejects other address types, networks, bad checksums and invalid payload lengths
+ok 24 - faucet address rejects other address types, networks, bad checksums and invalid payload lengths
+  ---
+  duration_ms: 2.0093
+  type: 'test'
+  ...
+# Subtest: faucet address refuses a disconnected session before reading the wallet
+ok 25 - faucet address refuses a disconnected session before reading the wallet
+  ---
+  duration_ms: 0.2343
+  type: 'test'
+  ...
+# Subtest: faucet address checks account identity before requesting an address
+ok 26 - faucet address checks account identity before requesting an address
+  ---
+  duration_ms: 0.254
+  type: 'test'
+  ...
+# Subtest: faucet address discards an in-flight result after disconnect
+ok 27 - faucet address discards an in-flight result after disconnect
+  ---
+  duration_ms: 0.4364
+  type: 'test'
+  ...
+# Subtest: faucet address discards an in-flight result after reconnect
+ok 28 - faucet address discards an in-flight result after reconnect
+  ---
+  duration_ms: 0.3938
+  type: 'test'
+  ...
+# Subtest: faucet address discards an in-flight result after account
+ok 29 - faucet address discards an in-flight result after account
+  ---
+  duration_ms: 0.2595
+  type: 'test'
+  ...
+# Subtest: faucet address sanitizes wallet rejection and malformed response errors
+ok 30 - faucet address sanitizes wallet rejection and malformed response errors
+  ---
+  duration_ms: 0.8085
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 25
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 417.4406

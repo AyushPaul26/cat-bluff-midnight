@@ -3,11 +3,15 @@ import { MidnightBech32m, UnshieldedAddress } from '@midnight-ntwrk/wallet-sdk-a
 import { satisfies } from 'semver';
 
 export type WalletChoice = { id: string; name: string; apiVersion: string; api: InitialAPI; compatible: boolean };
+type DiagnosticStage = 'connect.authorize' | 'connect.api' | 'connect.status' | 'connect.configuration' | 'connect.address'
+  | 'revalidate.status' | 'revalidate.configuration' | 'revalidate.address';
+const CONNECTOR_ERROR_CODES = ['InternalError', 'Rejected', 'InvalidRequest', 'PermissionRejected', 'Disconnected'] as const;
+type WalletDiagnostic = `${DiagnosticStage}/${typeof CONNECTOR_ERROR_CODES[number] | 'Unknown'}`;
 export type WalletSnapshot =
   | { status: 'disconnected' }
   | { status: 'connecting'; name: string }
   | { status: 'connected'; name: string; address: string }
-  | { status: 'error'; reason: string };
+  | { status: 'error'; reason: string; diagnostic?: WalletDiagnostic };
 export type WalletCapture = {
   api: WalletConnectedAPI; address: string; coinPublicKey: string; encryptionPublicKey: string;
   configuration: Configuration; guard: () => Promise<void>; isCurrent: () => boolean;
@@ -70,11 +74,25 @@ function sameIdentity(left: Identity, right: Identity): boolean {
     && left.shieldedEncryptionPublicKey === right.shieldedEncryptionPublicKey;
 }
 function reasonFor(error: unknown): string {
-  if (error instanceof Error && error.message === 'Unsupported wallet API') return 'Unsupported wallet API';
-  if (error instanceof Error && error.message === 'Wallet network changed') return 'Wallet network changed';
-  if (error instanceof Error && error.message === 'Wallet account or configuration changed') return 'Wallet account or configuration changed';
-  if (error instanceof Error && error.message === 'Wallet connection lost') return 'Wallet connection lost';
+  try {
+    if (error instanceof Error && error.message === 'Unsupported wallet API') return 'Unsupported wallet API';
+    if (error instanceof Error && error.message === 'Wallet network changed') return 'Wallet network changed';
+    if (error instanceof Error && error.message === 'Wallet account or configuration changed') return 'Wallet account or configuration changed';
+    if (error instanceof Error && error.message === 'Wallet connection lost') return 'Wallet connection lost';
+  } catch { /* A wallet error can have untrusted property getters. */ }
   return 'Wallet connection failed';
+}
+function diagnosticFor(stage: DiagnosticStage, error: unknown): WalletDiagnostic {
+  // Only fixed operation names and the API 4.0.1 code allowlist may leave this
+  // boundary. Never render, log or persist a wallet error's free-form fields.
+  try {
+    if (record(error) && error.type === 'DAppConnectorAPIError') {
+      const code = error.code;
+      const allowed = CONNECTOR_ERROR_CODES.find(candidate => candidate === code);
+      if (allowed) return `${stage}/${allowed}`;
+    }
+  } catch { /* Ignore untrusted property getters as well as unknown codes. */ }
+  return `${stage}/Unknown`;
 }
 
 export class WalletSession {
@@ -96,7 +114,7 @@ export class WalletSession {
     const generation = ++this.generation;
     ++this.validation;
     if (!choice.compatible || !initialApi(choice.api) || !supported(choice.api.apiVersion)) {
-      this.publish({ status: 'error', reason: 'Unsupported wallet API' });
+      this.publish({ status: 'error', reason: 'Unsupported wallet API', diagnostic: 'connect.api/Unknown' });
       return Promise.resolve();
     }
     this.publish({ status: 'connecting', name: choice.name });
@@ -106,17 +124,22 @@ export class WalletSession {
     return pending;
   }
   private async establish(choice: WalletChoice, generation: number): Promise<void> {
+    let stage: DiagnosticStage = 'connect.authorize';
     try {
       const api: unknown = await choice.api.connect('preprod');
       if (generation !== this.generation) return;
+      stage = 'connect.api';
       if (!connectedApi(api)) throw new Error('Unsupported wallet API');
+      stage = 'connect.status';
       const status = await api.getConnectionStatus();
       if (generation !== this.generation) return;
       if (status.status !== 'connected') throw new Error('Wallet connection lost');
       if (status.networkId !== 'preprod') throw new Error('Wallet network changed');
+      stage = 'connect.configuration';
       const configuration = await api.getConfiguration();
       if (generation !== this.generation) return;
       if (!validConfiguration(configuration)) throw new Error('Wallet network changed');
+      stage = 'connect.address';
       const identity = await api.getShieldedAddresses();
       if (generation !== this.generation) return;
       if (!validIdentity(identity)) throw new Error('Wallet connection failed');
@@ -125,7 +148,7 @@ export class WalletSession {
     } catch (error) {
       if (generation !== this.generation) return;
       this.current = undefined;
-      this.publish({ status: 'error', reason: reasonFor(error) });
+      this.publish({ status: 'error', reason: reasonFor(error), diagnostic: diagnosticFor(stage, error) });
     }
   }
   disconnect(): void {
@@ -140,15 +163,18 @@ export class WalletSession {
     if (!connection) return;
     const generation = this.generation;
     const validation = ++this.validation;
+    let stage: DiagnosticStage = 'revalidate.status';
     try {
       const status = await connection.api.getConnectionStatus();
       if (generation !== this.generation || validation !== this.validation) return;
       if (status.status !== 'connected') throw new Error('Wallet connection lost');
       if (status.networkId !== 'preprod') throw new Error('Wallet network changed');
+      stage = 'revalidate.configuration';
       const configuration = await connection.api.getConfiguration();
       if (generation !== this.generation || validation !== this.validation) return;
       if (!validConfiguration(configuration)) throw new Error('Wallet network changed');
       if (!sameConfiguration(connection.configuration, configuration)) throw new Error('Wallet account or configuration changed');
+      stage = 'revalidate.address';
       const identity = await connection.api.getShieldedAddresses();
       if (generation !== this.generation || validation !== this.validation) return;
       if (!validIdentity(identity) || !sameIdentity(connection.identity, identity)) throw new Error('Wallet account or configuration changed');
@@ -156,7 +182,7 @@ export class WalletSession {
       if (generation !== this.generation || validation !== this.validation) return;
       ++this.generation;
       this.current = undefined;
-      this.publish({ status: 'error', reason: reasonFor(error) });
+      this.publish({ status: 'error', reason: reasonFor(error), diagnostic: diagnosticFor(stage, error) });
     }
   }
   async getFaucetAddress(): Promise<string> {

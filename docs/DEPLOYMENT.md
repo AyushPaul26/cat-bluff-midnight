@@ -101,15 +101,17 @@ Compact or any private files. The public browser build needs the packaged Vite,
 Rollup and WASM assets; it does not execute the Node wallet's native dependencies.
 See [complete clean-install/build log](evidence/level2-clean-build.log), including
 failed attempts. The subsequent Vercel build passed independently. The
-[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36444479417)
-also passed real compilation of three circuits, 89 Node tests, 18 mocked UI tests,
-both typechecks, lint and build on Node 22.22.0 at `154d1da`. This precedes the
-current Blockfrost endpoint correction. That correction now passes
+[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36462011909)
+also passed real compilation of three circuits, 92 Node tests, 18 mocked UI tests,
+both typechecks, lint and build on Node 22.22.0 at `014eec4`. Actual job logs
+confirm generation of both prover and verifier keys for `challenge`, `commit`
+and `resolve`. The correction's local validation also passed
 [92 Node tests](evidence/level2-blockfrost-full-tests.log),
 [7 focused endpoint regressions](evidence/level2-blockfrost-endpoint-tests.log),
 and [18 mocked UI tests, lint, both typechecks and build](evidence/level2-blockfrost-ui-build.log).
-Independent review found no blockers. Its commit, CI and publication remain
-pending; local validation does not establish real-wallet execution.
+Independent review found no blockers. The correction is committed and published
+at `014eec4`, with successful CI verified for that exact revision.
+Local validation does not establish real-wallet execution.
 
 `.vercelignore` explicitly excludes private records, encrypted packages, local
 tool/cache directories and environment files from CLI uploads. Public circuit
@@ -170,11 +172,20 @@ the inspection browser. These checks verified hosting and public reads. The
 operator later provided [real Preprod connection evidence](evidence/level2-lace-connection.md);
 local proof traffic, disconnect/reconnect and a circuit transaction remain pending.
 
-The subsequent faucet-helper deployment from `154d1da` is **Ready** and aliased
+The subsequent faucet-helper deployment from `154d1da` was **Ready** and aliased
 to the same live URL. Its [publication record](evidence/level2-faucet-publication.json),
 [hosted helper-code check](evidence/level2-faucet-hosted-code.json) and
 [nine-circuit/three-WASM verification](evidence/level2-faucet-hosted-assets.log)
-record the actual published version. No endpoint-correction deployment is claimed.
+record that published checkpoint.
+
+The current Blockfrost correction is now deployed from default `main` commit
+`014eec45826d6e26b35fe3b913f9ffd9377faa16`. Vercel confirmed production deployment
+`dpl_CDhW2nsT3cWqkKHxvNucBYf7rZAd` **Ready** at the stable alias. The
+[publication record](evidence/level2-blockfrost-publication.json),
+[actual hosted-code inspection](evidence/level2-blockfrost-hosted-code.json), and
+[18:00:44 UTC public-asset check](evidence/level2-blockfrost-hosted-assets.log)
+verify delivery of the current endpoint support and all nine circuit/three WASM
+files. These checks do not establish wallet synchronization or circuit execution.
 
 ### Lace funding
 
@@ -213,6 +224,20 @@ seconds across a 38-second interval) and falling memory use; this does not prove
 synchronization will finish or funds are spendable. Do not submit another
 registration solely because the display is empty. Completion of synchronization,
 spendable wallet DUST and the hosted circuit call remain unverified.
+After restarting Chrome and unlocking Lace, the operator's new screenshot still
+showed Midnight Syncing 99% and a generic website connection failure. The first
+Chrome extension error diagnostic has been requested but not yet received;
+no specific root cause is established by that generic message.
+
+The local frontend now provides a bounded connection diagnostic: an optional
+support code such as `connect.status/InternalError` identifies the failed
+operation and an allowlisted connector category. This example is not an observed
+operator error. Unknown/untrusted categories become `Unknown`; free-form wallet
+error fields are not displayed, logged or stored. Local tests, types, lint,
+build and independent review pass; commit and publication remain pending.
+[Diagnostic evidence](evidence/level2-connection-diagnostic.md).
+The code identifies an API boundary, not the cause of Syncing 99%. Synchronization,
+spendable DUST, a successful connection retry and the circuit call remain pending.
 
 ### Human-only operator preparation and one-time action
 
@@ -241,7 +266,8 @@ The wallet's services need not match the dApp's official Midnight public indexer
 The older Lace source used for the initial allowlist names retired endpoints.
 The local correction accepts the observed tuple while retaining strict network,
 host and local-prover checks. Regression tests and independent review pass;
-its commit and publication remain pending. See
+it is committed and published at `014eec4`, with successful CI for that revision.
+Real wallet execution is still pending. See
 [the current endpoint audit](evidence/level2-blockfrost-compatibility.md).
 Do not copy wallet endpoint query credentials into documentation or change the
 wallet's read-only configuration to match stale sample code.

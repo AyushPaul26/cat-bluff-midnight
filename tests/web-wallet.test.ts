@@ -80,6 +80,138 @@ test('rejected permission is sanitized and leaves no connected API', async () =>
   assert.throws(() => session.capture());
 });
 
+function connectorFailure(code: unknown = 'InternalError', type: unknown = 'DAppConnectorAPIError'): object {
+  return { type, code, message: 'PRIVATE_MESSAGE_SENTINEL', reason: 'PRIVATE_REASON_SENTINEL',
+    cause: 'https://private.example/?project_id=PRIVATE_QUERY_SENTINEL', stack: 'PRIVATE_STACK_SENTINEL' };
+}
+
+function diagnostic(session: WalletSession): unknown {
+  const snapshot = session.snapshot;
+  assert.equal(snapshot.status, 'error');
+  return 'diagnostic' in snapshot ? snapshot.diagnostic : undefined;
+}
+
+test('connection failure identifies the exact failing operation without calling later operations', async () => {
+  for (const stage of ['authorize', 'api', 'status', 'configuration', 'address'] as const) {
+    const api = connected();
+    const calls: string[] = [];
+    const methods = ['getConnectionStatus', 'getConfiguration', 'getShieldedAddresses'] as const;
+    const stages = ['status', 'configuration', 'address'] as const;
+    for (const [index, method] of methods.entries()) {
+      const original = api[method];
+      Object.assign(api, { [method]: async () => {
+        calls.push(stages[index]!);
+        if (stages[index] === stage) throw connectorFailure();
+        return original();
+      } });
+    }
+    if (stage === 'api') Reflect.deleteProperty(api, 'getProvingProvider');
+    const session = new WalletSession();
+    await session.connect({ id: 'diagnostic', name: 'Lace', apiVersion: '4.0.1', compatible: true,
+      api: wallet(api, { connect: async () => { calls.push('authorize'); if (stage === 'authorize') throw connectorFailure(); return api; } }) });
+    assert.equal(diagnostic(session), `connect.${stage}/${stage === 'api' ? 'Unknown' : 'InternalError'}`);
+    const expected = stage === 'api' ? ['authorize'] : ['authorize', ...stages.slice(0, stages.indexOf(stage as typeof stages[number]) + 1)];
+    assert.deepEqual(calls, expected);
+    assert.throws(() => session.capture());
+  }
+});
+
+test('revalidation failures identify status, configuration or address and invalidate the capture', async () => {
+  for (const [stage, method] of [
+    ['status', 'getConnectionStatus'], ['configuration', 'getConfiguration'], ['address', 'getShieldedAddresses'],
+  ] as const) {
+    const api = connected();
+    const session = new WalletSession();
+    await session.connect({ id: 'diagnostic', name: 'Lace', apiVersion: '4.0.1', compatible: true, api: wallet(api) });
+    const capture = session.capture();
+    api[method] = async () => { throw connectorFailure('Disconnected'); };
+    await assert.rejects(capture.guard());
+    assert.equal(diagnostic(session), `revalidate.${stage}/Disconnected`);
+    assert.equal(capture.isCurrent(), false);
+  }
+});
+
+test('diagnostics preserve only the five declared connector API error codes', async () => {
+  for (const code of ['InternalError', 'Rejected', 'InvalidRequest', 'PermissionRejected', 'Disconnected']) {
+    const session = new WalletSession();
+    await session.connect({ id: 'codes', name: 'Lace', apiVersion: '4.0.1', compatible: true,
+      api: wallet(connected(), { connect: async () => { throw connectorFailure(code); } }) });
+    assert.deepEqual(session.snapshot, { status: 'error', reason: 'Wallet connection failed', diagnostic: `connect.authorize/${code}` });
+  }
+});
+
+test('diagnostics never reflect unknown codes, untrusted fields or hostile property getters', async () => {
+  const hostile = { get type(): never { throw new Error('PRIVATE_GETTER_SENTINEL'); } };
+  for (const error of [
+    connectorFailure('PRIVATE_CODE_SENTINEL'), connectorFailure('InternalError', 'PRIVATE_TYPE_SENTINEL'),
+    connectorFailure({ toString: () => 'PRIVATE_OBJECT_SENTINEL' }),
+    new Error('PRIVATE_ERROR_SENTINEL'), 'PRIVATE_STRING_SENTINEL', null, hostile,
+  ]) {
+    const published: unknown[] = [];
+    const session = new WalletSession(snapshot => { published.push(snapshot); });
+    await session.connect({ id: 'privacy', name: 'Lace', apiVersion: '4.0.1', compatible: true,
+      api: wallet(connected(), { connect: async () => { throw error; } }) });
+    assert.deepEqual(session.snapshot, { status: 'error', reason: 'Wallet connection failed', diagnostic: 'connect.authorize/Unknown' });
+    assert.doesNotMatch(JSON.stringify(published), /PRIVATE_|private\.example|project_id/);
+  }
+});
+
+test('a retry clears the previous diagnostic while pending, after success and after disconnect', async () => {
+  const session = new WalletSession();
+  await session.connect({ id: 'retry', name: 'Lace', apiVersion: '4.0.1', compatible: true,
+    api: wallet(connected(), { connect: async () => { throw connectorFailure('Rejected'); } }) });
+  assert.equal(diagnostic(session), 'connect.authorize/Rejected');
+  let finish!: (api: ConnectedAPI) => void;
+  let calls = 0;
+  const choice = { id: 'retry', name: 'Lace', apiVersion: '4.0.1', compatible: true,
+    api: wallet(connected(), { connect: async () => { calls++; return new Promise<ConnectedAPI>(resolve => { finish = resolve; }); } }) };
+  const first = session.connect(choice);
+  const duplicate = session.connect(choice);
+  assert.equal(first, duplicate);
+  assert.equal(calls, 1);
+  assert.deepEqual(session.snapshot, { status: 'connecting', name: 'Lace' });
+  finish(connected());
+  await first;
+  assert.deepEqual(session.snapshot, { status: 'connected', name: 'Lace', address: 'shielded-A' });
+  session.disconnect();
+  assert.deepEqual(session.snapshot, { status: 'disconnected' });
+});
+
+test('late authorization errors cannot publish diagnostics after disconnect or replacement', async () => {
+  for (const replace of [false, true]) {
+    let fail!: (error: unknown) => void;
+    const session = new WalletSession();
+    const pending = session.connect({ id: 'old', name: 'Old', apiVersion: '4.0.1', compatible: true,
+      api: wallet(connected(), { connect: () => new Promise<ConnectedAPI>((_resolve, reject) => { fail = reject; }) }) });
+    session.disconnect();
+    if (replace) await session.connect({ id: 'new', name: 'New', apiVersion: '4.0.1', compatible: true, api: wallet(connected()) });
+    fail(connectorFailure('Disconnected'));
+    await pending;
+    assert.deepEqual(session.snapshot, replace ? { status: 'connected', name: 'New', address: 'shielded-A' } : { status: 'disconnected' });
+  }
+});
+
+test('superseded revalidation errors cannot publish stale diagnostics', async () => {
+  for (const replace of [false, true]) {
+    const api = connected();
+    const session = new WalletSession();
+    await session.connect({ id: 'old', name: 'Old', apiVersion: '4.0.1', compatible: true, api: wallet(api) });
+    let fail!: (error: unknown) => void;
+    api.getConnectionStatus = () => new Promise((_resolve, reject) => { fail = reject; });
+    const pending = session.revalidate();
+    if (replace) {
+      session.disconnect();
+      await session.connect({ id: 'new', name: 'New', apiVersion: '4.0.1', compatible: true, api: wallet(connected()) });
+    } else {
+      api.getConnectionStatus = async () => ({ status: 'connected', networkId: 'preprod' });
+      await session.revalidate();
+    }
+    fail(connectorFailure('Disconnected'));
+    await pending;
+    assert.deepEqual(session.snapshot, { status: 'connected', name: replace ? 'New' : 'Old', address: 'shielded-A' });
+  }
+});
+
 test('a wallet reporting another network is refused', async () => {
   const api = connected();
   api.getConnectionStatus = async () => ({ status: 'connected', networkId: 'mainnet' });

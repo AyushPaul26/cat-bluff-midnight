@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-09-28T18:00:33.537Z",
+  "origin": "https://cat-bluff-midnight.vercel.app",
+  "entry": "/assets/index-Cfoq4F_E.js",
+  "appChunk": "App-T0y1tpCw.js",
+  "checks": {
+    "https://midnight-preprod.blockfrost.io/api/v0": true,
+    "wss://midnight-preprod.blockfrost.io/api/v0/ws": true,
+    "https://rpc.midnight-preprod.blockfrost.io/": true,
+    "project_id": true,
+    "Wallet endpoints": true,
+    "local proof server": true
+  },
+  "testCredentialAbsent": true,
+  "scope": "Actual hosted code delivery only; wallet synchronization and circuit execution remain unverified"
+}
