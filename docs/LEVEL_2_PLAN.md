@@ -21,7 +21,7 @@ subsequent publication and Lace compatibility commits brought the total to
 history on default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`;
 its tree matches reviewed head `6ffb12d`. [Merge screenshot](evidence/level2-merged.png).
 
-Current evidence: 79 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
+Current evidence: 81 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
 ESLint and production build pass. The actual browser production preview reads
 Preprod round 1 Empty and verifies all three circuit keys. All nine generated
 circuit files and three WASM files pass served-byte checks. Desktop/mobile
@@ -39,6 +39,11 @@ The 14:47:28 UTC asset check passed; a real browser reload again showed Preprod
 round 1 Empty with no injected wallet. This establishes no circuit transaction.
 
 Important implementation adjustments from the original plan below:
+
+- A real Lace authorization exposed an unnecessary `hintUsage` requirement.
+  The [source-backed correction and regression evidence](evidence/level2-wallet-api-fix.md)
+  retain all 16 wallet-operation checks, network/identity validation and session
+  guards. Reconnection on the updated frontend remains pending.
 
 - Lace 2.4.0's read-only Blockfrost Preprod services are accepted as one complete
   allowlisted tuple, alongside the original Midnight tuple. Four regression

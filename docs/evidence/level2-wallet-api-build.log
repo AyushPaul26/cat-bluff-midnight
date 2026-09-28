@@ -1,0 +1,40 @@
+
+> cat-bluff-midnight@0.1.0 lint
+> node node_modules/eslint/bin/eslint.js src/web scripts/copy-web-artifacts.mjs
+
+
+> cat-bluff-midnight@0.1.0 build
+> npm run typecheck && npm run assets && node node_modules/vite/bin/vite.js build
+
+
+> cat-bluff-midnight@0.1.0 typecheck
+> node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.web.json --noEmit
+
+
+> cat-bluff-midnight@0.1.0 assets
+> node scripts/copy-web-artifacts.mjs
+
+Prepared 9 genuine public circuit artifacts and deployment metadata.
+vite v7.3.1 building client environment for production...
+transforming...
+node_modules/@scure/base/index.js (2:0): A comment
+
+"// Freeze the result of a thunk. `/* @__PURE__ */ freeze(() => expr)` keeps the whole"
+
+in "node_modules/@scure/base/index.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 1422 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                  0.57 kB │ gzip:     0.36 kB
+dist/assets/midnight_onchain_runtime_wasm_bg-DLDy-U1U.wasm   1,321.37 kB │ gzip:   394.19 kB
+dist/assets/midnight_onchain_runtime_wasm_bg-D2U4EkPt.wasm   1,398.94 kB │ gzip:   412.20 kB
+dist/assets/midnight_ledger_wasm_bg-D5swusBh.wasm           10,143.78 kB │ gzip: 4,638.69 kB
+dist/assets/index-CCImy7dB.css                                  11.48 kB │ gzip:     3.34 kB
+dist/assets/index-luuS7dE9.js                                  222.83 kB │ gzip:    69.77 kB
+dist/assets/App-CUOUSmgr.js                                    830.15 kB │ gzip:   222.15 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.56s

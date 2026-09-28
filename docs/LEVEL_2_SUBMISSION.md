@@ -42,7 +42,7 @@ how organizers will assess the quality of future development history.
 | Compiler / generated artifact baseline | VERIFIED | [Compile log](evidence/level2-baseline-compile.log); three circuits and matching key pairs |
 | Baseline typecheck / contract tests | VERIFIED | [Typecheck](evidence/level2-baseline-typecheck.log), [22 passing tests](evidence/level2-baseline-tests.log) |
 | Frontend build/lint | VERIFIED | [Build and both typechecks](evidence/level2-build.log), [ESLint](evidence/level2-lint.log) |
-| Generated-contract and application tests | VERIFIED | [79 Node tests after Lace compatibility fix](evidence/level2-lace-compatibility.log), including four endpoint regressions; [earlier 75-test baseline](evidence/level2-tests.log). Real generated bindings test contract behavior; wallet orchestration uses mocks |
+| Generated-contract and application tests | VERIFIED | [81 Node tests](evidence/level2-wallet-api-tests.log), including the [post-authorization regression](evidence/level2-wallet-api-fix.md); earlier endpoint and contract logs remain historical. Real generated bindings test contract behavior; wallet orchestration uses mocks |
 | Mocked UI/hook tests | VERIFIED | [15 tests](evidence/level2-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
 | Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) reloaded Preprod round 1 Empty after the merged deployment became Ready; [nine circuit/three WASM checks](evidence/level2-main-assets.log) passed at 14:47:28 UTC. Earlier [desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) captures show no Lace connection |
@@ -110,7 +110,7 @@ restriction; do not rerun this completed checkpoint.
 
 ## Current checkpoints
 
-1. **Completed:** review local milestone diffs, typechecks, 79 Node tests, 15
+1. **Completed:** review local milestone diffs, typechecks, 81 Node tests, 15
    mocked UI tests, lint, production build and served assets. The integration
    branch's six Level 2 commits are merged into default `main` at `c462dabd`,
    preserving 17 meaningful non-merge commits overall. Its tree matches the

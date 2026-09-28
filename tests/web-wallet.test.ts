@@ -42,6 +42,31 @@ test('connect requires Preprod status, configuration, and shielded identity', as
   assert.equal(capture.configuration.networkId, 'preprod');
 });
 
+test('Lace authorization connects and revalidates without the unused hintUsage extension', async () => {
+  // Lace 2.4's transport does not register hintUsage. Its connect result
+  // exposes undefined for that property despite the broader InitialAPI type.
+  const api = connected();
+  Reflect.deleteProperty(api, 'hintUsage');
+  const session = new WalletSession();
+  await session.connect({ id: 'lace', name: 'Lace', apiVersion: '4.0.1', compatible: true, api: wallet(api) });
+  assert.deepEqual(session.snapshot, { status: 'connected', name: 'Lace', address: 'shielded-A' });
+  const capture = session.capture();
+  await capture.guard();
+  assert.equal(capture.isCurrent(), true);
+  session.disconnect();
+  assert.equal(capture.isCurrent(), false);
+  assert.throws(() => session.capture());
+});
+
+test('a connected wallet missing its proving method remains rejected', async () => {
+  const api = connected();
+  Reflect.deleteProperty(api, 'getProvingProvider');
+  const session = new WalletSession();
+  await session.connect({ id: 'incomplete', name: 'Incomplete', apiVersion: '4.0.1', compatible: true, api: wallet(api) });
+  assert.equal(session.snapshot.status, 'error');
+  assert.throws(() => session.capture());
+});
+
 test('rejected permission is sanitized and leaves no connected API', async () => {
   const session = new WalletSession();
   const choice = { id: 'reject', name: 'Reject', apiVersion: '4.0.1', compatible: true, api: wallet(connected(), { connect: async () => { throw new Error('SECRET_SENTINEL'); } }) };

@@ -1,0 +1,228 @@
+TAP version 13
+# Subtest: discovers every structurally valid injected wallet and marks incompatible versions
+ok 1 - discovers every structurally valid injected wallet and marks incompatible versions
+  ---
+  duration_ms: 3.9905
+  type: 'test'
+  ...
+# Subtest: connect requires Preprod status, configuration, and shielded identity
+ok 2 - connect requires Preprod status, configuration, and shielded identity
+  ---
+  duration_ms: 0.6904
+  type: 'test'
+  ...
+# Subtest: Lace authorization connects and revalidates without the unused hintUsage extension
+not ok 3 - Lace authorization connects and revalidates without the unused hintUsage extension
+  ---
+  duration_ms: 1.4403
+  type: 'test'
+  location: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\tests\\web-wallet.test.ts:45:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    +   reason: 'Unsupported wallet API',
+    +   status: 'error'
+    -   address: 'shielded-A',
+    -   name: 'Lace',
+    -   status: 'connected'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    status: 'connected'
+    name: 'Lace'
+    address: 'shielded-A'
+  actual:
+    status: 'error'
+    reason: 'Unsupported wallet API'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/tests/web-wallet.test.ts:52:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a connected wallet missing its proving method remains rejected
+ok 4 - a connected wallet missing its proving method remains rejected
+  ---
+  duration_ms: 0.5097
+  type: 'test'
+  ...
+# Subtest: rejected permission is sanitized and leaves no connected API
+ok 5 - rejected permission is sanitized and leaves no connected API
+  ---
+  duration_ms: 0.4057
+  type: 'test'
+  ...
+# Subtest: a wallet reporting another network is refused
+ok 6 - a wallet reporting another network is refused
+  ---
+  duration_ms: 0.3001
+  type: 'test'
+  ...
+# Subtest: disconnect during delayed authorization prevents stale connect result
+ok 7 - disconnect during delayed authorization prevents stale connect result
+  ---
+  duration_ms: 0.3295
+  type: 'test'
+  ...
+# Subtest: account change invalidates capture and cached session
+ok 8 - account change invalidates capture and cached session
+  ---
+  duration_ms: 0.5678
+  type: 'test'
+  ...
+# Subtest: older revalidation cannot disconnect a newly connected wallet
+ok 9 - older revalidation cannot disconnect a newly connected wallet
+  ---
+  duration_ms: 0.6214
+  type: 'test'
+  ...
+# Subtest: duplicate connect while authorization is pending does not prompt twice
+ok 10 - duplicate connect while authorization is pending does not prompt twice
+  ---
+  duration_ms: 0.5918
+  type: 'test'
+  ...
+# Subtest: a superseded guard cannot authorize side effects
+ok 11 - a superseded guard cannot authorize side effects
+  ---
+  duration_ms: 0.4089
+  type: 'test'
+  ...
+# Subtest: late wallet injection is found by a fresh discovery call
+ok 12 - late wallet injection is found by a fresh discovery call
+  ---
+  duration_ms: 0.1412
+  type: 'test'
+  ...
+# Subtest: unsupported API version never invokes wallet authorization
+ok 13 - unsupported API version never invokes wallet authorization
+  ---
+  duration_ms: 0.1373
+  type: 'test'
+  ...
+# Subtest: missing connected methods or shielded keys never yield a capture
+ok 14 - missing connected methods or shielded keys never yield a capture
+  ---
+  duration_ms: 0.2642
+  type: 'test'
+  ...
+# Subtest: changed prover and indexer configuration invalidates an existing capture
+ok 15 - changed prover and indexer configuration invalidates an existing capture
+  ---
+  duration_ms: 0.2103
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 14
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 296.9406
+TAP version 13
+# Subtest: discovers every structurally valid injected wallet and marks incompatible versions
+ok 1 - discovers every structurally valid injected wallet and marks incompatible versions
+  ---
+  duration_ms: 3.9973
+  type: 'test'
+  ...
+# Subtest: connect requires Preprod status, configuration, and shielded identity
+ok 2 - connect requires Preprod status, configuration, and shielded identity
+  ---
+  duration_ms: 0.7048
+  type: 'test'
+  ...
+# Subtest: Lace authorization connects and revalidates without the unused hintUsage extension
+ok 3 - Lace authorization connects and revalidates without the unused hintUsage extension
+  ---
+  duration_ms: 0.56
+  type: 'test'
+  ...
+# Subtest: a connected wallet missing its proving method remains rejected
+ok 4 - a connected wallet missing its proving method remains rejected
+  ---
+  duration_ms: 0.3219
+  type: 'test'
+  ...
+# Subtest: rejected permission is sanitized and leaves no connected API
+ok 5 - rejected permission is sanitized and leaves no connected API
+  ---
+  duration_ms: 0.4571
+  type: 'test'
+  ...
+# Subtest: a wallet reporting another network is refused
+ok 6 - a wallet reporting another network is refused
+  ---
+  duration_ms: 0.273
+  type: 'test'
+  ...
+# Subtest: disconnect during delayed authorization prevents stale connect result
+ok 7 - disconnect during delayed authorization prevents stale connect result
+  ---
+  duration_ms: 0.3367
+  type: 'test'
+  ...
+# Subtest: account change invalidates capture and cached session
+ok 8 - account change invalidates capture and cached session
+  ---
+  duration_ms: 0.4082
+  type: 'test'
+  ...
+# Subtest: older revalidation cannot disconnect a newly connected wallet
+ok 9 - older revalidation cannot disconnect a newly connected wallet
+  ---
+  duration_ms: 0.586
+  type: 'test'
+  ...
+# Subtest: duplicate connect while authorization is pending does not prompt twice
+ok 10 - duplicate connect while authorization is pending does not prompt twice
+  ---
+  duration_ms: 0.5596
+  type: 'test'
+  ...
+# Subtest: a superseded guard cannot authorize side effects
+ok 11 - a superseded guard cannot authorize side effects
+  ---
+  duration_ms: 0.4414
+  type: 'test'
+  ...
+# Subtest: late wallet injection is found by a fresh discovery call
+ok 12 - late wallet injection is found by a fresh discovery call
+  ---
+  duration_ms: 0.2189
+  type: 'test'
+  ...
+# Subtest: unsupported API version never invokes wallet authorization
+ok 13 - unsupported API version never invokes wallet authorization
+  ---
+  duration_ms: 0.1419
+  type: 'test'
+  ...
+# Subtest: missing connected methods or shielded keys never yield a capture
+ok 14 - missing connected methods or shielded keys never yield a capture
+  ---
+  duration_ms: 0.2329
+  type: 'test'
+  ...
+# Subtest: changed prover and indexer configuration invalidates an existing capture
+ok 15 - changed prover and indexer configuration invalidates an existing capture
+  ---
+  duration_ms: 0.1999
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 266.3103

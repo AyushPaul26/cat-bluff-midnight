@@ -1,4 +1,4 @@
-import type { ConnectedAPI, InitialAPI, Configuration } from '@midnight-ntwrk/dapp-connector-api';
+import type { WalletConnectedAPI, InitialAPI, Configuration } from '@midnight-ntwrk/dapp-connector-api';
 import { satisfies } from 'semver';
 
 export type WalletChoice = { id: string; name: string; apiVersion: string; api: InitialAPI; compatible: boolean };
@@ -8,16 +8,19 @@ export type WalletSnapshot =
   | { status: 'connected'; name: string; address: string }
   | { status: 'error'; reason: string };
 export type WalletCapture = {
-  api: ConnectedAPI; address: string; coinPublicKey: string; encryptionPublicKey: string;
+  api: WalletConnectedAPI; address: string; coinPublicKey: string; encryptionPublicKey: string;
   configuration: Configuration; guard: () => Promise<void>; isCurrent: () => boolean;
 };
 
+// Validate the wallet operations, not the unused HintUsage extension. Lace 2.4
+// does not register hintUsage in its remote transport, so connect returns it
+// as undefined. The other methods and all session/network guards remain required.
 const REQUIRED_METHODS = [
   'getShieldedBalances', 'getUnshieldedBalances', 'getDustBalance', 'getShieldedAddresses',
   'getUnshieldedAddress', 'getDustAddress', 'getTxHistory', 'balanceUnsealedTransaction',
   'balanceSealedTransaction', 'makeTransfer', 'makeIntent', 'signData', 'submitTransaction',
-  'getProvingProvider', 'getConfiguration', 'getConnectionStatus', 'hintUsage',
-] as const satisfies ReadonlyArray<keyof ConnectedAPI>;
+  'getProvingProvider', 'getConfiguration', 'getConnectionStatus',
+] as const satisfies ReadonlyArray<keyof WalletConnectedAPI>;
 function record(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
@@ -28,7 +31,7 @@ function initialApi(value: unknown): value is InitialAPI {
   return record(value) && nonempty(value.rdns) && nonempty(value.name) && typeof value.icon === 'string'
     && nonempty(value.apiVersion) && typeof value.connect === 'function';
 }
-function connectedApi(value: unknown): value is ConnectedAPI {
+function connectedApi(value: unknown): value is WalletConnectedAPI {
   return record(value) && REQUIRED_METHODS.every(method => typeof value[method] === 'function');
 }
 function supported(version: string): boolean {
@@ -44,8 +47,8 @@ export function discoverWallets(injected: unknown): WalletChoice[] {
   return choices;
 }
 
-type Identity = Awaited<ReturnType<ConnectedAPI['getShieldedAddresses']>>;
-type Connection = { api: ConnectedAPI; name: string; identity: Identity; configuration: Configuration };
+type Identity = Awaited<ReturnType<WalletConnectedAPI['getShieldedAddresses']>>;
+type Connection = { api: WalletConnectedAPI; name: string; identity: Identity; configuration: Configuration };
 function validIdentity(value: unknown): value is Identity {
   return record(value) && nonempty(value.shieldedAddress)
     && nonempty(value.shieldedCoinPublicKey) && nonempty(value.shieldedEncryptionPublicKey);

@@ -1,0 +1,501 @@
+
+> cat-bluff-midnight@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: checkpoint round-trip preserves all wallet states and rejects the wrong account
+ok 1 - checkpoint round-trip preserves all wallet states and rejects the wrong account
+  ---
+  duration_ms: 27.0626
+  type: 'test'
+  ...
+# Subtest: malformed checkpoint errors do not echo private data
+ok 2 - malformed checkpoint errors do not echo private data
+  ---
+  duration_ms: 7.0029
+  type: 'test'
+  ...
+# Subtest: deployment permits only the documented free Preprod network
+ok 3 - deployment permits only the documented free Preprod network
+  ---
+  duration_ms: 3.2115
+  type: 'test'
+  ...
+# Subtest: initial public state is Empty with no card disclosure
+ok 4 - initial public state is Empty with no card disclosure
+  ---
+  duration_ms: 88.8291
+  type: 'test'
+  ...
+# Subtest: player commits a private valid rank while publicly bluffing
+ok 5 - player commits a private valid rank while publicly bluffing
+  ---
+  duration_ms: 81.5438
+  type: 'test'
+  ...
+# Subtest: incorrect player capability rejects without changing ledger
+ok 6 - incorrect player capability rejects without changing ledger
+  ---
+  duration_ms: 55.8764
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 0
+ok 7 - rejects hidden rank 0
+  ---
+  duration_ms: 30.2593
+  type: 'test'
+  ...
+# Subtest: rejects public claim 0
+ok 8 - rejects public claim 0
+  ---
+  duration_ms: 28.4608
+  type: 'test'
+  ...
+# Subtest: rejects hidden rank 14
+ok 9 - rejects hidden rank 14
+  ---
+  duration_ms: 29.5715
+  type: 'test'
+  ...
+# Subtest: rejects public claim 14
+ok 10 - rejects public claim 14
+  ---
+  duration_ms: 24.5425
+  type: 'test'
+  ...
+# Subtest: a second commitment is rejected and cannot replace the first
+ok 11 - a second commitment is rejected and cannot replace the first
+  ---
+  duration_ms: 50.3217
+  type: 'test'
+  ...
+# Subtest: authorized challenge and resolution reveal only rank and detect a bluff
+ok 12 - authorized challenge and resolution reveal only rank and detect a bluff
+  ---
+  duration_ms: 69.2205
+  type: 'test'
+  ...
+# Subtest: truthful claim resolves as truthful
+ok 13 - truthful claim resolves as truthful
+  ---
+  duration_ms: 58.7226
+  type: 'test'
+  ...
+# Subtest: player cannot act as challenger
+ok 14 - player cannot act as challenger
+  ---
+  duration_ms: 67.3832
+  type: 'test'
+  ...
+# Subtest: challenger cannot resolve with its capability
+ok 15 - challenger cannot resolve with its capability
+  ---
+  duration_ms: 38.0393
+  type: 'test'
+  ...
+# Subtest: wrong rank opening rejects and leaves state unchanged
+ok 16 - wrong rank opening rejects and leaves state unchanged
+  ---
+  duration_ms: 66.8336
+  type: 'test'
+  ...
+# Subtest: wrong salt opening rejects and leaves state unchanged
+ok 17 - wrong salt opening rejects and leaves state unchanged
+  ---
+  duration_ms: 59.7403
+  type: 'test'
+  ...
+# Subtest: rejects every out-of-phase or replayed action
+ok 18 - rejects every out-of-phase or replayed action
+  ---
+  duration_ms: 57.3467
+  type: 'test'
+  ...
+# Subtest: commitments bind context, role, round, player, rank and salt
+ok 19 - commitments bind context, role, round, player, rank and salt
+  ---
+  duration_ms: 24.638
+  type: 'test'
+  ...
+# Wallet checkpoint could not be saved.
+# Subtest: wallet shutdown still runs when checkpoint persistence fails
+ok 20 - wallet shutdown still runs when checkpoint persistence fails
+  ---
+  duration_ms: 2.1817
+  type: 'test'
+  ...
+# Subtest: clean wallet shutdown saves state before stopping
+ok 21 - clean wallet shutdown saves state before stopping
+  ---
+  duration_ms: 1.3952
+  type: 'test'
+  ...
+# Subtest: fresh private cards cover valid ranks with independent unpredictable salts
+ok 22 - fresh private cards cover valid ranks with independent unpredictable salts
+  ---
+  duration_ms: 7.5548
+  type: 'test'
+  ...
+# Subtest: hosting assets contain the actual binary circuits and keys with a verifiable manifest
+ok 23 - hosting assets contain the actual binary circuits and keys with a verifiable manifest
+  ---
+  duration_ms: 119.3037
+  type: 'test'
+  ...
+# Subtest: browser configuration requires an explicit valid Preprod address
+ok 24 - browser configuration requires an explicit valid Preprod address
+  ---
+  duration_ms: 2.0558
+  type: 'test'
+  ...
+# Subtest: public endpoint configuration rejects insecure or credential-bearing services
+ok 25 - public endpoint configuration rejects insecure or credential-bearing services
+  ---
+  duration_ms: 0.9534
+  type: 'test'
+  ...
+# Subtest: private proving configuration accepts only explicit loopback endpoints
+ok 26 - private proving configuration accepts only explicit loopback endpoints
+  ---
+  duration_ms: 0.6079
+  type: 'test'
+  ...
+# Subtest: public pending record survives a new store and is isolated by contract
+ok 27 - public pending record survives a new store and is isolated by contract
+  ---
+  duration_ms: 3.2278
+  type: 'test'
+  ...
+# Subtest: store persists only allowlisted public fields
+ok 28 - store persists only allowlisted public fields
+  ---
+  duration_ms: 0.3108
+  type: 'test'
+  ...
+# Subtest: corrupt storage remains present and blocks reads
+ok 29 - corrupt storage remains present and blocks reads
+  ---
+  duration_ms: 0.9996
+  type: 'test'
+  ...
+# Subtest: invalid claim and cross-contract records cannot be written
+ok 30 - invalid claim and cross-contract records cannot be written
+  ---
+  duration_ms: 0.3851
+  type: 'test'
+  ...
+# Subtest: storage write failure blocks submission instead of accepting an in-memory record
+ok 31 - storage write failure blocks submission instead of accepting an in-memory record
+  ---
+  duration_ms: 0.5751
+  type: 'test'
+  ...
+# Subtest: storage access failure never masquerades as no pending transaction
+ok 32 - storage access failure never masquerades as no pending transaction
+  ---
+  duration_ms: 0.2242
+  type: 'test'
+  ...
+# Subtest: encrypted package round trips only card witnesses and binds scope
+ok 33 - encrypted package round trips only card witnesses and binds scope
+  ---
+  duration_ms: 223.6372
+  type: 'test'
+  ...
+# Subtest: wrong password and altered authenticated scope fail closed
+ok 34 - wrong password and altered authenticated scope fail closed
+  ---
+  duration_ms: 393.5246
+  type: 'test'
+  ...
+# Subtest: ciphertext tampering fails authentication
+ok 35 - ciphertext tampering fails authentication
+  ---
+  duration_ms: 206.9086
+  type: 'test'
+  ...
+# Subtest: oversized envelope is refused before parsing
+ok 36 - oversized envelope is refused before parsing
+  ---
+  duration_ms: 100.9356
+  type: 'test'
+  ...
+# Subtest: invalid KDF and IV parameters are refused
+ok 37 - invalid KDF and IV parameters are refused
+  ---
+  duration_ms: 102.565
+  type: 'test'
+  ...
+# Subtest: package validation rejects contract, player, and commitment mismatch
+ok 38 - package validation rejects contract, player, and commitment mismatch
+  ---
+  duration_ms: 208.5927
+  type: 'test'
+  ...
+# Subtest: package validation rejects context and round mismatch
+ok 39 - package validation rejects context and round mismatch
+  ---
+  duration_ms: 200.2969
+  type: 'test'
+  ...
+# Subtest: rank and byte lengths are rejected before encryption
+ok 40 - rank and byte lengths are rejected before encryption
+  ---
+  duration_ms: 0.4463
+  type: 'test'
+  ...
+# Subtest: memory provider isolates instances, returns copies, and disposes
+ok 41 - memory provider isolates instances, returns copies, and disposes
+  ---
+  duration_ms: 0.8542
+  type: 'test'
+  ...
+# Subtest: memory provider satisfies SDK state and signing-key lifecycle
+ok 42 - memory provider satisfies SDK state and signing-key lifecycle
+  ---
+  duration_ms: 0.8358
+  type: 'test'
+  ...
+# Subtest: generated witness interface reads private state without mutation
+ok 43 - generated witness interface reads private state without mutation
+  ---
+  duration_ms: 0.3848
+  type: 'test'
+  ...
+# Subtest: human export refuses noninteractive input before reading secrets
+ok 44 - human export refuses noninteractive input before reading secrets
+  ---
+  duration_ms: 0.6196
+  type: 'test'
+  ...
+# Subtest: malformed private source reports a fixed error without source fragments
+ok 45 - malformed private source reports a fixed error without source fragments
+  ---
+  duration_ms: 0.2485
+  type: 'test'
+  ...
+# Subtest: mocked external adapters: receipt requires successful status and matching block state
+ok 46 - mocked external adapters: receipt requires successful status and matching block state
+  ---
+  duration_ms: 2.9234
+  type: 'test'
+  ...
+# Subtest: wrong phase never submits
+ok 47 - wrong phase never submits
+  ---
+  duration_ms: 0.9608
+  type: 'test'
+  ...
+# Subtest: duplicate entry cannot begin another transaction
+ok 48 - duplicate entry cannot begin another transaction
+  ---
+  duration_ms: 0.5936
+  type: 'test'
+  ...
+# Subtest: disconnect after proof prevents approval and submit
+ok 49 - disconnect after proof prevents approval and submit
+  ---
+  duration_ms: 1.1278
+  type: 'test'
+  ...
+# Subtest: proof failure sanitizes errors and leaves no pending transaction
+ok 50 - proof failure sanitizes errors and leaves no pending transaction
+  ---
+  duration_ms: 0.9737
+  type: 'test'
+  ...
+# Subtest: uncertain submit retains public record and never resubmits on retry
+ok 51 - uncertain submit retains public record and never resubmits on retry
+  ---
+  duration_ms: 12.7833
+  type: 'test'
+  ...
+# Subtest: pending record exists before submission
+ok 52 - pending record exists before submission
+  ---
+  duration_ms: 1.504
+  type: 'test'
+  ...
+# Subtest: timeout stays pending and refresh reconciles the same transaction without wallet
+ok 53 - timeout stays pending and refresh reconciles the same transaction without wallet
+  ---
+  duration_ms: 13.413
+  type: 'test'
+  ...
+# Subtest: chain failure cannot become a successful receipt
+ok 54 - chain failure cannot become a successful receipt
+  ---
+  duration_ms: 2.1942
+  type: 'test'
+  ...
+# Subtest: incorrect commitment at confirmation block fails receipt verification
+ok 55 - incorrect commitment at confirmation block fails receipt verification
+  ---
+  duration_ms: 1.8793
+  type: 'test'
+  ...
+# Subtest: timeout includes reading the confirmation block
+ok 56 - timeout includes reading the confirmation block
+  ---
+  duration_ms: 26.1016
+  type: 'test'
+  ...
+# Subtest: two controllers sharing a browser lock cannot prove or overwrite the same contract concurrently
+ok 57 - two controllers sharing a browser lock cannot prove or overwrite the same contract concurrently
+  ---
+  duration_ms: 16.8784
+  type: 'test'
+  ...
+# Subtest: unavailable browser locks fail closed before proving
+ok 58 - unavailable browser locks fail closed before proving
+  ---
+  duration_ms: 0.5226
+  type: 'test'
+  ...
+# Subtest: pending record appearing during preparation cannot be overwritten
+ok 59 - pending record appearing during preparation cannot be overwritten
+  ---
+  duration_ms: 1.361
+  type: 'test'
+  ...
+# Subtest: foreign pending record cannot be updated after submission or cleared by reconciliation
+ok 60 - foreign pending record cannot be updated after submission or cleared by reconciliation
+  ---
+  duration_ms: 0.9179
+  type: 'test'
+  ...
+# Subtest: reconciliation refuses to clear a replacement pending record
+ok 61 - reconciliation refuses to clear a replacement pending record
+  ---
+  duration_ms: 0.9828
+  type: 'test'
+  ...
+# Subtest: known cancellation before wallet invocation clears only its own pending record
+ok 62 - known cancellation before wallet invocation clears only its own pending record
+  ---
+  duration_ms: 0.9262
+  type: 'test'
+  ...
+# Subtest: Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+ok 63 - Lace 2.4 exact Preprod endpoint tuple passes the commit configuration gate
+  ---
+  duration_ms: 1.7375
+  type: 'test'
+  ...
+# Subtest: official Preprod endpoints still pass the commit configuration gate
+ok 64 - official Preprod endpoints still pass the commit configuration gate
+  ---
+  duration_ms: 0.2682
+  type: 'test'
+  ...
+# Subtest: Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+ok 65 - Lace endpoint lookalikes, mixed tuples, other networks, and extra URL components are rejected
+  ---
+  duration_ms: 0.6823
+  type: 'test'
+  ...
+# Subtest: Lace Preprod still requires the configured user-local prover
+ok 66 - Lace Preprod still requires the configured user-local prover
+  ---
+  duration_ms: 0.3399
+  type: 'test'
+  ...
+# Subtest: discovers every structurally valid injected wallet and marks incompatible versions
+ok 67 - discovers every structurally valid injected wallet and marks incompatible versions
+  ---
+  duration_ms: 7.3152
+  type: 'test'
+  ...
+# Subtest: connect requires Preprod status, configuration, and shielded identity
+ok 68 - connect requires Preprod status, configuration, and shielded identity
+  ---
+  duration_ms: 1.1921
+  type: 'test'
+  ...
+# Subtest: Lace authorization connects and revalidates without the unused hintUsage extension
+ok 69 - Lace authorization connects and revalidates without the unused hintUsage extension
+  ---
+  duration_ms: 0.9367
+  type: 'test'
+  ...
+# Subtest: a connected wallet missing its proving method remains rejected
+ok 70 - a connected wallet missing its proving method remains rejected
+  ---
+  duration_ms: 0.5798
+  type: 'test'
+  ...
+# Subtest: rejected permission is sanitized and leaves no connected API
+ok 71 - rejected permission is sanitized and leaves no connected API
+  ---
+  duration_ms: 0.7428
+  type: 'test'
+  ...
+# Subtest: a wallet reporting another network is refused
+ok 72 - a wallet reporting another network is refused
+  ---
+  duration_ms: 0.4391
+  type: 'test'
+  ...
+# Subtest: disconnect during delayed authorization prevents stale connect result
+ok 73 - disconnect during delayed authorization prevents stale connect result
+  ---
+  duration_ms: 0.5587
+  type: 'test'
+  ...
+# Subtest: account change invalidates capture and cached session
+ok 74 - account change invalidates capture and cached session
+  ---
+  duration_ms: 0.6636
+  type: 'test'
+  ...
+# Subtest: older revalidation cannot disconnect a newly connected wallet
+ok 75 - older revalidation cannot disconnect a newly connected wallet
+  ---
+  duration_ms: 0.9859
+  type: 'test'
+  ...
+# Subtest: duplicate connect while authorization is pending does not prompt twice
+ok 76 - duplicate connect while authorization is pending does not prompt twice
+  ---
+  duration_ms: 0.8584
+  type: 'test'
+  ...
+# Subtest: a superseded guard cannot authorize side effects
+ok 77 - a superseded guard cannot authorize side effects
+  ---
+  duration_ms: 0.6468
+  type: 'test'
+  ...
+# Subtest: late wallet injection is found by a fresh discovery call
+ok 78 - late wallet injection is found by a fresh discovery call
+  ---
+  duration_ms: 0.3399
+  type: 'test'
+  ...
+# Subtest: unsupported API version never invokes wallet authorization
+ok 79 - unsupported API version never invokes wallet authorization
+  ---
+  duration_ms: 0.2321
+  type: 'test'
+  ...
+# Subtest: missing connected methods or shielded keys never yield a capture
+ok 80 - missing connected methods or shielded keys never yield a capture
+  ---
+  duration_ms: 0.3906
+  type: 'test'
+  ...
+# Subtest: changed prover and indexer configuration invalidates an existing capture
+ok 81 - changed prover and indexer configuration invalidates an existing capture
+  ---
+  duration_ms: 0.3301
+  type: 'test'
+  ...
+1..81
+# tests 81
+# suites 0
+# pass 81
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3283.9774
