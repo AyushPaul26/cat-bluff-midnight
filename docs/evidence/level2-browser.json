@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-09-28T14:04:41.816Z",
+  "origin": "http://127.0.0.1:4173/#top",
+  "publicState": "READ FROM PREPROD\n\nOn the table\nRound\n1\nPublic phase\nEmpty\nClaimed rank\n—\nRefresh ↻",
+  "commitDisabled": true,
+  "walletObservation": "01\nBring your wallet\n\nConnect Lace to approve a private action on the free Preprod network.\n\nNo compatible wallet detected. Install or unlock Lace in a supported browser, select Preprod, then return here. We check for it automatically.\n\nDisconnect clears this app’s session. Saved Lace site permissions are managed inside your wallet.",
+  "newConsoleWarnings": [],
+  "scope": "Real public indexer and verifier reads. No wallet connected, no private package imported, no proof or transaction performed."
+}

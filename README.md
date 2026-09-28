@@ -2,7 +2,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission** and its frontend is not yet implemented. The fresh audit reconfirmed compilation, all 22 tests and the existing Preprod contract's verifier keys. See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission**. The local React frontend, real SDK adapters and tests are implemented. A production browser read verified the existing Preprod contract and its verifier keys. **No real Lace circuit transaction, hosted frontend or demo video has been verified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
 
 ## Live Demo
 
@@ -50,9 +50,113 @@ claim and a randomized card commitment. The circuit constrains the hidden rank
 to 1–13 without publishing that rank, its salt or the player capability. The claim
 may differ from the hidden rank; fair dealing and card ownership are not proved.
 Resolution deliberately publishes the rank later. A prover processes private
-inputs and must be trusted. The planned Level 2 flow uses a verified user-local
-proving path, keeps witnesses out of the UI, and calls only `commit`; that browser
-flow is not implemented or verified yet. See [privacy model](docs/PRIVACY_MODEL.md).
+inputs and must be trusted. The implemented Level 2 flow requires a wallet-reported
+loopback prover, keeps witnesses in memory outside the UI, and calls only `commit`.
+Actual Lace/prover traffic and hosted-origin behavior remain unverified. Native
+local proving is not browser-WASM proving; the prompt book's literal browser
+requirement needs clarification. See [privacy model](docs/PRIVACY_MODEL.md).
+
+## Level 2 Private Action Demo
+
+The screen has real wallet discovery/connection/disconnection, a shielded-address
+display, encrypted player-package import, an independent public rank selector,
+and the generated Compact `commit` circuit integration. It loads live public
+ledger state and verifies all three on-chain verifier keys against served
+artifacts. A missing configuration, wrong network, unavailable wallet or failed
+public verification cannot produce a success badge.
+
+The player capability, rank and salt never enter React state, rendered content,
+URLs, artwork, sound or public pending records. The human creates the encrypted
+package from the preserved Level 1 record in an interactive terminal. Its
+passphrase is cleared from the form after use; witnesses remain only in memory
+for that wallet session. No wallet seed is included. Retain the original record
+and package for later resolution. Disconnect attempts to wipe this app's copies,
+but JavaScript cannot guarantee complete memory erasure.
+
+Only the original player capability can commit. Connecting Lace does not grant
+a game role. **This deployed contract supports one round and no reset.** Reserve
+the first real commitment for the hosted recording. Subsequent visitors can read
+the public result, but cannot replay the action.
+
+Actual SDK boundaries drive the processing stages. The finalized transaction
+identifier is saved before submission. Confirmation requires `SucceedEntirely`
+and the expected commitment, public claim and Committed phase at the indexed
+block. Unknown outcomes stay pending; recheck the same transaction before any
+retry. Web Locks serialize actions across tabs. Unsupported browsers fail closed.
+No wallet requests are approved automatically.
+
+### Run locally
+
+After installing the pinned toolchain and dependencies below, use Node 22.22.0:
+
+```bash
+npm run dev           # http://127.0.0.1:5173
+npm run test:ui       # mocked wallet/adapter UI tests
+npm run lint
+npm run build         # both typechecks + public artifact copy + Vite
+npm run preview       # http://127.0.0.1:4173
+node scripts/verify-web-assets.mjs http://127.0.0.1:4173
+```
+
+On this Windows checkout, select the project-local runtime before npm commands:
+
+```powershell
+$env:PATH = (Join-Path (Get-Location) '.tools/node-v22.22.0-win-x64') + ';' + $env:PATH
+```
+
+For initial dependency installation, use `bash scripts/install-dependencies.sh`
+inside WSL. It bootstraps npm **11.11.1** locally to avoid an observed npm 10
+optional-peer resolver failure. It does not change global npm. The lockfile
+preserves the Midnight versions; Vercel also uses the pinned npm 11 resolver.
+Run compilation in Linux/WSL. Browser build commands work on Windows too.
+
+For the human operator, after starting Docker Desktop's Linux engine:
+
+```bash
+docker compose up -d
+curl --fail http://127.0.0.1:6300/health
+npm run demo:export   # private interactive terminal; password is not echoed
+```
+
+The encrypted output is `.private/cat-bluff-demo.enc.json`; it is never uploaded
+to hosting. Configure Lace for Preprod and the loopback proof server at
+`http://127.0.0.1:6300`. Match the application's public endpoints. Connect Lace,
+import the package, choose a public claim, and personally review the wallet request.
+Do this real transaction only after publishing and checking the live origin.
+Each visitor needs their own proving prerequisites; hosting supplies no prover.
+Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+### Local verification
+
+- **75 Node tests passed**, including the original real generated-contract tests,
+  wallet lifecycle, encrypted-package rejection, and pending recovery tests.
+- **15 UI/hook tests passed** with mocked wallet/transaction adapters. These do
+  not establish a real Lace transaction or inspect its actual proof payloads.
+- Both TypeScript targets, ESLint and the production build passed. The browser
+  loaded real WASM, fetched Preprod state and matched its verifier keys.
+- Nine circuit artifacts and three WASM files passed served-byte/hash checks.
+- Desktop and 390-pixel mobile viewports were inspected. No mobile horizontal
+  overflow was observed. Missing-wallet controls stayed disabled.
+
+[Node tests](docs/evidence/level2-tests.log) ·
+[UI tests](docs/evidence/level2-ui-tests.log) ·
+[build/typecheck](docs/evidence/level2-build.log) ·
+[lint](docs/evidence/level2-lint.log) ·
+[asset checks](docs/evidence/level2-assets.log).
+
+A [fresh isolated Windows install/build](docs/evidence/level2-clean-build.log)
+also passed with npm 11.11.1 and `ci --include=dev --ignore-scripts`; no Compact
+installation or private file was needed in the build copy. Hosted Linux remains
+unverified. [Browser evidence](docs/evidence/level2-browser.json) records the real
+public read and disabled action in the absence of Lace.
+
+![Actual local production preview; no wallet transaction performed](docs/evidence/level2-desktop.png)
+
+The bundle includes large Midnight WASM files and an approximately 830 KB
+application JS chunk; production compression/caching matter. Build warnings
+about that chunk and an upstream PURE comment remain visible in the log.
+Lace approval, proof generation, actual private traffic inspection, hosted-origin
+local-network access, video and submission are still pending.
 
 ## Toolchain and setup
 
@@ -68,6 +172,10 @@ Use Linux x86-64 or Ubuntu on WSL2, Python 3, curl, and Docker with a running Li
 | Proof server | 8.1.0 |
 | Wallet SDK umbrella | 1.2.0 |
 | TypeScript | 5.9.3 |
+| DApp Connector API | 4.0.1 |
+| React / React DOM | 19.2.4 |
+| Vite / React plugin | 7.3.1 / 5.1.4 |
+| Project-local npm resolver | 11.11.1 |
 
 Versions were selected from the official [support matrix](https://docs.midnight.network/relnotes/support-matrix) for Preprod. The CLI version is different from the compiler version. Exact transitive JavaScript versions are captured in `package-lock.json`.
 

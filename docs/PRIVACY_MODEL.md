@@ -1,7 +1,9 @@
 # Cat Bluff privacy model
 
-Status on 2026-09-28: contract behavior verified; browser implementation pending.
-This describes the existing deployed primitive and the proposed Level 2 boundary.
+Status on 2026-09-28: contract behavior verified; browser implementation and local
+tests complete, real Lace/prover transaction pending. This describes the existing
+deployed primitive and the implemented Level 2 boundary, with external checks
+explicitly outstanding.
 
 ## Exact statement
 
@@ -46,10 +48,10 @@ Exported transactions return `[]`; the demo has no cross-contract calls.
 
 ## Browser flow and trust
 
-The Level 2 action will call **commit only** and will never automatically resolve.
+The Level 2 action calls **commit only** and never automatically resolves.
 An on-chain observer sees the public claim, salted commitment, authorized state
 transition and metadata, not the rank, salt or capability at commitment time.
-The proposed success sentence must follow a confirmed transaction and name the
+The success sentence follows a confirmed transaction and names the
 actual statement: authorized commitment of a rank in 1–13, without revealing it.
 
 - The operator's original ignored local record remains the recovery source.
@@ -67,7 +69,9 @@ actual statement: authorized commitment of a rank in 1–13, without revealing i
   itself prove the prover is local: verify configuration and behavior before use.
 - Hosting/CDN delivers code and public circuit artifacts. A compromised frontend
   can steal imported secrets; HTTPS alone cannot make malicious code safe.
-  No shared proving backend, serverless proxy or analytics service is planned.
+  There is no shared proving backend, serverless proxy or analytics service.
+  The fixed Google Fonts stylesheet request carries ordinary network metadata,
+  never private input. The SVG and optional sound are independent of witnesses.
 - Indexer/explorer receive public queries/results only. Their network operators
   may observe IP/timing/access patterns. This prototype does not claim anonymity.
 - Local disconnect releases API references, session data and in-memory witnesses;
@@ -77,6 +81,25 @@ actual statement: authorized commitment of a rank in 1–13, without revealing i
   current session/account/network identity; invalidated work must not continue to
   prove, sign or submit. Retain possibly submitted public transaction metadata
   across disconnect. JavaScript memory erasure cannot be guaranteed.
+
+The connector 4.0.1 wallet-mediated prover path is adapted through the actual
+Midnight.js 4.1.1 proof provider. A matching loopback `proverServerUri` is required;
+an absent URI blocks the action. This is an explicit compatibility constraint:
+even a wallet with a genuine local implementation cannot proceed if it does not
+expose a verifiable URI. The reported URI is not proof of actual traffic routing.
+The operator must verify the real wallet/prover behavior at the hosted origin.
+
+Web Locks serialize commit/reconciliation per network and contract across tabs.
+The public pending store validates/allowlists transaction identifiers, expected
+commitment, claim, timestamps and submission status. Malformed or inaccessible
+storage fails closed. Known cancellation before invoking submission removes only
+its own record; an error after invoking the wallet keeps the ambiguous record.
+There is no automatic retry or clearing of an unknown transaction.
+
+The SDK's `watchForTxData` promise offers no abort API. One public-only watcher is
+cached per endpoint/transaction; a 60-second UI timeout does not create another
+watcher or mean failure. Disconnect invalidates private work and UI generations,
+but that public-only watcher may remain until completion or page unload.
 
 The PDF's literal browser-execution requirement remains **unresolved**. The
 current supported native local server is not described as browser-WASM proving.
@@ -89,10 +112,16 @@ tests check context/role/round/player/rank/salt binding. Valid bluff and truthfu
 claims both pass. These are generated-contract execution tests, not fresh proofs
 or real-wallet frontend E2E evidence.
 
-Planned browser tests cover secret-free DOM/logs/public requests with throwaway
-data, encrypted-package tampering, incorrect scope, missing recovery, stale async
-sessions, wrong network, duplicate clicks, proof/rejection/network failures and
-delayed confirmation. Those tests have not been implemented or run yet.
+Implemented tests cover encrypted-package authentication/tampering/size/parameters,
+incorrect scope and role/opening binding, malformed private JSON error sanitizing,
+stale async sessions, wrong network, duplicate and cross-tab requests, proof errors,
+definitely-unsent cancellation and delayed confirmation. UI/hook tests ensure
+private package contents are absent from rendered content and hook state. The
+actual browser has verified public data and artifacts only. Wallet/proof adapters
+are mocked in automated UI tests; absence of private data in the real wallet's
+outbound payloads and logs remains a manual E2E check. No captured private request
+bodies may be published. CLI exclusive creation is implemented (`wx`) but the
+interactive export with the original private file has not been run by the agent.
 
 The prototype does not prove fair dealing, card ownership, a 52-card deck, unique
 players, independent roles, wallet-to-role ownership, shuffled randomness, or

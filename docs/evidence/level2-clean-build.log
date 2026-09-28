@@ -1,0 +1,151 @@
+Clean Windows build verification
+Node: 
+v22.22.0
+npm: 
+11.11.1
+Install: npm ci --include=dev --cache .tools/npm-cache
+Workdir: .tools/level2-clean-build
+
+npm error code ENOTCACHED
+npm error request to https://registry.npmjs.org/zip-stream/-/zip-stream-6.0.1.tgz failed: cache mode is 'only-if-cached' but no cached response is available.
+npm error A complete log of this run can be found in: C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\.tools\npm-cache\_logs\2026-09-28T14_00_25_438Z-debug-0.log
+npm ci exit: 1
+Retry: npm ci with offline=false (sandbox network attempt)
+npm error Exit handler never called!
+npm error This is an error with npm itself. Please report this error at:
+npm error   <https://github.com/npm/cli/issues>
+npm error A complete log of this run can be found in: C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\.tools\npm-cache\_logs\2026-09-28T14_00_41_385Z-debug-0.log
+npm ci retry exit: 1
+Retry: npm ci with registry access
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated eslint@9.39.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+npm warn deprecated @substrate/connect@0.8.11: versions below 1.x are no longer maintained
+npm warn cleanup Failed to remove some directories [
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\cpu-features',
+npm warn cleanup     [Error: EBUSY: resource busy or locked, rmdir 'C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\cpu-features'] {
+npm warn cleanup       errno: -4082,
+npm warn cleanup       code: 'EBUSY',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\cpu-features'
+npm warn cleanup     }
+npm warn cleanup   ],
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\ssh2',
+npm warn cleanup     [Error: EBUSY: resource busy or locked, rmdir 'C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\ssh2'] {
+npm warn cleanup       errno: -4082,
+npm warn cleanup       code: 'EBUSY',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\ssh2'
+npm warn cleanup     }
+npm warn cleanup   ],
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\@grpc\\grpc-js',
+npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\@grpc\grpc-js\proto'] {
+npm warn cleanup       errno: -4048,
+npm warn cleanup       code: 'EPERM',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\@grpc\\grpc-js\\proto'
+npm warn cleanup     }
+npm warn cleanup   ],
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\@grpc',
+npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\@grpc\grpc-js\build\src\generated\xds'] {
+npm warn cleanup       errno: -4048,
+npm warn cleanup       code: 'EPERM',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'C:\\Users\\Ayush Paul\\Desktop\\midnight\\cat-bluff-midnight\\.tools\\level2-clean-build\\node_modules\\@grpc\\grpc-js\\build\\src\\generated\\xds'
+npm warn cleanup     }
+npm warn cleanup   ]
+npm warn cleanup ]
+npm error code 1
+npm error path C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\classic-level
+npm error command failed
+npm error command C:\Windows\system32\cmd.exe /d /s /c node-gyp-build
+npm error 'node-gyp-build' is not recognized as an internal or external command,
+npm error operable program or batch file.
+npm error A complete log of this run can be found in: C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\.tools\npm-cache\_logs\2026-09-28T14_02_15_450Z-debug-0.log
+npm ci registry retry exit: 1
+Retry: npm ci --include=dev --ignore-scripts (cached packages)
+npm error code EBUSY
+npm error syscall rmdir
+npm error path C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\ssh2
+npm error errno -4082
+npm error EBUSY: resource busy or locked, rmdir 'C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\node_modules\ssh2'
+npm error A complete log of this run can be found in: C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build\.tools\npm-cache\_logs\2026-09-28T14_02_56_624Z-debug-0.log
+npm ci ignore-scripts exit: -4082
+Fresh directory retry: npm ci --include=dev --ignore-scripts --offline
+npm warn deprecated @substrate/connect@0.8.11: versions below 1.x are no longer maintained
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated eslint@9.39.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 660 packages in 1m
+fresh npm ci exit: 0
+Fresh directory build: npm run build
+
+> cat-bluff-midnight@0.1.0 build
+> npm run typecheck && npm run assets && node node_modules/vite/bin/vite.js build
+
+
+> cat-bluff-midnight@0.1.0 typecheck
+> node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.web.json --noEmit
+
+
+> cat-bluff-midnight@0.1.0 assets
+> node scripts/copy-web-artifacts.mjs
+
+Prepared 9 genuine public circuit artifacts and deployment metadata.
+failed to load config from C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build-fresh\vite.config.ts
+error during build:
+Error: spawn EPERM
+    at ChildProcess.spawn (node:internal/child_process:420:11)
+    at Object.spawn (node:child_process:787:9)
+    at ensureServiceIsRunning (C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build-fresh\node_modules\esbuild\lib\main.js:2268:29)
+    at build (C:\Users\Ayush Paul\Desktop\midnight\cat-bluff-midnight\.tools\level2-clean-build-fresh\node_modules\esbuild\lib\main.js:2166:26)
+    at bundleConfigFile (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:35808:23)
+    at bundleAndLoadConfigFile (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:35795:24)
+    at loadConfigFromFile (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:35764:179)
+    at resolveConfig (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:35413:28)
+    at resolveConfigToBuild (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:33443:9)
+    at createBuilder (file:///C:/Users/Ayush%20Paul/Desktop/midnight/cat-bluff-midnight/.tools/level2-clean-build-fresh/node_modules/vite/dist/node/chunks/config.js:33875:25)
+fresh npm run build exit: 1
+Fresh directory build retry with esbuild child process allowed
+
+> cat-bluff-midnight@0.1.0 build
+> npm run typecheck && npm run assets && node node_modules/vite/bin/vite.js build
+
+
+> cat-bluff-midnight@0.1.0 typecheck
+> node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.web.json --noEmit
+
+
+> cat-bluff-midnight@0.1.0 assets
+> node scripts/copy-web-artifacts.mjs
+
+Prepared 9 genuine public circuit artifacts and deployment metadata.
+vite v7.3.1 building client environment for production...
+transforming...
+node_modules/@scure/base/index.js (2:0): A comment
+
+"// Freeze the result of a thunk. `/* @__PURE__ */ freeze(() => expr)` keeps the whole"
+
+in "node_modules/@scure/base/index.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 1422 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                  0.57 kB │ gzip:     0.36 kB
+dist/assets/midnight_onchain_runtime_wasm_bg-DLDy-U1U.wasm   1,321.37 kB │ gzip:   394.19 kB
+dist/assets/midnight_onchain_runtime_wasm_bg-D2U4EkPt.wasm   1,398.94 kB │ gzip:   412.20 kB
+dist/assets/midnight_ledger_wasm_bg-D5swusBh.wasm           10,143.78 kB │ gzip: 4,638.69 kB
+dist/assets/index-CCImy7dB.css                                  11.48 kB │ gzip:     3.34 kB
+dist/assets/index-Chb-zpg8.js                                  222.83 kB │ gzip:    69.77 kB
+dist/assets/App-Bz7TelTv.js                                    829.67 kB │ gzip:   222.00 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 10.85s
+fresh npm run build retry exit: 0

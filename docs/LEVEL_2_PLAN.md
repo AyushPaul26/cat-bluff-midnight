@@ -1,11 +1,48 @@
 # Level 2: audited design and implementation plan
 
-Checked 2026-09-28. Status: **design approved; implementation starting**.
+Checked 2026-09-28. Status: **local implementation verified; human E2E checkpoints pending**.
 The human approved this plan and authorized local development commits after the
 audit checkpoint. Pushes, hosting/contract deployment, Rise In submission and
 wallet approvals remain prohibited for the agent. References below to manual
 development commits describe the original checkpoint plan; local commits are now
 authorized without further permission.
+
+## Implementation outcome
+
+The approved flow is now implemented in `src/web/` and the local encrypted export
+tool. The contract and deployed address are unchanged. Local commits include the
+audit (`4f773f0`), private-state milestone (`15a5391`) and frontend integration
+(`c4328df`). At the integration commit: **14 total / 3 new Level 2 commits**;
+the final documentation/evidence commit is additional, not an artificial quota.
+
+Current evidence: 75 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
+ESLint and production build pass. The actual browser production preview reads
+Preprod round 1 Empty and verifies all three circuit keys. All nine generated
+circuit files and three WASM files pass served-byte checks. Desktop/mobile
+screenshots are real local preview evidence, not wallet-transaction evidence.
+
+Important implementation adjustments from the original plan below:
+
+- npm 11.11.1 is bootstrapped locally because bundled npm 10 failed resolving the
+  optional-peer graph. No global machine configuration was changed.
+- Native ES2022 top-level await replaces an unnecessary plugin whose SWC
+  transformation failed. The browser build uses a pinned `assert` polyfill and
+  native WebSocket adapter for SDK imports. The ZK provider receives bound
+  browser `fetch`, fixing a failure observed during real browser testing.
+- Web Locks serialize commit and reconciliation across tabs. Identity-checked
+  public records prevent overwriting another in-flight transaction. A definitely
+  unsent cancellation is distinct from an ambiguous wallet submission failure.
+  Independent review reproduced both races before the fixes and verified them.
+- The selected browser has no compatible wallet injection. Docker's Linux API
+  is unavailable (`dockerDesktopLinuxEngine` named pipe missing). Real proving,
+  Lace requests, hosted-origin permissions and the video remain unverified.
+- No push, hosting/contract deployment, Rise In submission or wallet approval
+  was performed. The public repository's default branch still contains Level 1.
+
+The rest of this document preserves the audit and originally approved design;
+historical phrases such as “planned” and “none installed yet” describe that audit,
+not the current code. The [submission evidence matrix](LEVEL_2_SUBMISSION.md) is
+the current completion gate.
 
 ## Goal and scope
 

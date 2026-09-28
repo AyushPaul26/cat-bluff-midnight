@@ -28,6 +28,7 @@ describe('UI component tests (mocked external callbacks, no real wallet)', () =>
     render(<CircuitCall canCommit={false} busy={false} claim={7} onClaim={vi.fn()} onCommit={vi.fn()} stage="confirmed" txId={'a'.repeat(64)} confirmation={{txHash:'b'.repeat(64),blockHeight:123,commitment:'c'.repeat(64)}}/>);
     expect(screen.getByText(/Proved without revealing your input/)).toBeVisible();
     expect(screen.getByText(/authorized.*rank.*1–13/i)).toBeVisible();
+    expect(screen.getByText('c'.repeat(64))).toBeVisible();
     expect(screen.getByRole('link',{name:/view transaction/i})).toHaveAttribute('href',`https://preprod.midnightexplorer.com/transactions/0x${'b'.repeat(64)}`);
   });
   it('clears the passphrase input while importing and never renders file contents', async () => {

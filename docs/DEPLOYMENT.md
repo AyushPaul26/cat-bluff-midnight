@@ -58,23 +58,106 @@ user-local prover. Wallet configuration instructions must be based on its actual
 UI/version, which has not yet been inspected. A health response alone does not
 verify a browser-origin proof request.
 
-### Frontend hosting
+### Level 2 frontend build and hosting checkpoint
 
-Live URL: **not deployed**. Vercel configuration and frontend build commands are
-**not implemented yet**. They will be added and tested in the browser milestone;
-do not treat the Level 1 npm scripts as a frontend deployment procedure.
+Live URL: **not deployed**. The repository now has a Vite frontend and
+[`vercel.json`](../vercel.json), prepared for a static `dist/` deployment. The
+configuration selects Vite, runs a pinned npm 11.11.1 clean install and
+`npm run build`, and serves only `dist/`. There is no SPA fallback rewrite:
+a missing circuit or WASM URL must fail instead of returning `index.html`.
+Vercel documents these [`vercel.json` build and output settings](https://vercel.com/docs/project-configuration/vercel-json)
+and its [Vite preset](https://vercel.com/docs/frameworks/frontend/vite).
 
-Planned clean-build approach: retain generated bindings, binary circuit IR,
-prover keys and verifier keys in Git; copy them to tested static asset paths as
-part of Vite's build. They are public circuit artifacts, not wallet private keys.
-The host will not need Compact. Preserve existing license notices and reject
-asset responses that contain the SPA fallback HTML.
+The project targets Node **22.22.0 or newer within 22.x**. Vercel selects a major
+version from `package.json` engines or Project Settings and can update the
+minor/patch version; the human should inspect the actual build log's `node -v`
+before publishing. [Vercel's Node version documentation](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)
+describes that behavior. The project-local npm 10 resolver failed in the optional
+peer graph while updating dependencies; a project-local npm 11.11.1 install
+succeeded. No global npm change is needed. The host install command bootstraps
+npm 11.11.1 under `.tools/npm-bootstrap` and invokes its CLI directly, avoiding
+an `npx` executable-link dependency. It uses `ci --include=dev --ignore-scripts`.
+The scripts-enabled clean Windows install failed because `bin-links=false`
+prevented a dependency from finding `node-gyp-build`. A fresh isolated install
+with scripts disabled installed 660 packages and built successfully, without
+Compact or any private files. The public browser build needs the packaged Vite,
+Rollup and WASM assets; it does not execute the Node wallet's native dependencies.
+See [complete clean-install/build log](evidence/level2-clean-build.log), including
+failed attempts. This is Windows evidence, not a hosted Linux build result.
 
-The human will authenticate and publish the reviewed build. Then verify the real
-hosted origin, its Preprod address/endpoints, circuit/WASM files, Lace connection,
-wallet proving path, any local-network permission/CORS behavior and confirmed
-transaction. A hosted frontend supplies code/assets, not a local proof server to
-every visitor. A shared serverless prover proxy is outside this design.
+`.vercelignore` explicitly excludes private records, encrypted packages, local
+tool/cache directories and environment files from CLI uploads. Public circuit
+prover/verifier keys remain included. Publishing is still human-only.
+
+For a local review from the project root, use the tested local Node 22.22.0
+runtime and the project's pinned dependencies:
+
+```powershell
+& ./.tools/node-v22.22.0-win-x64/node.exe --version
+& ./.tools/node-v22.22.0-win-x64/node.exe node_modules/typescript/bin/tsc --noEmit
+& ./.tools/node-v22.22.0-win-x64/node.exe node_modules/typescript/bin/tsc -p tsconfig.web.json --noEmit
+& ./.tools/node-v22.22.0-win-x64/node.exe scripts/copy-web-artifacts.mjs
+& ./.tools/node-v22.22.0-win-x64/node.exe node_modules/vite/bin/vite.js build
+```
+
+For the complete production build, run `npm run build` in an environment whose
+active `node` is 22.22.0 or newer within 22.x. That script typechecks both targets,
+copies genuine compiler assets, and builds Vite. `scripts/copy-web-artifacts.mjs`
+checks the public deployment receipt and verifier hashes before copying all
+three circuits' `.prover`, `.verifier`, and binary `.bzkir` files to `public/zk/`.
+It also writes a public integrity manifest and deployment metadata. Generated
+bindings and circuit artifacts stay in Git; wallet seeds, capabilities, salts,
+checkpoints, encrypted packages and `.private/` stay out of Git and hosting.
+The host does not run Compact or a proof server.
+
+After reviewing the build and commit, the human authenticates to Vercel and
+creates/publishes the project from this repository root. Select Node 22.x and
+confirm `npm run build` and `dist/` in the deployment settings. There is no
+authorized live deployment or URL yet. Once published, verify the real HTTPS
+origin serves `artifact-manifest.json`, `deployment.json`, and each `/zk/` file as
+its actual binary/content (not HTML), plus required ledger WASM; compare hashes
+to the manifest. Verify wallet connection and the actual proof request path from
+that origin. A hosted frontend supplies public code and circuit assets; each
+operator still needs the intended user-local prover. A wallet-reported localhost
+URI alone does not prove traffic reached that server.
+
+### Human-only operator preparation and one-time action
+
+Use a private, interactive terminal in this project root after confirming the
+indexed contract is still round 1 Empty. The export command reads the existing
+ignored `.private/local.json`, checks the original deployment receipt and live
+public state, prompts twice for a passphrase without echo, encrypts only the
+player capability and opening, and writes an exclusive file at
+`.private/cat-bluff-demo.enc.json`. Do not pass the password as a command-line
+argument or put the file in Git, chat, screenshots or Vercel.
+
+```powershell
+npm run demo:export
+docker compose up -d
+curl.exe --fail http://127.0.0.1:6300/health
+docker compose ps
+```
+
+`npm run demo:export` requires a TTY and will not overwrite an existing export.
+The compose file pins `midnightntwrk/proof-server:8.1.0` and binds only
+`127.0.0.1:6300`. Start Docker Desktop's Linux engine first if it is stopped.
+Configure Lace on Preprod so its indexer, node and prover endpoints match the
+frontend's checked configuration. The real wallet UI/version has not yet been
+inspected, so no menu path is asserted. Confirm the wallet reports the intended
+loopback prover URI **and** observe a genuine wallet-mediated proof request at
+that local server; test browser local-network access/CORS from the hosted origin.
+Do not weaken browser security to make that request work. Use free Preprod
+assets only; never use mainnet funds.
+
+The original contract has a single Empty round. Reserve its first `commit`
+for the hosted-origin recording after local checks and human wallet approval.
+Connecting a wallet is not player authorization. The user imports the encrypted
+package into the browser at runtime and approves the wallet request personally.
+If the public round is no longer Empty, stop and inspect; do not redeploy or
+submit another transaction automatically. Keep public pending identifiers so an
+uncertain submission can be reconciled before retry. Verify successful indexed
+status, expected Committed ledger state, and explorer link before reporting a
+proof. No Level 2 live transaction or hosted-origin proof is claimed here.
 
 ### Baseline commands actually executed
 
