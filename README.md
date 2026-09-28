@@ -1,8 +1,22 @@
 # Cat Bluff
 
-Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. This Level 1 prototype implements that foundation for one round. A complete multiplayer game and frontend are planned for Level 2.
+Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status:** The custom contract compiles, all 22 tests pass, and Cat Bluff is confirmed deployed on Midnight Preprod. The final audit and Linux CI passed. Rise In September Level 1 is submitted and **Pending Review**, verified after reloading. Acceptance and level unlock are not yet confirmed. See [verification checklist](docs/LEVEL1-CHECKLIST.md) and [current status](docs/STATUS.md).
+**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission** and its frontend is not yet implemented. The fresh audit reconfirmed compilation, all 22 tests and the existing Preprod contract's verifier keys. See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+
+## Live Demo
+
+Not deployed. No real Lace/frontend transaction has been verified yet.
+
+## Demo Video
+
+Not recorded. The [recording script](docs/LEVEL_2_SUBMISSION.md#proposed-recording-script-under-two-minutes) is preparation, not submission evidence.
+
+## Contract Address
+
+| Network | Address |
+| --- | --- |
+| Preprod | `63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16` |
 
 **Confirmed contract:** [`63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16`](https://preprod.midnightexplorer.com/contracts/0x63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16)
 
@@ -28,6 +42,17 @@ Fresh local ranks use Node crypto.randomInt(1, 14), and salts use 32 cryptograph
 `persistentCommit` uses domain separation (`cat-bluff:card:v1` versus `cat-bluff:role:v1`). Card commitments bind the context, round, player commitment, rank, and fresh high-entropy salt. A rank has only 13 possible values, so the unpredictable salt is essential. Role commitments bind context and role number to an independent secret. The single fixed round and terminal phase reject repeated actions.
 
 `disclose()` is deliberate: constructor context/role commitments are public; commitment and claimed rank become public during commit; verified actual rank and truth result become public during resolution. The salt and role secrets are never disclosed. The [contract's opening comment](contracts/cat-bluff.compact) and [design](docs/DESIGN.md) document this boundary.
+
+## Privacy Claim
+
+At commitment time, an on-chain observer sees an authorized transition, a public
+claim and a randomized card commitment. The circuit constrains the hidden rank
+to 1–13 without publishing that rank, its salt or the player capability. The claim
+may differ from the hidden rank; fair dealing and card ownership are not proved.
+Resolution deliberately publishes the rank later. A prover processes private
+inputs and must be trusted. The planned Level 2 flow uses a verified user-local
+proving path, keeps witnesses out of the UI, and calls only `commit`; that browser
+flow is not implemented or verified yet. See [privacy model](docs/PRIVACY_MODEL.md).
 
 ## Toolchain and setup
 
@@ -107,10 +132,20 @@ Before fee balancing, the CLI waits for wallet synchronization and saves `.priva
 
 This prototype does not prove fair dealing, card uniqueness, unique players, wallet ownership, shuffle randomness, or honesty of the trusted setup. A player can withhold resolution. There are no timeouts, scoring, stakes, payouts, multiple simultaneous rounds, or multiplayer networking.
 
-Level 2 will add a game interface, wallet connection, separate participant private stores, secure role provisioning, transaction progress, challenge/reveal views, and a documented timeout protocol before extending to a full game.
+Level 2 will add a focused private-action interface, Lace connection, scoped
+in-memory private state, encrypted operator provisioning, truthful transaction
+progress and a confirmed public commitment. The current address has one fixed
+round and no reset; general visitors will inspect its public result. Multiplayer
+hands, challenge/reveal gameplay, further rounds and timeouts remain later work.
 
 ## Submission and license
 
-The active Rise In period inspected on September 27, 2026 is September. The public program end date is September 30; initial and fully loaded task date labels differ by one day, and no precise cutoff timezone was shown. See the verified checklist for both observed labels. All technical checklist items are verified. Submitted for September review on September 27, 2026, with the user-selected five-star rating. The reloaded page shows Pending Review, the correct repository, and Under review. A generic Awaiting submission badge remains inconsistent with the explicit review state. Acceptance/pass and level unlock have not been verified. [Submission screenshot](docs/evidence/rise-submission.png) · [Final audit](docs/FINAL-AUDIT.md).
+Level 1 was submitted for September review on September 27, 2026, with the
+user-selected five-star rating. The September 28 browser audit now shows Approved,
+Completed and the correct repository. The older [submission screenshot](docs/evidence/rise-submission.png)
+and [final Level 1 audit](docs/FINAL-AUDIT.md) preserve the original pending-review
+state. Level 2 remains unsubmitted. September is active through September 30;
+the page does not state an exact cutoff time or timezone. Level 2 commits,
+publication, wallet approvals, recording and submission are manual checkpoints.
 
 Apache-2.0. See [LICENSE](LICENSE) and [third-party notices](THIRD-PARTY-NOTICES.md).

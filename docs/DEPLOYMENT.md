@@ -23,3 +23,78 @@ The application now waits for full synchronization after dust registration and i
 An additional faucet request returned service unavailable and was not used to claim funding. The successful deployment used the original funded wallet.
 
 For future recovery, preserve `.private/wallet-before-balance.json` and inspect the public identifiers saved in `.private/last-submission.json`. Never restore an old snapshot until any possibly submitted transaction is resolved. Recovery material, private-state databases, role capabilities, salts, and wallet checkpoints are intentionally excluded from Git.
+
+## Level 2 audit and planned browser deployment
+
+On 2026-09-28 at 13:22:36 UTC, the public Preprod indexer still returned round 1
+in Empty phase. All three on-chain verifier keys matched both tracked generated
+artifacts and the original receipt. See [fresh audit](evidence/level2-contract-audit.json).
+This was read-only; no new deployment or contract action occurred.
+
+The existing contract is suitable for one operator-authorized frontend commitment.
+It cannot be reset. Connecting Lace does not grant its player capability. Do not
+run `npm run deploy` to replace this address, delete its saved receipt, or rotate
+its private material. A fresh deployment needs a separate human-approved procedure
+and new evidence, only if the original round is unavailable.
+
+### Local prover prerequisite
+
+The existing compose file pins `midnightntwrk/proof-server:8.1.0` and binds port
+6300 to `127.0.0.1`. Docker was installed but its Linux daemon was stopped/unavailable
+during this audit; no current server readiness is claimed. Once the human has
+started Docker Desktop's Linux engine, the existing commands are:
+
+```bash
+docker compose up -d
+curl --fail http://127.0.0.1:6300/health
+docker compose ps
+```
+
+Do not stop unrelated containers, publish the port, change Docker settings, or
+disable browser security. If Docker requests a restart/admin permission, the
+human completes it. The planned browser path asks Lace for its proving provider;
+the installed wallet's configuration must establish that it uses the intended
+user-local prover. Wallet configuration instructions must be based on its actual
+UI/version, which has not yet been inspected. A health response alone does not
+verify a browser-origin proof request.
+
+### Frontend hosting
+
+Live URL: **not deployed**. Vercel configuration and frontend build commands are
+**not implemented yet**. They will be added and tested in the browser milestone;
+do not treat the Level 1 npm scripts as a frontend deployment procedure.
+
+Planned clean-build approach: retain generated bindings, binary circuit IR,
+prover keys and verifier keys in Git; copy them to tested static asset paths as
+part of Vite's build. They are public circuit artifacts, not wallet private keys.
+The host will not need Compact. Preserve existing license notices and reject
+asset responses that contain the SPA fallback HTML.
+
+The human will authenticate and publish the reviewed build. Then verify the real
+hosted origin, its Preprod address/endpoints, circuit/WASM files, Lace connection,
+wallet proving path, any local-network permission/CORS behavior and confirmed
+transaction. A hosted frontend supplies code/assets, not a local proof server to
+every visitor. A shared serverless prover proxy is outside this design.
+
+### Baseline commands actually executed
+
+From the dedicated project root in PowerShell, using local Node 22.22.0:
+
+```powershell
+& ./.tools/node-v22.22.0-win-x64/node.exe node_modules/typescript/bin/tsc --noEmit
+& ./.tools/node-v22.22.0-win-x64/node.exe --experimental-strip-types --test tests/*.test.ts
+```
+
+Typecheck exit 0; 22/22 tests passed. A restricted-process log-capture attempt
+failed at Node child-process creation with `spawn EPERM`; rerunning unchanged
+with execution permission passed. No assertion or production code was changed.
+Logs: [typecheck](evidence/level2-baseline-typecheck.log),
+[passing tests](evidence/level2-baseline-tests.log),
+[sandbox failure](evidence/level2-baseline-tests-sandbox.log).
+
+The audit sourced `scripts/env.sh` inside Ubuntu and ran `compact --version`,
+`compact compile +0.31.1 --version`, and the real compiler with the same arguments
+as `scripts/compile.py` into a fresh `.tools/level2-baseline-*` directory. It
+compared generated prover/verifier bytes to `managed/` without replacing files.
+[Compiler log](evidence/level2-baseline-compile.log). The supported normal
+reproduction remains `source scripts/env.sh` then `npm run compile` inside WSL.

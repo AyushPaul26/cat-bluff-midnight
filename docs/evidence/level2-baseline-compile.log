@@ -1,0 +1,7 @@
+compact 0.5.1
+0.31.1
+Compiling 3 circuits:
+Generated circuit: commit; prover/verifier keys match tracked artifacts.
+Generated circuit: challenge; prover/verifier keys match tracked artifacts.
+Generated circuit: resolve; prover/verifier keys match tracked artifacts.
+Baseline compilation succeeded; managed/ was not modified.
