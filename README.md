@@ -6,7 +6,14 @@ Cat Bluff is a multiplayer bluffing card game concept: players make public claim
 
 ## Live Demo
 
-[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [hosted asset verification](docs/evidence/level2-hosted-assets.log). The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
+[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [latest hosted asset verification](docs/evidence/level2-main-assets.log) after the merged version reached production. The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
+
+[PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) is merged into
+default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`, preserving all
+six Level 2 development commits (17 meaningful non-merge commits at that merge).
+At the recorded check, the merge-triggered production deployment was **Ready**
+and served that commit at the live alias. Subsequent evidence-only commits preserve
+the same application. [Publication record](docs/evidence/level2-main-publication.json).
 
 ## Demo Video
 
@@ -139,7 +146,7 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 - Nine circuit artifacts and three WASM files passed served-byte/hash checks.
 - The [published frontend](https://cat-bluff-midnight.vercel.app) loaded public
   Preprod state, and its nine circuit artifacts and three WASM files passed the
-  same [hosted checks](docs/evidence/level2-hosted-assets.log).
+  same [hosted checks](docs/evidence/level2-main-assets.log) after the `main` merge.
 - Desktop and 390-pixel mobile viewports were inspected. No mobile horizontal
   overflow was observed. Missing-wallet controls stayed disabled.
 
@@ -161,9 +168,9 @@ installation or private file was needed in the build copy. The Vercel production
 build installed 660 packages and passed both typechecks and Vite. A subsequent
 [hosted build log](docs/evidence/level2-vercel-build.log) explicitly records
 Node **22.23.2** and npm **11.11.1**, within the configured Node 22.x range. The
-[Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497)
+[latest Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406)
 also passed: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, all three circuits,
-75 Node tests, 15 mocked UI tests, types, lint and production build.
+79 Node tests, 15 mocked UI tests, types, lint and production build at `6ffb12d`.
 [Local browser evidence](docs/evidence/level2-browser.json) records the real
 public read and disabled action in the absence of Lace. Hosting success does
 not establish a real Lace proof or transaction.

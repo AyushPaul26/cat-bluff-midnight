@@ -15,8 +15,11 @@ tool. The contract and deployed address are unchanged. Local commits include the
 audit (`4f773f0`), private-state milestone (`15a5391`), frontend integration
 (`c4328df`) and final local evidence (`b07fef0`). At `b07fef0`: **15 total /
 4 new Level 2 commits**, with the 11-commit Level 1 baseline preserved. The
-`codex/level2-integration` branch is pushed and [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1)
-is open; default-branch integration remains a separate verification step.
+subsequent publication and Lace compatibility commits brought the total to
+**17 meaningful non-merge commits: 11 Level 1 + 6 Level 2**. A normal merge of
+[PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) preserved this
+history on default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`;
+its tree matches reviewed head `6ffb12d`. [Merge screenshot](evidence/level2-merged.png).
 
 Current evidence: 79 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
 ESLint and production build pass. The actual browser production preview reads
@@ -25,10 +28,15 @@ circuit files and three WASM files pass served-byte checks. Desktop/mobile
 screenshots are real local preview evidence, not wallet-transaction evidence.
 The [Vercel frontend](https://cat-bluff-midnight.vercel.app) is now published.
 Its production build passed, the hosted page loaded public Preprod state, and
-[hosted verification](evidence/level2-hosted-assets.log) passed for all nine
+[latest hosted verification](evidence/level2-main-assets.log) passed for all nine
 circuit artifacts and three WASM files. The independent
-[Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497)
-passed compilation, 75 Node tests, 15 mocked UI tests, types, lint and build.
+[latest Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406)
+passed compilation of all three circuits, 79 Node tests, 15 mocked UI tests,
+both typechecks, lint and build at `6ffb12d`. The merge-triggered production
+deployment is **Ready**, identifies `main` commit `c462dabd` in Vercel metadata,
+and serves the stable live alias. [Publication record](evidence/level2-main-publication.json).
+The 14:47:28 UTC asset check passed; a real browser reload again showed Preprod
+round 1 Empty with no injected wallet. This establishes no circuit transaction.
 
 Important implementation adjustments from the original plan below:
 
@@ -49,8 +57,9 @@ Important implementation adjustments from the original plan below:
   unsent cancellation is distinct from an ambiguous wallet submission failure.
   Independent review reproduced both races before the fixes and verified them.
 - The inspected local and hosted browser has no compatible wallet injection.
-  The user confirmed Lace is not yet set up; wallet setup/password entry and
-  transaction approvals require the human.
+  The user now reports Lace installed, a password created and all three wallet
+  accounts activated. Preprod selection, funding and actual dApp connection
+  remain unverified; passwords and transaction approvals remain human-only.
   Docker startup was retried and failed with a `sailor-ingest.sock` error:
   “The file cannot be accessed by the system.” The user then approved a
   reversible runtime-folder backup and repair. Docker Desktop 4.91.0 / engine

@@ -85,7 +85,8 @@ after initial publication. The subsequent successful
 [production build log](evidence/level2-vercel-build.log) explicitly records
 **Node v22.23.2 and npm 11.11.1**, satisfying the configured Node range. That
 [deployment](https://cat-bluff-midnight-gs6lcguc1-ayush-pauls-projects-bd0a7c11.vercel.app)
-is aliased to the stable live URL. The initial project's default was 24.x, while
+was then aliased to the stable live URL; the merged `main` deployment below
+subsequently replaced it. The initial project's default was 24.x, while
 the package engine requested 22.x; no exact initial runtime version is claimed.
 [Vercel's Node version documentation](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)
 describes that behavior. The project-local npm 10 resolver failed in the optional
@@ -100,9 +101,9 @@ Compact or any private files. The public browser build needs the packaged Vite,
 Rollup and WASM assets; it does not execute the Node wallet's native dependencies.
 See [complete clean-install/build log](evidence/level2-clean-build.log), including
 failed attempts. The subsequent Vercel build passed independently. The
-[Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497)
-also passed real compilation of three circuits, 75 Node tests, 15 mocked UI tests,
-typechecks, lint and build on Node 22.22.0.
+[latest Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406)
+also passed real compilation of three circuits, 79 Node tests, 15 mocked UI tests,
+both typechecks, lint and build on Node 22.22.0 at `6ffb12d`.
 
 `.vercelignore` explicitly excludes private records, encrypted packages, local
 tool/cache directories and environment files from CLI uploads. Public circuit
@@ -146,6 +147,21 @@ remain unverified. A hosted frontend supplies public code and circuit assets; ea
 operator still needs the intended user-local prover. A wallet-reported localhost
 URI alone does not prove traffic reached that server.
 
+[PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) is merged into
+default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`; its tree matches
+reviewed `6ffb12d`. Vercel inspection/API confirmed the resulting production
+deployment **Ready**: `dpl_BcuweiS9hT2aduLStNbovxnxf5vQ`, configured for Node
+22.x, with metadata matching that exact `main` commit. Its
+[deployment URL](https://cat-bluff-midnight-fkugx8bxt-ayush-pauls-projects-bd0a7c11.vercel.app)
+is aliased to [cat-bluff-midnight.vercel.app](https://cat-bluff-midnight.vercel.app).
+See the [publication record](evidence/level2-main-publication.json).
+
+The [2026-09-28 14:47:28 UTC asset check](evidence/level2-main-assets.log)
+passed for nine circuit artifacts and three WASM files at the live alias.
+A real browser reload showed Preprod round 1 Empty, with no Lace injected in
+the inspection browser. These checks verify hosting and public reads; real
+wallet connection, local proof traffic and a circuit transaction remain pending.
+
 ### Human-only operator preparation and one-time action
 
 Use a private, interactive terminal in this project root after confirming the
@@ -173,8 +189,9 @@ dApp's official Midnight public indexer. The wallet displays these endpoints
 read-only, so do not attempt to edit them. The defaults and API 4.0.1 are verified
 against [Lace 2.4 configuration](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/contract/midnight-context/src/const.ts)
 and [connector source](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/module/dapp-connector-midnight/src/midnight-wallet-api.ts).
-The user confirmed Lace is not set up yet;
-wallet setup, password entry and approval must be completed personally. The real
+The user reports Lace installed, a password created and all three wallet accounts
+activated. Preprod selection, funding and dApp connection remain unverified;
+password entry and wallet approval must be completed personally. The real
 wallet UI/version has not yet been inspected, so no menu path is asserted.
 Confirm the wallet reports the intended
 loopback prover URI **and** observe a genuine wallet-mediated proof request at

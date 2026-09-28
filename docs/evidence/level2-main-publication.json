@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-09-28T14:47:28.470Z",
+  "repository": "https://github.com/AyushPaul26/cat-bluff-midnight",
+  "pullRequest": "https://github.com/AyushPaul26/cat-bluff-midnight/pull/1",
+  "defaultBranch": "main",
+  "mergeCommit": "c462dabd1e9e0115f3d35408ffe03993e150aa86",
+  "reviewedHead": "6ffb12d139e31dbac2e2a93c9dcad1d32ef622fb",
+  "mergeTreeEqualsReviewedHead": true,
+  "meaningfulCommitsAtMerge": { "total": 17, "level1": 11, "level2": 6, "mergeCommitExcluded": true },
+  "ci": {
+    "url": "https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406",
+    "conclusion": "success",
+    "compactCircuits": 3,
+    "nodeTests": 79,
+    "mockedUiTests": 15,
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed"
+  },
+  "production": {
+    "id": "dpl_BcuweiS9hT2aduLStNbovxnxf5vQ",
+    "url": "https://cat-bluff-midnight-fkugx8bxt-ayush-pauls-projects-bd0a7c11.vercel.app",
+    "alias": "https://cat-bluff-midnight.vercel.app",
+    "readyState": "READY",
+    "sourceCommit": "c462dabd1e9e0115f3d35408ffe03993e150aa86",
+    "sourceRef": "main",
+    "nodeSetting": "22.x"
+  },
+  "hostedBrowser": {
+    "network": "preprod",
+    "contractAddress": "63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16",
+    "round": "1",
+    "phase": "Empty",
+    "wallet": "no compatible wallet injected into Codex in-app browser",
+    "warningsOrErrorsObserved": [],
+    "assets": "level2-main-assets.log",
+    "screenshot": "level2-main-live.png"
+  },
+  "realLaceTransaction": "pending verification",
+  "realHostedOriginProving": "pending verification",
+  "demoVideo": "not recorded",
+  "level2Submission": "not submitted"
+}

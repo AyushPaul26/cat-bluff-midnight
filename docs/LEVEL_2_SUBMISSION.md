@@ -16,15 +16,15 @@ the submission package and this project's engineering safeguards.
 
 | Item | Status | Concrete evidence / missing work |
 | --- | --- | --- |
-| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | Local connector 4.0.1 session and UI; user confirmed Lace is not set up, so actual connection/refusal/disconnection remain pending |
+| Lace connect and disconnect | IMPLEMENTED BUT UNVERIFIED | Local connector 4.0.1 session and UI; user reports Lace installed, password created and three accounts activated. Preprod selection, funding and actual connection/refusal/disconnection remain unverified |
 | Successful frontend Compact circuit call | IMPLEMENTED BUT UNVERIFIED | Browser `commit(claim)` integration targets existing contract; no live transaction or wallet approval yet |
 | Observable proof without showing private input | IMPLEMENTED BUT UNVERIFIED | Local UI and contract tests; hosted public read verified, actual proving path and confirmed circuit result pending |
 | Verifiable Preprod deployment | VERIFIED | [Original successful deployment](evidence/deployment.json); [fresh ledger/key check](evidence/level2-contract-audit.json) |
-| At least eight meaningful commits | VERIFIED | 11 Level 1 commits + 4 new Level 2 commits = 15 total at pushed `b07fef0`; no claim that eight additional commits are required |
-| Public repository with README | VERIFIED | [Public repository](https://github.com/AyushPaul26/cat-bluff-midnight); Level 2 branch pushed and [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) open. Default-branch integration still needs verification |
-| Live frontend URL | VERIFIED | [Published Vercel app](https://cat-bluff-midnight.vercel.app); actual page loaded Preprod public state, [hosted artifact checks passed](evidence/level2-hosted-assets.log) |
+| At least eight meaningful commits | VERIFIED | 11 Level 1 + 6 Level 2 = 17 meaningful non-merge commits at the PR #1 merge; normal merge preserves all six Level 2 commits. No claim that eight additional commits are required |
+| Public repository with README | VERIFIED | [Public repository](https://github.com/AyushPaul26/cat-bluff-midnight); [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) merged into default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`, with the same tree as reviewed `6ffb12d`. [Merge screenshot](evidence/level2-merged.png) |
+| Live frontend URL | VERIFIED | [Published Vercel app](https://cat-bluff-midnight.vercel.app); merged `main` deployment **Ready**, actual page loaded Preprod public state, [latest hosted artifact checks passed](evidence/level2-main-assets.log). [Publication record](evidence/level2-main-publication.json) |
 | Demo video: connect and successful circuit call | BLOCKED | Not recorded |
-| README privacy claim | VERIFIED | README on the pushed integration branch describes the exact statement, capability authorization, local-prover trust and unresolved real E2E; default-branch verification pending |
+| README privacy claim | VERIFIED | README on default `main` describes the exact statement, capability authorization, local-prover trust and unresolved real E2E |
 
 The commit wording does not explicitly demand eight additional commits after
 Level 1. Record total and new counts separately. This audit does not determine
@@ -45,9 +45,9 @@ how organizers will assess the quality of future development history.
 | Generated-contract and application tests | VERIFIED | [79 Node tests after Lace compatibility fix](evidence/level2-lace-compatibility.log), including four endpoint regressions; [earlier 75-test baseline](evidence/level2-tests.log). Real generated bindings test contract behavior; wallet orchestration uses mocks |
 | Mocked UI/hook tests | VERIFIED | [15 tests](evidence/level2-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
-| Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) loaded Preprod round 1 Empty; [nine circuit/three WASM checks](evidence/level2-hosted-assets.log) passed at 14:32:28 UTC. [Desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) show no Lace connection |
+| Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) reloaded Preprod round 1 Empty after the merged deployment became Ready; [nine circuit/three WASM checks](evidence/level2-main-assets.log) passed at 14:47:28 UTC. Earlier [desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) captures show no Lace connection |
 | Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); Vercel independently installed 660 packages and passed typechecks/Vite. [Subsequent build log](evidence/level2-vercel-build.log) records Node v22.23.2 and npm 11.11.1 |
-| Linux validation | VERIFIED | [CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497): Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 75 Node + 15 mocked UI tests, types, lint and build |
+| Linux validation | VERIFIED | [Latest CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36437930406) at reviewed head `6ffb12d`: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 79 Node + 15 mocked UI tests, both typechecks, lint and build |
 | Known-secret and credential-pattern audit | VERIFIED | [135 staged files and 189 history blobs checked](evidence/level2-secret-audit.log), including comparison with five local secret values without printing them |
 | Current proof-server readiness | VERIFIED | [2026-09-28 14:36:42 UTC health record](evidence/level2-proof-server.json): proof-server 8.1.0 returned `ok`, bound only to `127.0.0.1:6300`, after user-approved Docker runtime repair. Native readiness only; hosted-origin proving pending |
 | Midnight docs MCP query | NOT APPLICABLE | Not configured/callable; official docs fallback used without changing persistent config |
@@ -62,6 +62,9 @@ come from the final integrated logs linked above. Localhost screenshots show no
 wallet connected and no transaction performed; they are not Level 2 proof evidence.
 The hosted app's public read and asset delivery likewise establish no wallet
 connection, approval, proof generation or circuit transaction.
+The merge-triggered production deployment is **Ready**: Vercel metadata identifies
+default `main` commit `c462dabd1e9e0115f3d35408ffe03993e150aa86`, and its stable
+alias passed fresh public-asset checks. Browser reload verified public state only.
 
 ## Current Rise In state
 
@@ -107,11 +110,11 @@ restriction; do not rerun this completed checkpoint.
 
 ## Current checkpoints
 
-1. **Completed:** review local milestone diffs, typechecks, 75 Node tests, 15
+1. **Completed:** review local milestone diffs, typechecks, 79 Node tests, 15
    mocked UI tests, lint, production build and served assets. The integration
-   branch is pushed at `b07fef0`, with 15 total / 4 new Level 2 commits. PR #1
-   and Linux CI are available above; verify the final files on default `main`
-   after review/integration. Preserve meaningful development history.
+   branch's six Level 2 commits are merged into default `main` at `c462dabd`,
+   preserving 17 meaningful non-merge commits overall. Its tree matches the
+   reviewed and CI-verified `6ffb12d`; PR #1 and CI evidence are linked above.
 2. In a private interactive terminal run `npm run demo:export`; enter and confirm
    a strong passphrase without recording it. Keep the exclusive output
    `.private/cat-bluff-demo.enc.json` on the operator machine, and import it into
@@ -129,8 +132,8 @@ restriction; do not rerun this completed checkpoint.
    reviewed static Vite build through Vercel CLI 50.13.2 on free Hobby hosting.
    The live URL, hosted public read and circuit/WASM integrity are verified.
    Project settings now select Node 22.x; the subsequent successful build log
-   records Node v22.23.2 and npm 11.11.1. Set up Lace personally, then verify
-   real connection and local-prover
+   records Node v22.23.2 and npm 11.11.1. The user reports Lace installation and
+   account activation complete; verify Preprod/funding, real connection and local-prover
    access from this HTTPS origin separately. No hosted proof service is supplied.
 5. Record the first real commitment only after confirming the existing contract
    is still Empty. The human approves wallet requests. This consumes the sole
