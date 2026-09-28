@@ -89,6 +89,14 @@ even a wallet with a genuine local implementation cannot proceed if it does not
 expose a verifiable URI. The reported URI is not proof of actual traffic routing.
 The operator must verify the real wallet/prover behavior at the hosted origin.
 
+Wallet public-service validation accepts only the complete official Midnight
+Preprod tuple or the complete Blockfrost Preprod tuple shipped in Lace 2.4.0.
+It rejects mixed tuples, other networks and URL lookalikes. The dApp continues
+to read from its configured public Midnight indexer and checks the deployed
+verifier keys; accepting Lace's public-service tuple does not change the private
+prover boundary. Lace 2.4's source uses an HTTP local prover, not browser-WASM
+proving. Installed-wallet traffic still needs a real hosted-origin test.
+
 Web Locks serialize commit/reconciliation per network and contract across tabs.
 The public pending store validates/allowlists transaction identifiers, expected
 commitment, claim, timestamps and submission status. Malformed or inaccessible

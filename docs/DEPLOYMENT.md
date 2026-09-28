@@ -42,9 +42,13 @@ and new evidence, only if the original round is unavailable.
 The existing compose file pins `midnightntwrk/proof-server:8.1.0` and binds port
 6300 to `127.0.0.1`. Docker was installed but its Linux daemon was unavailable
 during the initial audit. A later authorized restart attempt failed with a
-`sailor-ingest.sock` error: “The file cannot be accessed by the system.” Current
-proof-server readiness is **blocked**; do not infer health from Level 1 logs.
-Once Docker Desktop's Linux engine starts successfully, the commands are:
+`sailor-ingest.sock` error: “The file cannot be accessed by the system.” After
+the user approved a reversible backup and repair of Docker's runtime folder,
+Docker Desktop **4.91.0** and engine **29.8.0** started successfully. The existing
+project proof-server **8.1.0** resumed with only `127.0.0.1:6300` exposed.
+At **2026-09-28 14:36:42 UTC**, `/health` returned `status: ok`; see the
+[readiness record](evidence/level2-proof-server.json). This verifies the native
+local server, not hosted-origin Lace proving. Recheck readiness with:
 
 ```bash
 docker compose up -d
@@ -162,8 +166,14 @@ docker compose ps
 `npm run demo:export` requires a TTY and will not overwrite an existing export.
 The compose file pins `midnightntwrk/proof-server:8.1.0` and binds only
 `127.0.0.1:6300`. Start Docker Desktop's Linux engine first if it is stopped.
-Configure Lace on Preprod so its indexer, node and prover endpoints match the
-frontend's checked configuration. The user confirmed Lace is not set up yet;
+Use Lace on Preprod with its local prover at `http://localhost:6300` (equivalent
+to this project's `127.0.0.1:6300`). Lace 2.4's default Blockfrost Preprod indexer
+and node form a separately allowlisted endpoint tuple; they need not match the
+dApp's official Midnight public indexer. The wallet displays these endpoints
+read-only, so do not attempt to edit them. The defaults and API 4.0.1 are verified
+against [Lace 2.4 configuration](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/contract/midnight-context/src/const.ts)
+and [connector source](https://github.com/input-output-hk/lace/blob/lace-extension@2.4.0/packages/module/dapp-connector-midnight/src/midnight-wallet-api.ts).
+The user confirmed Lace is not set up yet;
 wallet setup, password entry and approval must be completed personally. The real
 wallet UI/version has not yet been inspected, so no menu path is asserted.
 Confirm the wallet reports the intended

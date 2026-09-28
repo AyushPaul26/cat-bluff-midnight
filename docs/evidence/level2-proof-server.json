@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-09-28T14:36:42.5592136Z",
+  "health": {
+    "status": "ok",
+    "timestamp": "2026-09-28 14:36:42.473309969 +00:00:00"
+  },
+  "image": "midnightntwrk/proof-server:8.1.0",
+  "bind": "127.0.0.1:6300",
+  "container": "cat-bluff-midnight-proof-server-1",
+  "dockerDesktop": "4.91.0",
+  "dockerEngine": "29.8.0",
+  "verification": "Native local server readiness only; hosted-origin Lace proving pending"
+}

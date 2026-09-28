@@ -42,14 +42,14 @@ how organizers will assess the quality of future development history.
 | Compiler / generated artifact baseline | VERIFIED | [Compile log](evidence/level2-baseline-compile.log); three circuits and matching key pairs |
 | Baseline typecheck / contract tests | VERIFIED | [Typecheck](evidence/level2-baseline-typecheck.log), [22 passing tests](evidence/level2-baseline-tests.log) |
 | Frontend build/lint | VERIFIED | [Build and both typechecks](evidence/level2-build.log), [ESLint](evidence/level2-lint.log) |
-| Generated-contract and application tests | VERIFIED | [75 Node tests](evidence/level2-tests.log); actual generated bindings for contract behavior, mocks for wallet/transaction orchestration |
+| Generated-contract and application tests | VERIFIED | [79 Node tests after Lace compatibility fix](evidence/level2-lace-compatibility.log), including four endpoint regressions; [earlier 75-test baseline](evidence/level2-tests.log). Real generated bindings test contract behavior; wallet orchestration uses mocks |
 | Mocked UI/hook tests | VERIFIED | [15 tests](evidence/level2-ui-tests.log); these do not test a real wallet, prover or wallet outbound payloads |
 | Local production browser and asset delivery | VERIFIED | [Desktop](evidence/level2-desktop.png), [mobile](evidence/level2-mobile.png), [nine circuit/three WASM checks](evidence/level2-assets.log); live Preprod state and verifier read succeeded |
 | Hosted production page and public assets | VERIFIED | [Live app](https://cat-bluff-midnight.vercel.app) loaded Preprod round 1 Empty; [nine circuit/three WASM checks](evidence/level2-hosted-assets.log) passed at 14:32:28 UTC. [Desktop](evidence/level2-hosted.png) and [mobile](evidence/level2-hosted-mobile.png) show no Lace connection |
 | Clean build without Compact or private files | VERIFIED | [Isolated Windows install/build](evidence/level2-clean-build.log); Vercel independently installed 660 packages and passed typechecks/Vite. [Subsequent build log](evidence/level2-vercel-build.log) records Node v22.23.2 and npm 11.11.1 |
 | Linux validation | VERIFIED | [CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36436050497): Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, 3 circuits, 75 Node + 15 mocked UI tests, types, lint and build |
 | Known-secret and credential-pattern audit | VERIFIED | [135 staged files and 189 history blobs checked](evidence/level2-secret-audit.log), including comparison with five local secret values without printing them |
-| Current proof-server readiness | BLOCKED | Docker restart reproduced `sailor-ingest.sock` / “The file cannot be accessed by the system”; no current health response |
+| Current proof-server readiness | VERIFIED | [2026-09-28 14:36:42 UTC health record](evidence/level2-proof-server.json): proof-server 8.1.0 returned `ok`, bound only to `127.0.0.1:6300`, after user-approved Docker runtime repair. Native readiness only; hosted-origin proving pending |
 | Midnight docs MCP query | NOT APPLICABLE | Not configured/callable; official docs fallback used without changing persistent config |
 | Real-wallet E2E / hosted-origin proving | BLOCKED | Hosted app exists; requires actual Lace, verified local proof traffic and human wallet approvals |
 | Fresh contract deployment | NOT APPLICABLE | Existing contract is Empty and verifier-compatible; only revisit if state changes |
@@ -117,7 +117,9 @@ restriction; do not rerun this completed checkpoint.
    `.private/cat-bluff-demo.enc.json` on the operator machine, and import it into
    the browser only at runtime. Never share the passphrase, capability, opening,
    wallet seed or encrypted package in chat, screenshots, Git or hosting.
-3. Start Docker Desktop's Linux engine if stopped. Run `docker compose up -d`,
+3. **Native readiness verified:** the existing loopback proof server returned
+   `ok` after the user-approved Docker runtime repair. Before the wallet test,
+   start Docker Desktop's Linux engine if stopped. Run `docker compose up -d`,
    `curl.exe --fail http://127.0.0.1:6300/health` and `docker compose ps` from the
    project root. The pinned 8.1.0 prover is loopback-only. Match the Lace wallet's
    actual Preprod/indexer/node/prover settings and verify a real proof request

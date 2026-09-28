@@ -47,9 +47,22 @@ const sessions=new WeakMap<CommitInput,WalletCapture>();
 const hex=(x:Uint8Array)=>Array.from(x,b=>b.toString(16).padStart(2,'0')).join('');
 function fromHex(x:string){if(!/^(?:[0-9a-f]{2})+$/i.test(x))throw new Error('Invalid wallet transaction');return Uint8Array.from(x.match(/../g)!,b=>Number.parseInt(b,16));}
 function loopbackIdentity(uri:string|undefined){const local=localProverUrl(uri);if(!local)return undefined;const url=new URL(local);url.hostname='127.0.0.1';return url.href;}
+// Lace 2.4.0 uses these Preprod proxies; its settings display them read-only.
+// Source: input-output-hk/lace, tag lace-extension@2.4.0,
+// packages/contract/midnight-context/src/{const,utils}.ts.
+const preprodWalletServices = [
+ ['https://indexer.preprod.midnight.network/api/v4/graphql','wss://indexer.preprod.midnight.network/api/v4/graphql/ws','https://rpc.preprod.midnight.network/'],
+ ['https://blockfrost.lw.iog.io/midnight-preprod/','wss://blockfrost.lw.iog.io/midnight-preprod/ws','https://blockfrost.lw.iog.io/midnight-preprod-rpc/'],
+] as const;
+function approvedWalletServices(wallet:WalletCapture['configuration']):boolean {
+ try {
+  const endpoints=[wallet.indexerUri,wallet.indexerWsUri,wallet.substrateNodeUri].map(uri=>new URL(uri).href);
+  return preprodWalletServices.some(tuple=>tuple.every((uri,index)=>uri===endpoints[index]));
+ }catch{return false;}
+}
 function validateWallet(config:BrowserConfig,session:WalletCapture){
  const wallet=session.configuration;
- if(wallet.networkId!==config.network||new URL(wallet.indexerUri).href!==config.indexer||new URL(wallet.indexerWsUri).href!==config.indexerWS||new URL(wallet.substrateNodeUri).href!==new URL(config.substrateNode).href)throw new Error('Wallet endpoints must match this Preprod application.');
+ if(wallet.networkId!=='preprod'||wallet.networkId!==config.network||!approvedWalletServices(wallet))throw new Error('Wallet endpoints must use a supported Preprod service configuration.');
  const prover=localProverUrl(wallet.proverServerUri);
  if(!prover||loopbackIdentity(prover)!==loopbackIdentity(config.proverServer))throw new Error('Configure the wallet to use the specified local proof server before committing.');
 }

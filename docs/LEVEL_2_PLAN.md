@@ -18,7 +18,7 @@ audit (`4f773f0`), private-state milestone (`15a5391`), frontend integration
 `codex/level2-integration` branch is pushed and [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1)
 is open; default-branch integration remains a separate verification step.
 
-Current evidence: 75 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
+Current evidence: 79 Node tests, 15 mocked UI/hook tests, both TypeScript targets,
 ESLint and production build pass. The actual browser production preview reads
 Preprod round 1 Empty and verifies all three circuit keys. All nine generated
 circuit files and three WASM files pass served-byte checks. Desktop/mobile
@@ -31,6 +31,12 @@ circuit artifacts and three WASM files. The independent
 passed compilation, 75 Node tests, 15 mocked UI tests, types, lint and build.
 
 Important implementation adjustments from the original plan below:
+
+- Lace 2.4.0's read-only Blockfrost Preprod services are accepted as one complete
+  allowlisted tuple, alongside the original Midnight tuple. Four regression
+  tests exercise the real commit configuration gate; network/session/verifier
+  and local-prover checks remain in place. [Validation](evidence/level2-lace-compatibility.log)
+  records the initially failing regression and passing 79 Node / 15 UI suite.
 
 - npm 11.11.1 is bootstrapped locally because bundled npm 10 failed resolving the
   optional-peer graph. No global machine configuration was changed.
@@ -46,9 +52,12 @@ Important implementation adjustments from the original plan below:
   The user confirmed Lace is not yet set up; wallet setup/password entry and
   transaction approvals require the human.
   Docker startup was retried and failed with a `sailor-ingest.sock` error:
-  “The file cannot be accessed by the system.” Current prover health, real
-  proving, Lace requests, hosted-origin local-network access and video remain
-  unverified.
+  “The file cannot be accessed by the system.” The user then approved a
+  reversible runtime-folder backup and repair. Docker Desktop 4.91.0 / engine
+  29.8.0 started, and the existing proof-server 8.1.0 resumed on loopback only.
+  Its [14:36:42 UTC health check](evidence/level2-proof-server.json) returned
+  `ok`. This verifies native readiness; real proving, Lace requests,
+  hosted-origin local-network access and video remain unverified.
 - Frontend publication used Vercel CLI 50.13.2 after the human signed in, on a
   free Hobby project. The project is set to Node 22.x, and the subsequent
   [production build log](evidence/level2-vercel-build.log) records Node v22.23.2

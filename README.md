@@ -120,7 +120,9 @@ npm run demo:export   # private interactive terminal; password is not echoed
 
 The encrypted output is `.private/cat-bluff-demo.enc.json`; it is never uploaded
 to hosting. Configure Lace for Preprod and the loopback proof server at
-`http://127.0.0.1:6300`. Match the application's public endpoints. Connect Lace,
+`http://127.0.0.1:6300`. Lace 2.4's default `localhost:6300` prover and its
+allowlisted Blockfrost Preprod endpoints are supported; the dApp uses Midnight's
+official public indexer. Connect Lace,
 import the package, choose a public claim, and personally review the wallet request.
 Use the verified live origin for this one-time transaction and its recording.
 Each visitor needs their own proving prerequisites; hosting supplies no prover.
@@ -128,7 +130,7 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 
 ### Verification
 
-- **75 Node tests passed**, including the original real generated-contract tests,
+- **79 Node tests passed**, including the original real generated-contract tests,
   wallet lifecycle, encrypted-package rejection, and pending recovery tests.
 - **15 UI/hook tests passed** with mocked wallet/transaction adapters. These do
   not establish a real Lace transaction or inspect its actual proof payloads.
@@ -146,6 +148,12 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 [build/typecheck](docs/evidence/level2-build.log) ·
 [lint](docs/evidence/level2-lint.log) ·
 [asset checks](docs/evidence/level2-assets.log).
+
+The later [Lace 2.4 compatibility validation](docs/evidence/level2-lace-compatibility.log)
+adds four endpoint regression tests and records the current 79 Node / 15 mocked
+UI test totals, both typechecks, lint and build. Earlier 75-test logs remain
+historical evidence. The [local proof server health](docs/evidence/level2-proof-server.json)
+is verified; real wallet-mediated proving is still pending.
 
 A [fresh isolated Windows install/build](docs/evidence/level2-clean-build.log)
 also passed with npm 11.11.1 and `ci --include=dev --ignore-scripts`; no Compact
