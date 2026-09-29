@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-09-28T18:32:54.213Z",
+  "origin": "https://cat-bluff-midnight.vercel.app",
+  "network": "preprod",
+  "contractAddress": "63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16",
+  "circuitArtifacts": 9,
+  "wasmFiles": 3,
+  "artwork": "verified",
+  "result": "PASS",
+  "scope": "Public assets only; not wallet or proof verification"
+}

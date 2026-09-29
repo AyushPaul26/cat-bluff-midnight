@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-28T18:32:42.095Z",
+  "origin": "https://cat-bluff-midnight.vercel.app",
+  "entry": "/assets/index-BGJ8sGx1.js",
+  "appChunk": "App-L4ZTk6UR.js",
+  "checks": {
+    "Support code:": true,
+    "connect.authorize": true,
+    "revalidate.address": true,
+    "DAppConnectorAPIError": true,
+    "PermissionRejected": true
+  },
+  "scope": "Actual hosted diagnostic code delivery only; real wallet error code and synchronization remain unverified"
+}

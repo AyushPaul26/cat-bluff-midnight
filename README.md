@@ -2,20 +2,21 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 28, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 is **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. [Real Lace connection](docs/evidence/level2-lace-connection.md) is verified by the operator's screenshot. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+**Status, checked September 28–29, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 was last observed **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
 
 ## Live Demo
 
-[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [latest hosted asset verification](docs/evidence/level2-blockfrost-hosted-assets.log) after the current Blockfrost compatibility fix was published. The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
+[Open Cat Bluff](https://cat-bluff-midnight.vercel.app). The hosted screen displayed Preprod round 1 in Empty phase. Its nine circuit artifacts and three WASM files passed [latest hosted asset verification](docs/evidence/level2-connection-diagnostic-hosted-assets.log). The inspection browser had no Lace injection; this is public-read and hosting evidence, not a verified wallet transaction.
 
 [PR #1](https://github.com/AyushPaul26/cat-bluff-midnight/pull/1) is merged into
 default `main` at `c462dabd1e9e0115f3d35408ffe03993e150aa86`, preserving all
 six Level 2 development commits (17 meaningful non-merge commits at that merge).
 At the recorded check, the merge-triggered production deployment was **Ready**
 and served that commit at the live alias. [Initial publication record](docs/evidence/level2-main-publication.json).
-The later Blockfrost compatibility version at `014eec4` is **Ready** and served
-at the live alias. [Current publication record](docs/evidence/level2-blockfrost-publication.json)
-and [delivered-code check](docs/evidence/level2-blockfrost-hosted-code.json).
+The later Blockfrost compatibility version at `014eec4` was **Ready** and served
+at the live alias. The current connection-diagnostic version at `515af18` is
+**Ready** and includes that fix. [Current publication record](docs/evidence/level2-connection-diagnostic-publication.json)
+and [delivered-code check](docs/evidence/level2-connection-diagnostic-hosted-code.json).
 
 ## Demo Video
 
@@ -168,7 +169,7 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 - Nine circuit artifacts and three WASM files passed served-byte/hash checks.
 - The [published frontend](https://cat-bluff-midnight.vercel.app) loaded public
   Preprod state, and its nine circuit artifacts and three WASM files passed the
-  same [hosted checks](docs/evidence/level2-blockfrost-hosted-assets.log) at `014eec4`.
+  same [hosted checks](docs/evidence/level2-connection-diagnostic-hosted-assets.log) at `515af18`.
 - Desktop and 390-pixel mobile viewports were inspected. No mobile horizontal
   overflow was observed. Missing-wallet controls stayed disabled.
 
@@ -179,12 +180,14 @@ Exact setup/recovery and hosting instructions: [DEPLOYMENT.md](docs/DEPLOYMENT.m
 [endpoint regression](docs/evidence/level2-blockfrost-endpoint-tests.log) ·
 [asset checks](docs/evidence/level2-assets.log).
 
-A small connection diagnostic now passes local checks: failed connection or
+A small connection diagnostic is published at `515af18`: failed connection or
 session validation can show an optional support code containing only the fixed
 operation name and an allowlisted connector error code. It exposes no raw
-wallet error fields and performs no logging or persistence. This helps identify
-the failing boundary; it does not fix Lace synchronization or identify its root
-cause. The diagnostic is **not yet committed or published**.
+wallet error fields and performs no logging or persistence. A real retry on
+September 29 returned `connect.status/Rejected` in a previously authorized
+Lace session and again after restarting the extension. This identifies the
+rejected API call, not its underlying cause. Lace connection, synchronization, spendable DUST,
+real proving and a Cat Bluff transaction remain unverified.
 [Diagnostic evidence: 99 Node / 20 mocked UI tests, types, lint and build](docs/evidence/level2-connection-diagnostic.md).
 
 The earlier [Lace 2.4 compatibility validation](docs/evidence/level2-lace-compatibility.log)
@@ -199,9 +202,9 @@ installation or private file was needed in the build copy. The Vercel production
 build installed 660 packages and passed both typechecks and Vite. A subsequent
 [hosted build log](docs/evidence/level2-vercel-build.log) explicitly records
 Node **22.23.2** and npm **11.11.1**, within the configured Node 22.x range. The
-[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36462011909)
+[latest completed Linux CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36465711677)
 also passed: Node 22.22.0, Compact CLI 0.5.1/compiler 0.31.1, all three circuits,
-92 Node tests, 18 mocked UI tests, types, lint and production build at `014eec4`.
+99 Node tests, 20 mocked UI tests, types, lint and production build at `515af18`.
 The correction's local checks also passed: **92 Node tests, 7 focused
 endpoint tests, 18 mocked UI tests, both typechecks, lint and production build**.
 An independent review found no blockers. The fix is committed and published at

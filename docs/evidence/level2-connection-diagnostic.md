@@ -1,13 +1,16 @@
 # Bounded wallet connection diagnostic
 
-Checked September 28, 2026. **Implemented and locally verified; commit,
-publication and a real wallet retry remain pending.**
+Checked September 28–29, 2026 UTC. **Published and verified at `515af18`;
+a real wallet retry returned `connect.status/Rejected`. Its underlying cause
+remains unverified.**
 
-The operator's latest screenshot showed Midnight Syncing 99% and a generic
-website connection failure after restarting Chrome and unlocking Lace. The
-actual cause remains unknown. This change helps identify which connector
-operation failed; it does not repair wallet synchronization or establish
-spendable DUST, successful proving or a Cat Bluff transaction.
+The operator first showed Midnight Syncing 99% and a generic website connection
+failure after restarting Chrome and unlocking Lace. The published diagnostic
+then identified the failure at `getConnectionStatus()` with Lace connector code
+`Rejected`. Repeating the request after turning the Lace extension off and on
+returned the same code. The actual cause remains unknown. This change does not
+repair wallet synchronization or establish spendable DUST, successful proving
+or a Cat Bluff transaction.
 
 `WalletSession` now attaches an optional support code to a current error.
 It combines a fixed operation (`connect.authorize`, `connect.api`,
@@ -41,5 +44,19 @@ The logs are byte-preserving copies of the actual runs, inspected for credential
 values before inclusion. Independent review approved the change without
 blockers and independently reran the 30 wallet tests successfully. These tests
 use typed wallet mocks; they do not reproduce or resolve the operator's actual
-wallet failure. The existing production/CI checkpoint remains `014eec4` until
-this diagnostic is separately committed, published and verified.
+wallet failure.
+
+Production deployment `dpl_AUsEDwqvwjxrKc3den6KKdqYDbMq` is Ready from
+`main` commit `515af1898090f8d720d5142f8c5b8bd8771086ca` and serves the
+existing live alias. [Publication record](level2-connection-diagnostic-publication.json).
+The [actual delivered code](level2-connection-diagnostic-hosted-code.json)
+contains the support-code UI and controlled diagnostic stages. Hosted checks
+passed for [nine circuit artifacts and three WASM files](level2-connection-diagnostic-hosted-assets.log)
+at 18:32:54 UTC.
+
+[Exact-head CI](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36465711677)
+completed successfully at 18:32:12 UTC: three genuine circuit compilations with
+prover/verifier keys, 99 Node tests, 20 UI tests, both type checks, lint and build.
+[CI and generated-artifact record](level2-connection-diagnostic-ci.json).
+These checks verify the diagnostic delivery, not successful wallet connection,
+synchronization, spendable DUST or a real Cat Bluff transaction.

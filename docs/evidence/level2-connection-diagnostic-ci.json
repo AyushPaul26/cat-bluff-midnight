@@ -1,0 +1,40 @@
+{
+  "commit": "515af1898090f8d720d5142f8c5b8bd8771086ca",
+  "event": "push",
+  "branch": "main",
+  "runId": 36465711677,
+  "runUrl": "https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36465711677",
+  "status": "completed",
+  "conclusion": "success",
+  "completedAt": "2026-09-28T18:32:12Z",
+  "jobId": 109075153630,
+  "checks": {
+    "compile": {
+      "circuits": [
+        "challenge",
+        "commit",
+        "resolve"
+      ],
+      "generatedProverAndVerifierKeys": true
+    },
+    "nodeTests": {
+      "pass": 99,
+      "fail": 0
+    },
+    "uiTests": {
+      "pass": 20,
+      "files": 3
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed"
+  },
+  "artifact": {
+    "id": 10989697374,
+    "name": "generated-cat-bluff",
+    "size": 13166153,
+    "digest": "sha256:172afbc1464420c0715f355360f1f00b79af4ba3efef8160f981d49e2c7d493e",
+    "url": "https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36465711677/artifacts/10989697374"
+  },
+  "limits": "CI validates code and generated artifacts. It does not verify real-wallet synchronization or a frontend Preprod transaction."
+}
