@@ -1,0 +1,25 @@
+{
+  "observedAtUtc": "2026-09-29T11:24:52Z",
+  "verifiedCodeCommit": "78170e9ccb6daa2d9bd3939bc181630f71696f5e",
+  "githubActions": {
+    "workflow": ".github/workflows/ci.yml",
+    "runId": 36561064271,
+    "url": "https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36561064271",
+    "conclusion": "success",
+    "successfulSteps": [
+      "Install pinned toolchain",
+      "Install dependencies",
+      "Compile, typecheck and test the real contract",
+      "Upload generated artifact"
+    ],
+    "badgeStatus": "passing"
+  },
+  "vercel": {
+    "deploymentId": "dpl_BT37PH6UEWgohbu4AVwzeL2iA9BB",
+    "status": "Ready",
+    "alias": "https://cat-bluff-midnight.vercel.app",
+    "publicAppAsset": "https://cat-bluff-midnight.vercel.app/assets/App-COTKYbr7.js",
+    "newRejectedStatusGuidanceFoundInPublicAsset": true
+  },
+  "scope": "CI, hosting and delivered-code evidence only; no real wallet transaction, proposal approval or Rise In submission is established."
+}

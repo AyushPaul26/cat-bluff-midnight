@@ -6,7 +6,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 29, 2026:** Rise In Level 1 is **Approved / Completed**. The operator now reports Level 2 **Submitted for review**, without an approval notice. Level 3 engineering and its allowed-list [product proposal](PROPOSAL.md) are in progress; neither Level 3 idea approval nor a Level 3 submission is claimed. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. The current Level 3 code passes local checks; Linux CI still needs a fresh run after publication. [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md), [Level 2 evidence](docs/LEVEL_2_SUBMISSION.md) and [Level 3 checkpoint](docs/LEVEL_3_SUBMISSION.md).
+**Status, checked September 29, 2026:** Rise In Level 1 is **Approved / Completed**. The operator reports Level 2 **Submitted for review**, without an approval notice. Level 3 engineering and its allowed-list [product proposal](PROPOSAL.md) are prepared; neither Level 3 idea approval nor a Level 3 submission is claimed. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. The Level 3 code passed local checks and [exact-head Linux CI](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36561064271), and the new guidance was found in the [public Vercel bundle](https://cat-bluff-midnight.vercel.app/assets/App-COTKYbr7.js). [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md), [Level 2 evidence](docs/LEVEL_2_SUBMISSION.md) and [Level 3 checkpoint](docs/LEVEL_3_SUBMISSION.md).
 
 ## Live Demo
 
@@ -21,6 +21,9 @@ The later Blockfrost compatibility version at `014eec4` was **Ready** and served
 at the live alias. The current connection-diagnostic version at `515af18` is
 **Ready** and includes that fix. [Current publication record](docs/evidence/level2-connection-diagnostic-publication.json)
 and [delivered-code check](docs/evidence/level2-connection-diagnostic-hosted-code.json).
+The Level 3 frontend change at `78170e9` is also Ready in production;
+the [current publication record](docs/evidence/level3-publication.json) verifies
+its delivered guidance and passing CI without claiming a wallet transaction.
 
 ## Demo Video
 
