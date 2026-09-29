@@ -1,8 +1,12 @@
 # Cat Bluff
 
+![CI](https://github.com/AyushPaul26/cat-bluff-midnight/actions/workflows/ci.yml/badge.svg)
+
+> A private-card bluffing prototype on Midnight Preprod, with public claims and hidden rank commitments.
+
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 28–29, 2026:** Rise In Level 1 is **Approved / Completed**. Level 2 was last observed **Awaiting submission**. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. Local checks and Linux CI pass. [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md) and [evidence/checkpoints](docs/LEVEL_2_SUBMISSION.md). Older Level 1 audit documents retain their historical pending-review observations.
+**Status, checked September 29, 2026:** Rise In Level 1 is **Approved / Completed**. The operator now reports Level 2 **Submitted for review**, without an approval notice. Level 3 engineering and its allowed-list [product proposal](PROPOSAL.md) are in progress; neither Level 3 idea approval nor a Level 3 submission is claimed. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. The current Level 3 code passes local checks; Linux CI still needs a fresh run after publication. [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md), [Level 2 evidence](docs/LEVEL_2_SUBMISSION.md) and [Level 3 checkpoint](docs/LEVEL_3_SUBMISSION.md).
 
 ## Live Demo
 
@@ -28,6 +32,10 @@ Not recorded. The [recording script](docs/LEVEL_2_SUBMISSION.md#proposed-recordi
 | --- | --- |
 | Preprod | `63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16` |
 
+## What This Does
+
+The current dApp lets an authorized player make a public card-rank claim while committing to a hidden rank. The Compact contract checks that the hidden rank is valid and that the player knows the assigned role capability. A challenger can later trigger resolution, which deliberately reveals the rank and whether the claim was truthful. The deployed contract supports one fixed round; it is a working protocol prototype, not a multiplayer service or a general allowlist.
+
 **Confirmed contract:** [`63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16`](https://preprod.midnightexplorer.com/contracts/0x63ede5f26fb5dd4d89aa6a8007d664a3448a20660dd5a4aad81f60679f4c5c16)
 
 Deployment succeeded in block **2,734,912**, with transaction ID `009987c5cac7b5ebd9176f885dcf012358e1ab705d79548519cd4faff4ad8870e8`. The indexed initial state and all three verifier keys match this project's generated contract. [Transaction explorer](https://preprod.midnightexplorer.com/transactions/0x236f9df716f807191b23d4f4c8474a80f8383fcf0b00815f56de9cb73fd879ae) · [Verification metadata](docs/evidence/deployment.json).
@@ -43,7 +51,11 @@ Deployment succeeded in block **2,734,912**, with transaction ID `009987c5cac7b5
 
 The claimed rank can differ from the hidden rank. Authorization proves knowledge of a role secret bound to the game context; it does not assert a wallet identity. Deployment creates distinct player and challenger role commitments. The local CLI is a trusted setup/demo operator holding both secrets. A future multiplayer client must distribute those capabilities securely to separate participants.
 
-## Privacy
+## Privacy Model
+
+- **PUBLIC:** game context, round, phase, role commitments, salted card commitment, claimed rank and transaction metadata. Resolution deliberately publishes the actual rank and truth result.
+- **PRIVATE:** player/challenger capability secrets, unrevealed rank and random salt. They remain with the actor's local environment; the browser, wallet and local prover must be trusted with inputs they process.
+- **PROVED without revealing:** at commitment, knowledge of the assigned player capability and a valid hidden rank in 1–13. The proof does not establish fair dealing, wallet identity or truthfulness of the public claim.
 
 Public ledger fields are `gameContext`, `round`, `phase`, `player`, `challenger`, `commitment`, `claimedRank`, `revealedRank`, and `truthful`. `revealedRank` is zero until resolution; `truthful` only has meaning once resolved.
 
@@ -230,7 +242,15 @@ about that chunk and an upstream PURE comment remain visible in the log.
 Cat Bluff wallet approval, proof generation, actual private traffic inspection, hosted-origin
 local-network access, video and submission are still pending.
 
-## Toolchain and setup
+## Tech Stack
+
+Midnight Preprod, Compact, Midnight.js, the Lace connector, React, TypeScript, Vite, Node.js 22 and a user-local Docker proof server. Versions are pinned below.
+
+## Prerequisites
+
+Use a supported browser with Lace on Preprod for wallet actions. Local development and compilation require Linux x86-64 or Ubuntu on WSL2, Python 3, curl and Docker with a running Linux engine. The private-action demo also requires the operator's encrypted package and a reachable local proof server. Do not enter wallet recovery words or a package passphrase into a hosted support form.
+
+## Setup & Run Locally
 
 Use Linux x86-64 or Ubuntu on WSL2, Python 3, curl, and Docker with a running Linux engine. On Windows, complete Ubuntu's first-launch username/password prompt yourself. Run project commands from this repository root inside Ubuntu. Windows' system `compact.exe` is unrelated to Midnight.
 
@@ -262,7 +282,29 @@ npm test
 
 Tools install into ignored `.tools/`, without changing global Node. The setup extractor avoids unsupported chmod/timestamp changes on Windows-mounted paths, and quotes the compiler launcher's path to support usernames containing spaces. Compiler binaries and generated artifacts are unchanged. Dependency installation avoids npm executable-link failures and explicitly validates bundled native modules.
 
+After setup, run `npm run dev` and open `http://127.0.0.1:5173`. To produce the static release, run `npm run build`. Wallet connection and a circuit transaction additionally require the operator's Preprod resources described in [deployment instructions](docs/DEPLOYMENT.md).
+
 Compilation builds in a fresh temporary directory then copies real compiler output to `managed/cat-bluff/`. All three circuits (`commit`, `challenge`, `resolve`), `.prover` keys, `.verifier` keys and generated contract JavaScript are included. Never hand-edit generated output.
+
+## Run Tests
+
+```bash
+npm test
+npm run test:ui
+npm run typecheck
+npm run lint
+npm run build
+```
+
+`npm test` executes the generated contract and application tests. UI tests simulate wallet responses; they do not replace a real Lace, prover or Preprod transaction test.
+
+## CI/CD
+
+The [GitHub Actions workflow](.github/workflows/ci.yml) runs on pushes to `main` and pull requests. It installs the pinned toolchain and dependencies, recompiles all three Compact circuits, and runs contract/application tests, UI tests, both TypeScript checks, lint and a production build. The badge at the top reflects the workflow's latest result; a green badge validates the checked commit's automation, not the pending real-wallet circuit flow.
+
+## Product Proposal
+
+[PROPOSAL.md](PROPOSAL.md) selects **Private Allowlist Access** from the Level 3 list and explains how the current role-capability prototype could become invite-only tables. This is a proposed next product, awaiting organizer approval; current Cat Bluff does not yet implement dynamic allowlist membership.
 
 ## Verification evidence
 
@@ -322,13 +364,15 @@ hands, challenge/reveal gameplay, further rounds and timeouts remain later work.
 ## Submission and license
 
 Level 1 was submitted for September review on September 27, 2026, with the
-user-selected five-star rating. The September 28 browser audit now shows Approved,
+user-selected five-star rating. The September 28 browser audit showed Approved,
 Completed and the correct repository. The older [submission screenshot](docs/evidence/rise-submission.png)
 and [final Level 1 audit](docs/FINAL-AUDIT.md) preserve the original pending-review
-state. Level 2 remains unsubmitted. September is active through September 30;
-the page does not state an exact cutoff time or timezone. The user authorized
-commits, push, frontend publication and submission once verified; wallet setup,
-passwords and wallet approvals remain personal actions. The frontend is live,
-but real-wallet evidence and recording are still required before submission.
+state. The operator reports Level 2 Submitted for review on September 29; no
+approval was observed. The Level 3 task requires Level 2 completion and an
+approved idea from its list, so its [submission checkpoint](docs/LEVEL_3_SUBMISSION.md)
+remains open. September is active through September 30; the page does not state
+an exact cutoff time or timezone. Wallet setup, passwords and approvals remain
+personal actions. A genuine real-wallet circuit call and recording are still
+needed for Level 3 evidence.
 
 Apache-2.0. See [LICENSE](LICENSE) and [third-party notices](THIRD-PARTY-NOTICES.md).

@@ -22,7 +22,7 @@ export function WalletConnect({wallet,choices,onConnect,onDisconnect,onGetFaucet
         <button className="button" disabled={!choice||wallet.status==='connecting'} onClick={()=>{if(choice)onConnect(choice);}}>{wallet.status==='connecting'?'Waiting for wallet…':`Connect ${choice?.name ?? 'Lace'}`}</button>
       </>}
       {choices.some(item=>!item.compatible) && <p className="small-note">A wallet with an unsupported connector API was found. This demo needs API 4.0.1 or compatible 4.x.</p>}
-      {wallet.status==='error' && <p className="error" role="alert">{wallet.reason}. Unlock Lace, select Preprod, and retry. You can decline requests safely.{wallet.diagnostic && <><br/>Support code: <code>{wallet.diagnostic}</code></>}</p>}
+      {wallet.status==='error' && <p className="error" role="alert">{wallet.reason}. {wallet.diagnostic==='connect.status/Rejected' ? "Lace returned Rejected while checking this site's connection. Check Lace's site permissions for this URL, then retry. If no approval prompt appears, share the support code with Lace Support." : 'Unlock Lace, select Preprod, and retry. You can decline requests safely.'}{wallet.diagnostic && <><br/>Support code: <code>{wallet.diagnostic}</code></>}</p>}
     </>}
     <p className="small-note">Disconnect clears this app’s session. Saved Lace site permissions are managed inside your wallet.</p>
   </section>;

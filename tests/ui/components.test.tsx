@@ -30,6 +30,14 @@ describe('UI component tests (mocked external callbacks, no real wallet)', () =>
     expect(screen.getByRole('alert')).toHaveTextContent('Wallet connection failed.');
     expect(screen.queryByText(/Support code:/)).not.toBeInTheDocument();
   });
+  it('gives a specific next step for a rejected Lace status check without blaming the user', () => {
+    render(<WalletConnect wallet={{status:'error',reason:'Wallet connection failed',diagnostic:'connect.status/Rejected'}} choices={[]} onConnect={vi.fn()} onDisconnect={vi.fn()} onGetFaucetAddress={async()=>''}/>);
+    const alert=screen.getByRole('alert');
+    expect(alert).toHaveTextContent(/Lace returned Rejected while checking this site's connection/);
+    expect(alert).toHaveTextContent(/site permissions/i);
+    expect(alert).toHaveTextContent('Support code: connect.status/Rejected');
+    expect(alert).not.toHaveTextContent(/You rejected|You declined/i);
+  });
   it('shows the actual shielded address and lets the user disconnect', () => {
     const disconnect = vi.fn();
     render(<WalletConnect wallet={{status:'connected',name:'Lace',address:'mn_shield-addr_preprod_actual_fixture'}} choices={[]} onConnect={vi.fn()} onDisconnect={disconnect} onGetFaucetAddress={async()=>''}/>);

@@ -1,0 +1,2 @@
+Command: pinned Node.js 22.22.0 node_modules/eslint/bin/eslint.js src/web scripts/copy-web-artifacts.mjs
+Result: exit code 0; ESLint emitted no diagnostics.
