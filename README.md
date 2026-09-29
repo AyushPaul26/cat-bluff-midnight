@@ -6,7 +6,7 @@
 
 Cat Bluff is a multiplayer bluffing card game concept: players make public claims while their actual cards remain hidden. Midnight's programmable privacy lets a player commit to a hidden rank, prove authorized transitions, and selectively reveal the rank after a challenge. The deployed Level 1 prototype implements that foundation for one round. Level 2 is limited to a real Lace/Preprod Private Action Demo; the full 2–4-player, 52-card game remains a later roadmap.
 
-**Status, checked September 29, 2026:** Rise In Level 1 is **Approved / Completed**. The operator now reports Level 2 **Approved**; this report has not been independently checked in Rise In. Level 3 engineering and its allowed-list [product proposal](PROPOSAL.md) are prepared; neither Level 3 idea approval nor a Level 3 submission is claimed. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. The Level 3 code passed local checks and [Linux CI](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36561726479), and the new guidance was found in the [public Vercel bundle](https://cat-bluff-midnight.vercel.app/assets/App-COTKYbr7.js). [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md), [Level 2 evidence](docs/LEVEL_2_SUBMISSION.md) and [Level 3 checkpoint](docs/LEVEL_3_SUBMISSION.md).
+**Status, checked September 29, 2026:** Rise In Level 1 is **Approved / Completed**. The operator now reports Level 2 **Approved**; this report has not been independently checked in Rise In. Level 3 engineering and its allowed-list [product proposal](PROPOSAL.md) are prepared; neither Level 3 idea approval nor a Level 3 submission is claimed. The React frontend is published, its public Preprod state read works, and all hosted circuit/WASM assets passed integrity checks. The Level 3 code passed local checks and [Linux CI](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36596846114); a clean browser load of the current site returned HTTP 200 with no console errors or failed responses. [Real Lace connection](docs/evidence/level2-lace-connection.md) was verified by the operator's screenshot, but a later retry failed with `connect.status/Rejected`. **Disconnect/reconnect, a frontend circuit transaction, the actual proving path and a demo video remain unverified.** See the [Level 2 plan](docs/LEVEL_2_PLAN.md), [Level 2 evidence](docs/LEVEL_2_SUBMISSION.md) and [Level 3 checkpoint](docs/LEVEL_3_SUBMISSION.md).
 
 ## Live Demo
 
@@ -305,6 +305,8 @@ npm run build
 
 The [GitHub Actions workflow](.github/workflows/ci.yml) runs on pushes to `main` and pull requests. It installs the pinned toolchain and dependencies, recompiles all three Compact circuits, and runs contract/application tests, UI tests, both TypeScript checks, lint and a production build. The badge at the top reflects the workflow's latest result; a green badge validates the checked commit's automation, not the pending real-wallet circuit flow.
 
+The [September 29 passing run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36596846114) recorded 99 passing Node tests and 21 passing UI tests. This [test-output image](docs/evidence/level3-ci-test-output.png) renders selected lines from that job log, with its source identified. It is a log excerpt, not a live terminal capture or a wallet transaction.
+
 ## Product Proposal
 
 [PROPOSAL.md](PROPOSAL.md) selects **Private Allowlist Access** from the Level 3 list and explains how the current role-capability prototype could become invite-only tables. This is a proposed next product, awaiting organizer approval; current Cat Bluff does not yet implement dynamic allowlist membership.
@@ -320,6 +322,7 @@ Behavioral tests run the real generated contract and shared application witnesse
 - [Indexer verification screenshot](docs/evidence/deployment.png)
 - [Explorer deployment screenshot](docs/evidence/explorer-contract.png)
 - [Linux CI record, including exact tested commit](docs/evidence/ci.json)
+- [Level 3 passing CI run](https://github.com/AyushPaul26/cat-bluff-midnight/actions/runs/36596846114) and [rendered test-output excerpt](docs/evidence/level3-ci-test-output.png)
 
 ![Real compiler and test output](docs/evidence/compile-tests.png)
 
